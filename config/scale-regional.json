@@ -1,0 +1,40 @@
+{
+  "scale_level": "regional",
+  "max_concurrent_agents": 8,
+  "content_generation_limit": 200,
+  "storage_type": "cloud",
+  "dashboard_instances": 3,
+  "api_rate_limits": {
+    "requests_per_minute": 300,
+    "tokens_per_hour": 150000
+  },
+  "features": {
+    "multi_location": true,
+    "enterprise_integrations": false,
+    "load_balancing": true,
+    "auto_scaling": false,
+    "enterprise_security": false
+  },
+  "resource_requirements": {
+    "ram_gb": 4,
+    "cpu_cores": 4,
+    "storage_gb": 50,
+    "bandwidth_mbps": 5
+  },
+  "estimated_costs": {
+    "api_monthly": 350,
+    "infrastructure_monthly": 150,
+    "maintenance_hours_monthly": 10
+  },
+  "performance_targets": {
+    "content_pieces_per_hour": 12,
+    "response_time_seconds": 2,
+    "concurrent_users": 7
+  },
+  "multi_location_config": {
+    "max_locations": 10,
+    "location_specific_content": true,
+    "regional_seo": true,
+    "federated_management": true
+  }
+}

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Campaign Preview - {{CLIENT_NAME}}</title>
+    <style>
+        :root {
+            --primary-green: #10b981;
+            --primary-green-dark: #059669;
+            --primary-green-light: #d1fae5;
+            --email-red: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--email-red), var(--primary-green));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .controls {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 25px;
+            height: fit-content;
+        }
+
+        .controls h2 {
+            color: var(--gray-800);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--email-red);
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--gray-200);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--email-red);
+        }
+
+        .form-group textarea {
+            height: 60px;
+            resize: vertical;
+        }
+
+        .button {
+            background: var(--email-red);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .button:hover {
+            background: #dc2626;
+        }
+
+        .button.secondary {
+            background: var(--gray-600);
+        }
+
+        .button.secondary:hover {
+            background: var(--gray-700);
+        }
+
+        .preview-area {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .preview-header {
+            background: var(--gray-100);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .preview-header h3 {
+            color: var(--gray-800);
+            font-size: 1.1rem;
+        }
+
+        .preview-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: var(--email-red);
+            color: white;
+            border-color: var(--email-red);
+        }
+
+        .email-preview {
+            padding: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .email-preview iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            background: white;
+        }
+
+        .email-subject {
+            background: var(--gray-50);
+            padding: 15px;
+            border-left: 4px solid var(--email-red);
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .email-subject strong {
+            color: var(--gray-800);
+        }
+
+        .email-content {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: Georgia, serif;
+            line-height: 1.6;
+        }
+
+        .email-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary-green);
+        }
+
+        .email-header h1 {
+            color: var(--primary-green);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .email-header p {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .email-section {
+            margin-bottom: 30px;
+        }
+
+        .email-section h2 {
+            color: var(--gray-800);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .email-section p {
+            color: var(--gray-700);
+            margin-bottom: 15px;
+        }
+
+        .email-cta {
+            background: var(--primary-green);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            margin: 15px 0;
+        }
+
+        .email-footer {
+            border-top: 1px solid var(--gray-200);
+            padding-top: 20px;
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            text-align: center;
+        }
+
+        .performance-metrics {
+            background: var(--gray-50);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .metric {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            border-left: 4px solid var(--email-red);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📧 Email Campaign Preview</h1>
+            <p>Preview and test your email campaigns before sending</p>
+        </div>
+
+        <div class="main-content">
+            <div class="controls">
+                <h2>Campaign Configuration</h2>
+
+                <div class="form-group">
+                    <label for="campaignType">Campaign Type</label>
+                    <select id="campaignType" onchange="updatePreview()">
+                        <option value="newsletter">Newsletter</option>
+                        <option value="promotional">Promotional</option>
+                        <option value="drip-sequence">Drip Sequence</option>
+                        <option value="transactional">Transactional</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="season">Season</label>
+                    <select id="season" onchange="updatePreview()">
+                        <option value="spring">Spring</option>
+                        <option value="summer">Summer</option>
+                        <option value="fall">Fall</option>
+                        <option value="winter">Winter</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject Line</label>
+                    <input type="text" id="subject" placeholder="Enter custom subject line" onchange="updatePreview()">
+                </div>
+
+                <div class="form-group">
+                    <label for="offer">Offer Details</label>
+                    <input type="text" id="offer" placeholder="e.g., 20% off fall services" onchange="updatePreview()">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Target Location</label>
+                    <input type="text" id="location" placeholder="e.g., Atlanta, GA" onchange="updatePreview()">
+                </div>
+
+                <button class="button" onclick="generatePreview()">🔄 Generate Preview</button>
+                <button class="button secondary" onclick="exportEmail()">📤 Export HTML</button>
+                <button class="button secondary" onclick="testSend()">📧 Send Test</button>
+
+                <div class="performance-metrics">
+                    <h3 style="margin-bottom: 15px; color: var(--gray-800);">Predicted Metrics</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-value" id="openRate">24%</div>
+                            <div class="metric-label">Open Rate</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" id="clickRate">3.2%</div>
+                            <div class="metric-label">Click Rate</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" id="deliverability">98%</div>
+                            <div class="metric-label">Deliverability</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-area">
+                <div class="preview-header">
+                    <h3>Email Preview</h3>
+                    <div class="preview-tabs">
+                        <div class="tab active" onclick="switchTab('desktop')">🖥️ Desktop</div>
+                        <div class="tab" onclick="switchTab('mobile')">📱 Mobile</div>
+                        <div class="tab" onclick="switchTab('plain')">📄 Plain Text</div>
+                    </div>
+                </div>
+
+                <div class="email-preview">
+                    <div class="email-subject">
+                        <strong>Subject:</strong> <span id="previewSubject">Fall Pest Prevention Tips for Atlanta Homeowners</span>
+                    </div>
+
+                    <div class="email-content" id="emailContent">
+                        <div class="email-header">
+                            <h1>{{CLIENT_NAME}}</h1>
+                            <p>Your Trusted Local Pest Control Experts | Serving {{SERVICE_AREA}} for {{YEARS_EXPERIENCE}} Years</p>
+                        </div>
+
+                        <div class="email-section">
+                            <h2>🏡 This Month's Home Protection Tip</h2>
+                            <p>Hi {{FIRST_NAME}},</p>
+                            <p>As fall approaches, it's time to prepare your home for the cooler months ahead. Here are our top recommendations for keeping your home protected...</p>
+                            <ul>
+                                <li>Seal gaps around windows and doors</li>
+                                <li>Remove outdoor debris and clutter</li>
+                                <li>Schedule your fall inspection</li>
+                            </ul>
+                        </div>
+
+                        <div class="email-section">
+                            <h2>⭐ Customer Success Story</h2>
+                            <p><em>"{{CLIENT_NAME}} solved our ant problem completely. Haven't seen a single ant since!"</em> - Sarah, Atlanta</p>
+                            <p>We love helping families across {{SERVICE_AREA}} feel safe and comfortable in their homes!</p>
+                        </div>
+
+                        <div class="email-section">
+                            <h2>🗓️ Seasonal Service Reminder</h2>
+                            <p>Fall is the perfect time for preventative treatments. Here's why:</p>
+                            <ul>
+                                <li>Prevent winter infestations</li>
+                                <li>Seal entry points before cold weather</li>
+                                <li>Protect your family's comfort</li>
+                            </ul>
+                            <a href="#" class="email-cta">Schedule Your Fall Service</a>
+                        </div>
+
+                        <div class="email-footer">
+                            <p>Contact {{CLIENT_NAME}}: {{PHONE_NUMBER}} | {{WEBSITE_URL}}</p>
+                            <p>Licensed & Insured | {{YEARS_EXPERIENCE}} Years Experience</p>
+                            <p><a href="#">Unsubscribe</a> | <a href="#">Update Preferences</a> | <a href="#">Privacy Policy</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Email preview functionality
+        function updatePreview() {
+            const campaignType = document.getElementById('campaignType').value;
+            const season = document.getElementById('season').value;
+            const subject = document.getElementById('subject').value;
+            const offer = document.getElementById('offer').value;
+            const location = document.getElementById('location').value;
+
+            // Update subject line
+            let newSubject = '';
+            if (subject) {
+                newSubject = subject;
+            } else {
+                switch (campaignType) {
+                    case 'newsletter':
+                        newSubject = `${season.charAt(0).toUpperCase() + season.slice(1)} Pest Prevention Tips${location ? ' for ' + location : ''} Homeowners`;
+                        break;
+                    case 'promotional':
+                        newSubject = offer ? `Special Offer: ${offer}` : `${season.charAt(0).toUpperCase() + season.slice(1)} Service Special`;
+                        break;
+                    case 'drip-sequence':
+                        newSubject = `Welcome to {{CLIENT_NAME}} - What Happens Next`;
+                        break;
+                    case 'transactional':
+                        newSubject = `Service Confirmation: Pest Control Scheduled`;
+                        break;
+                }
+            }
+            document.getElementById('previewSubject').textContent = newSubject;
+
+            // Update predicted metrics based on campaign type
+            updateMetrics(campaignType);
+        }
+
+        function updateMetrics(campaignType) {
+            const metrics = {
+                newsletter: { open: '22%', click: '2.8%', deliver: '97%' },
+                promotional: { open: '28%', click: '4.5%', deliver: '96%' },
+                'drip-sequence': { open: '35%', click: '6.2%', deliver: '98%' },
+                transactional: { open: '85%', click: '15%', deliver: '99%' }
+            };
+
+            const metric = metrics[campaignType] || metrics.newsletter;
+            document.getElementById('openRate').textContent = metric.open;
+            document.getElementById('clickRate').textContent = metric.click;
+            document.getElementById('deliverability').textContent = metric.deliver;
+        }
+
+        function switchTab(tabType) {
+            // Update tab appearance
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update content view
+            const content = document.getElementById('emailContent');
+            switch (tabType) {
+                case 'mobile':
+                    content.style.maxWidth = '320px';
+                    content.style.fontSize = '14px';
+                    break;
+                case 'plain':
+                    content.innerHTML = '<pre style="white-space: pre-wrap; font-family: monospace; font-size: 12px;">Subject: ' + document.getElementById('previewSubject').textContent + '\n\nHi [FIRST_NAME],\n\nAs fall approaches, it\'s time to prepare your home for the cooler months ahead...\n\n[Plain text version of email content]</pre>';
+                    break;
+                default: // desktop
+                    content.style.maxWidth = 'none';
+                    content.style.fontSize = '16px';
+                    // Restore full HTML content if coming from plain text
+                    if (content.querySelector('pre')) {
+                        location.reload(); // Simple way to restore full content
+                    }
+            }
+        }
+
+        function generatePreview() {
+            const campaignType = document.getElementById('campaignType').value;
+            const season = document.getElementById('season').value;
+            const offer = document.getElementById('offer').value;
+            const location = document.getElementById('location').value;
+
+            // Simulate API call to generate campaign
+            alert(`Generating ${campaignType} campaign for ${season} season...`);
+
+            // In a real implementation, this would call the email-campaign-generator.sh script
+            // via an API endpoint and update the preview with the generated content
+        }
+
+        function exportEmail() {
+            const emailHTML = document.getElementById('emailContent').outerHTML;
+            const blob = new Blob([emailHTML], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'email-campaign.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function testSend() {
+            const email = prompt('Enter test email address:');
+            if (email) {
+                alert(`Test email will be sent to: ${email}`);
+                // In a real implementation, this would send via email API
+            }
+        }
+
+        // Initialize preview on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePreview();
+        });
+    </script>
+</body>
+</html>

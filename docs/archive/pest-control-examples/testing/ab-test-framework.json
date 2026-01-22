@@ -1,0 +1,209 @@
+{
+  "framework_version": "1.0",
+  "test_types": {
+    "headline_testing": {
+      "description": "Test different headlines for effectiveness",
+      "variations": ["emotional", "rational", "urgency", "curiosity"],
+      "metrics": ["click_through_rate", "engagement_rate", "conversion_rate"],
+      "min_sample_size": 100,
+      "confidence_level": 95,
+      "test_duration_days": 7
+    },
+    "cta_testing": {
+      "description": "Test call-to-action buttons and text",
+      "variations": ["action_words", "colors", "positioning", "urgency"],
+      "metrics": ["click_rate", "conversion_rate", "bounce_rate"],
+      "min_sample_size": 200,
+      "confidence_level": 95,
+      "test_duration_days": 14
+    },
+    "content_length": {
+      "description": "Test different content lengths",
+      "variations": ["short", "medium", "long", "comprehensive"],
+      "metrics": ["time_on_page", "scroll_depth", "social_shares", "conversions"],
+      "min_sample_size": 150,
+      "confidence_level": 95,
+      "test_duration_days": 21
+    },
+    "tone_variations": {
+      "description": "Test different brand voice tones",
+      "variations": ["professional", "friendly", "authoritative", "conversational"],
+      "metrics": ["engagement_rate", "brand_perception", "trust_score"],
+      "min_sample_size": 300,
+      "confidence_level": 95,
+      "test_duration_days": 30
+    },
+    "email_subject_lines": {
+      "description": "Test email subject line effectiveness",
+      "variations": ["personalized", "question_based", "benefit_focused", "urgency"],
+      "metrics": ["open_rate", "click_rate", "unsubscribe_rate"],
+      "min_sample_size": 500,
+      "confidence_level": 95,
+      "test_duration_days": 7
+    },
+    "social_media_posts": {
+      "description": "Test social media content variations",
+      "variations": ["image_style", "caption_length", "hashtag_strategy", "posting_time"],
+      "metrics": ["likes", "shares", "comments", "click_through_rate"],
+      "min_sample_size": 100,
+      "confidence_level": 95,
+      "test_duration_days": 14
+    }
+  },
+  "statistical_methods": {
+    "significance_testing": {
+      "method": "two_sample_t_test",
+      "alpha": 0.05,
+      "power": 0.8,
+      "effect_size_threshold": 0.1
+    },
+    "sample_size_calculation": {
+      "formula": "power_analysis",
+      "factors": ["baseline_rate", "minimum_detectable_effect", "significance_level", "power"]
+    },
+    "early_stopping": {
+      "enabled": true,
+      "check_frequency_days": 3,
+      "futility_threshold": 0.1,
+      "superiority_threshold": 0.99
+    }
+  },
+  "test_lifecycle": {
+    "planning": {
+      "steps": [
+        "Define hypothesis",
+        "Select test type",
+        "Calculate sample size",
+        "Create variants",
+        "Set success metrics",
+        "Define test duration"
+      ]
+    },
+    "execution": {
+      "steps": [
+        "Initialize test",
+        "Deploy variants",
+        "Monitor traffic split",
+        "Collect data",
+        "Check for significance",
+        "Handle early stopping"
+      ]
+    },
+    "analysis": {
+      "steps": [
+        "Calculate statistical significance",
+        "Analyze secondary metrics",
+        "Document insights",
+        "Make recommendations",
+        "Archive test results"
+      ]
+    }
+  },
+  "content_generation_integration": {
+    "variant_creation": {
+      "automatic": true,
+      "prompt_variations": {
+        "headline": [
+          "Create a compelling headline that emphasizes urgency",
+          "Write a headline that focuses on emotional benefits",
+          "Generate a headline that poses an intriguing question",
+          "Craft a headline that highlights rational advantages"
+        ],
+        "cta": [
+          "Create a call-to-action with strong action verbs",
+          "Generate a CTA that creates urgency",
+          "Write a CTA that emphasizes value proposition",
+          "Craft a CTA that reduces perceived risk"
+        ]
+      }
+    },
+    "quality_checks": {
+      "brand_consistency": true,
+      "length_requirements": true,
+      "keyword_inclusion": true,
+      "readability_score": true
+    }
+  },
+  "tracking_requirements": {
+    "test_metadata": [
+      "test_id",
+      "test_name",
+      "test_type",
+      "hypothesis",
+      "start_date",
+      "end_date",
+      "status",
+      "creator",
+      "variants"
+    ],
+    "variant_data": [
+      "variant_id",
+      "variant_name",
+      "content",
+      "traffic_allocation",
+      "impressions",
+      "clicks",
+      "conversions",
+      "metrics"
+    ],
+    "results_data": [
+      "winner",
+      "confidence_level",
+      "lift_percentage",
+      "statistical_significance",
+      "insights",
+      "recommendations"
+    ]
+  },
+  "dashboard_integration": {
+    "real_time_monitoring": {
+      "metrics_display": ["impressions", "clicks", "conversions", "significance"],
+      "chart_types": ["line_chart", "bar_chart", "conversion_funnel"],
+      "alert_conditions": ["significance_reached", "sample_size_met", "duration_complete"]
+    },
+    "test_management": {
+      "create_test": true,
+      "pause_test": true,
+      "stop_test": true,
+      "archive_test": true,
+      "clone_test": true
+    }
+  },
+  "reporting": {
+    "automated_reports": {
+      "frequency": "weekly",
+      "recipients": ["marketing_team", "stakeholders"],
+      "format": "html_email",
+      "include": ["active_tests", "completed_tests", "insights", "recommendations"]
+    },
+    "test_summaries": {
+      "executive_summary": true,
+      "detailed_analysis": true,
+      "statistical_breakdown": true,
+      "actionable_insights": true
+    }
+  },
+  "best_practices": {
+    "test_design": [
+      "Test one variable at a time",
+      "Ensure adequate sample size",
+      "Run tests for sufficient duration",
+      "Account for external factors",
+      "Document hypothesis clearly"
+    ],
+    "implementation": [
+      "Randomize traffic allocation",
+      "Monitor for anomalies",
+      "Avoid peeking at results",
+      "Consider seasonality effects",
+      "Validate tracking setup"
+    ],
+    "analysis": [
+      "Check statistical significance",
+      "Analyze practical significance",
+      "Consider long-term effects",
+      "Document learnings",
+      "Share insights with team"
+    ]
+  }
+}

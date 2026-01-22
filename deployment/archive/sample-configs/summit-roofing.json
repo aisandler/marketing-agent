@@ -1,0 +1,156 @@
+{
+  "client": {
+    "name": "Summit Roofing",
+    "industry": "roofing",
+    "businessType": "local_service_business",
+    "serviceArea": {
+      "primary": "Austin, TX",
+      "secondary": ["Cedar Park", "Round Rock", "Pflugerville", "Georgetown"],
+      "state": "Texas",
+      "region": "Central Texas"
+    },
+    "website": "https://summitroofingaustin.com",
+    "phone": "(512) 555-ROOF",
+    "email": "info@summitroofingaustin.com"
+  },
+  "airtable": {
+    "webhookUrl": "{{N8N_WEBHOOK_URL}}",
+    "baseId": "{{AIRTABLE_BASE_ID}}",
+    "tableId": "{{AIRTABLE_TABLE_ID}}",
+    "apiUrl": "https://api.airtable.com/v0"
+  },
+  "fields": {
+    "contentId": "Content ID",
+    "description": "Description",
+    "contentType": "Content Type",
+    "priority": "Priority",
+    "targetLocation": "Target Location",
+    "serviceCategory": "Roofing Service Type",
+    "contentFormat": "Content Format",
+    "seasonalRelevance": "Seasonal Relevance",
+    "primaryKeyword": "Primary Keyword",
+    "searchVolume": "Search Volume",
+    "keywordDifficulty": "Keyword Difficulty",
+    "notes": "Notes",
+    "text": "Text",
+    "status": "Status",
+    "title": "Title",
+    "publishDate": "Publish Date",
+    "targetPublishDate": "Target Publish Date"
+  },
+  "brand": {
+    "guidelines": [
+      "docs/brand-guidelines/brand-guide.md",
+      "docs/brand-guidelines/core-messaging-template.md"
+    ],
+    "voiceGuide": "docs/brand-guidelines/brand-guide.md",
+    "personas": null,
+    "styleGuide": null,
+    "assetsDir": "content/client-documents/brand-guides",
+    "knowledge": []
+  },
+  "templates": {
+    "blogOutline": null,
+    "blogDraft": null,
+    "socialPost": null,
+    "locationPage": null
+  },
+  "labels": {
+    "entitySubtypeLabel": "Roofing Service Type"
+  },
+  "drive": {
+    "folders": {
+      "blog": "{{DRIVE_BLOG_FOLDER_ID}}",
+      "social": "{{DRIVE_SOCIAL_FOLDER_ID}}",
+      "location": "{{DRIVE_LOCATION_FOLDER_ID}}",
+      "email": "{{DRIVE_EMAIL_FOLDER_ID}}",
+      "library": "{{DRIVE_LIBRARY_FOLDER_ID}}"
+    }
+  },
+  "branding": {
+    "primaryMessage": "Protect Your Investment. Secure Your Future.",
+    "tagline": "Excellence Above and Beyond",
+    "tone": "reliable, professional, safety-focused",
+    "personality": ["trustworthy", "experienced", "detail-oriented"],
+    "experience": "20+ years",
+    "differentiators": [
+      "Storm Damage Specialists",
+      "Insurance Claim Assistance",
+      "GAF Master Elite Certified",
+      "Lifetime Workmanship Warranty"
+    ]
+  },
+  "services": {
+    "primary": [
+      "Roof Replacement",
+      "Storm Damage Repair",
+      "Roof Inspection"
+    ],
+    "secondary": [
+      "Gutter Installation",
+      "Siding Repair"
+    ],
+    "seasonal": {
+      "spring": ["Storm Damage Assessment", "Hail Damage Inspection"],
+      "summer": ["New Construction", "Replacement Projects"],
+      "fall": ["Winter Prep", "Gutter Cleaning"],
+      "winter": ["Emergency Repairs", "Insurance Claims"]
+    }
+  },
+  "seo": {
+    "primaryKeywords": [
+      "roofing contractor Austin",
+      "storm damage repair",
+      "roof replacement Texas"
+    ],
+    "localModifiers": [
+      "Austin",
+      "Cedar Park",
+      "Central Texas"
+    ],
+    "contentTopics": [
+      "Storm damage",
+      "Roof maintenance",
+      "Insurance claims"
+    ]
+  },
+  "competition": {
+    "primaryCompetitors": [
+      "Austin Roofing Company",
+      "Texas Star Roofing",
+      "Lone Star Contractors"
+    ],
+    "competitiveAdvantages": [
+      "Insurance claim expertise",
+      "GAF Master Elite status"
+    ]
+  },
+  "leadGeneration": {
+    "primaryCTA": "Get Your Free Roof Inspection",
+    "leadMagnets": [
+      "Storm Damage Checklist",
+      "Insurance Claim Guide"
+    ],
+    "conversionGoals": [
+      "Free roof inspections",
+      "Storm damage assessments"
+    ]
+  },
+  "contentStrategy": {
+    "contentPillars": [
+      "Storm Protection",
+      "Quality Installation",
+      "Insurance Education"
+    ],
+    "contentTypes": [
+      "Blog Posts",
+      "Location Pages",
+      "Social Media Posts"
+    ],
+    "publishingFrequency": {
+      "blogPosts": "2 per week",
+      "locationPages": "1 per month",
+      "servicePages": "As needed"
+    }
+  }
+}

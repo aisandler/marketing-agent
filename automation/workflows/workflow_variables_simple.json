@@ -1,0 +1,97 @@
+[
+  {
+    "name": "operation",
+    "type": "string",
+    "required": true
+  },
+  {
+    "name": "subOperation", 
+    "type": "number",
+    "required": true
+  },
+  {
+    "name": "searchQuery",
+    "type": "string", 
+    "required": false
+  },
+  {
+    "name": "fileId",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "fileName",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "parentId",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "newParentId",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "newName",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "email",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "role",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "folderName",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "documentId",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "title",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "text",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "index",
+    "type": "number",
+    "required": false
+  },
+  {
+    "name": "baseId",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "tableId",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "recordId",
+    "type": "string",
+    "required": false
+  },
+  {
+    "name": "fields",
+    "type": "object",
+    "required": false
+  }
+]

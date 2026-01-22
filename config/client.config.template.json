@@ -1,0 +1,154 @@
+{
+  "client": {
+    "name": "{{CLIENT_NAME}}",
+    "industry": "{{INDUSTRY}}",
+    "businessType": "{{BUSINESS_TYPE}}",
+    "serviceArea": {
+      "primary": "{{PRIMARY_LOCATION}}",
+      "secondary": ["{{LOCATION_1}}", "{{LOCATION_2}}", "{{LOCATION_3}}"],
+      "state": "{{STATE}}",
+      "region": "{{REGION}}"
+    },
+    "website": "{{WEBSITE_URL}}",
+    "phone": "{{PHONE_NUMBER}}",
+    "email": "{{CONTACT_EMAIL}}"
+  },
+  "airtable": {
+    "webhookUrl": "{{N8N_WEBHOOK_URL}}",
+    "baseId": "{{AIRTABLE_BASE_ID}}",
+    "tableId": "{{AIRTABLE_TABLE_ID}}",
+    "apiUrl": "https://api.airtable.com/v0"
+  },
+  "fields": {
+    "contentId": "Content ID",
+    "description": "Description",
+    "contentType": "Content Type",
+    "priority": "Priority",
+    "targetLocation": "Target Location",
+    "serviceCategory": "{{SERVICE_CATEGORY_FIELD}}",
+    "contentFormat": "Content Format",
+    "seasonalRelevance": "Seasonal Relevance",
+    "primaryKeyword": "Primary Keyword",
+    "searchVolume": "Search Volume",
+    "keywordDifficulty": "Keyword Difficulty",
+    "notes": "Notes",
+    "text": "Text",
+    "status": "Status",
+    "title": "Title",
+    "publishDate": "Publish Date",
+    "targetPublishDate": "Target Publish Date"
+  },
+  "brand": {
+    "guidelines": [
+      "docs/brand-guidelines/brand-guide.md",
+      "docs/brand-guidelines/core-messaging-template.md"
+    ],
+    "voiceGuide": "docs/brand-guidelines/brand-guide.md",
+    "personas": null,
+    "styleGuide": null,
+    "assetsDir": "content/client-documents/brand-guides",
+    "knowledge": []
+  },
+  "templates": {
+    "blogOutline": null,
+    "blogDraft": null,
+    "socialPost": null,
+    "locationPage": null
+  },
+  "labels": {
+    "entitySubtypeLabel": "{{ENTITY_SUBTYPE_LABEL}}"
+  },
+  "drive": {
+    "folders": {
+      "blog": "{{DRIVE_BLOG_FOLDER_ID}}",
+      "social": "{{DRIVE_SOCIAL_FOLDER_ID}}",
+      "location": "{{DRIVE_LOCATION_FOLDER_ID}}",
+      "email": "{{DRIVE_EMAIL_FOLDER_ID}}",
+      "library": "{{DRIVE_LIBRARY_FOLDER_ID}}"
+    }
+  },
+  "branding": {
+    "primaryMessage": "{{PRIMARY_VALUE_PROP}}",
+    "tagline": "{{TAGLINE}}",
+    "tone": "{{BRAND_TONE}}",
+    "personality": ["{{TRAIT_1}}", "{{TRAIT_2}}", "{{TRAIT_3}}"],
+    "differentiators": [
+      "{{DIFFERENTIATOR_1}}",
+      "{{DIFFERENTIATOR_2}}",
+      "{{DIFFERENTIATOR_3}}"
+    ]
+  },
+  "services": {
+    "primary": [
+      "{{SERVICE_1}}",
+      "{{SERVICE_2}}",
+      "{{SERVICE_3}}"
+    ],
+    "secondary": [
+      "{{SERVICE_4}}",
+      "{{SERVICE_5}}"
+    ],
+    "seasonal": {
+      "spring": ["{{SPRING_SERVICE}}"],
+      "summer": ["{{SUMMER_SERVICE}}"],
+      "fall": ["{{FALL_SERVICE}}"],
+      "winter": ["{{WINTER_SERVICE}}"]
+    }
+  },
+  "seo": {
+    "primaryKeywords": [
+      "{{KEYWORD_1}}",
+      "{{KEYWORD_2}}",
+      "{{KEYWORD_3}}"
+    ],
+    "localModifiers": [
+      "{{LOCATION_MODIFIER_1}}",
+      "{{LOCATION_MODIFIER_2}}"
+    ],
+    "contentTopics": [
+      "{{TOPIC_1}}",
+      "{{TOPIC_2}}",
+      "{{TOPIC_3}}"
+    ]
+  },
+  "competition": {
+    "primaryCompetitors": [
+      "{{COMPETITOR_1}}",
+      "{{COMPETITOR_2}}",
+      "{{COMPETITOR_3}}"
+    ],
+    "competitiveAdvantages": [
+      "{{ADVANTAGE_1}}",
+      "{{ADVANTAGE_2}}"
+    ]
+  },
+  "leadGeneration": {
+    "primaryCTA": "{{PRIMARY_CTA}}",
+    "leadMagnets": [
+      "{{LEAD_MAGNET_1}}",
+      "{{LEAD_MAGNET_2}}"
+    ],
+    "conversionGoals": [
+      "{{CONVERSION_GOAL_1}}",
+      "{{CONVERSION_GOAL_2}}"
+    ]
+  },
+  "contentStrategy": {
+    "contentPillars": [
+      "{{PILLAR_1}}",
+      "{{PILLAR_2}}",
+      "{{PILLAR_3}}"
+    ],
+    "contentTypes": [
+      "blog posts",
+      "location pages",
+      "service pages",
+      "seasonal campaigns"
+    ],
+    "publishingFrequency": {
+      "blogPosts": "{{BLOG_FREQUENCY}}",
+      "locationPages": "{{LOCATION_FREQUENCY}}",
+      "servicePages": "{{SERVICE_FREQUENCY}}"
+    }
+  }
+}

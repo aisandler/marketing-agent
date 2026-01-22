@@ -1,0 +1,70 @@
+{
+  "client": {
+    "name": "Sample Pest Control Co",
+    "industry": "pest_control",
+    "businessType": "local service business",
+    "serviceArea": {
+      "primary": "Your Primary City",
+      "secondary": ["City 1", "City 2", "City 3"],
+      "state": "Your State",
+      "region": "Your Region"
+    },
+    "website": "https://yourpestcontrol.com",
+    "phone": "(555) 123-4567",
+    "email": "info@yourpestcontrol.com"
+  },
+  "airtable": {
+    "webhookUrl": "https://your-n8n-instance.app.n8n.cloud/webhook/yourwebhook",
+    "baseId": "appYOURAIRTABLEBASEID",
+    "tableId": "tblYOURTABLEID123",
+    "apiUrl": "https://api.airtable.com/v0"
+  },
+  "fields": {
+    "contentId": "Content ID",
+    "description": "Description",
+    "contentType": "Content Type",
+    "priority": "Priority",
+    "targetLocation": "Target Location",
+    "pestType": "Pest Type",
+    "contentFormat": "Content Format",
+    "seasonalRelevance": "Seasonal Relevance",
+    "primaryKeyword": "Primary Keyword",
+    "searchVolume": "Search Volume",
+    "keywordDifficulty": "Keyword Difficulty",
+    "notes": "Notes",
+    "text": "Text",
+    "status": "Status",
+    "title": "Title",
+    "publishDate": "Publish Date",
+    "targetPublishDate": "Target Publish Date"
+  },
+  "brand": {
+    "guidelines": [
+      "docs/active/CLIENT_MASTER_BRAND_GUIDELINES.md",
+      "docs/brand-guidelines/core-messaging-template.md"
+    ],
+    "voiceGuide": "docs/active/CLIENT_MASTER_BRAND_GUIDELINES.md",
+    "personas": null,
+    "styleGuide": null,
+    "assetsDir": "content/client-documents/brand-guides",
+    "knowledge": []
+  },
+  "templates": {
+    "blogOutline": null,
+    "blogDraft": null,
+    "socialPost": null,
+    "locationPage": null
+  },
+  "labels": {
+    "entitySubtypeLabel": "Pest Type"
+  },
+  "drive": {
+    "folders": {
+      "blog": "1YOUR_Blog_Posts_Folder_ID",
+      "social": "1YOUR_Social_Media_Folder_ID",
+      "location": "1YOUR_Location_Pages_Folder_ID",
+      "email": "1YOUR_Email_Folder_ID",
+      "library": "1YOUR_Content_Library_ID"
+    }
+  }
+}

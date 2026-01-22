@@ -1,0 +1,291 @@
+{
+  "version": "1.0",
+  "templates": {
+    "headline_testing": {
+      "emotional": {
+        "patterns": [
+          "Transform Your {subject} in Just {timeframe}",
+          "The {subject} Solution That Changed Everything",
+          "Why {target_audience} Are Choosing {solution}",
+          "The Secret to {desired_outcome} Finally Revealed"
+        ],
+        "emotional_triggers": [
+          "transform",
+          "secret",
+          "finally",
+          "amazing",
+          "incredible"
+        ]
+      },
+      "rational": {
+        "patterns": [
+          "Complete {subject} Guide: {number} Proven Steps",
+          "How to {action} {subject} - Expert Analysis",
+          "{number} Evidence-Based {subject} Strategies",
+          "Professional {subject} Services: What You Need to Know"
+        ],
+        "rational_triggers": [
+          "proven",
+          "evidence-based",
+          "expert",
+          "complete",
+          "professional"
+        ]
+      },
+      "urgency": {
+        "patterns": [
+          "Last Chance: {offer} Ends {deadline}",
+          "Limited Time: {benefit} Available Now",
+          "Act Fast: Only {number} {items} Remaining",
+          "Don't Wait: {consequence} This {timeframe}"
+        ],
+        "urgency_triggers": [
+          "last chance",
+          "limited time",
+          "act fast",
+          "don't wait",
+          "expires"
+        ]
+      },
+      "curiosity": {
+        "patterns": [
+          "What {target_audience} Don't Want You to Know About {subject}",
+          "The {subject} Mistake That's Costing You {loss}",
+          "Why {action} Isn't Working (And What to Do Instead)",
+          "The Surprising Truth About {subject}"
+        ],
+        "curiosity_triggers": [
+          "what",
+          "why",
+          "surprising",
+          "truth",
+          "secret",
+          "mistake"
+        ]
+      }
+    },
+    "cta_testing": {
+      "action_words": {
+        "patterns": [
+          "{action} Your {benefit} Today",
+          "{action} Now and {benefit}",
+          "Start {action}ing {timeframe}",
+          "{action} {solution} Instantly"
+        ],
+        "action_verbs": [
+          "Get",
+          "Start",
+          "Download",
+          "Claim",
+          "Discover",
+          "Unlock",
+          "Access",
+          "Join"
+        ]
+      },
+      "urgency": {
+        "patterns": [
+          "{action} Before It's Too Late",
+          "Limited Time: {action} Now",
+          "Last Chance to {action}",
+          "{action} While {condition}"
+        ],
+        "urgency_modifiers": [
+          "now",
+          "today",
+          "immediately",
+          "before it's too late",
+          "limited time"
+        ]
+      },
+      "value_proposition": {
+        "patterns": [
+          "{action} Your Free {offer}",
+          "{action} {benefit} at No Cost",
+          "{action} {outcome} in {timeframe}",
+          "{action} and Save {amount}"
+        ],
+        "value_indicators": [
+          "free",
+          "no cost",
+          "save",
+          "bonus",
+          "exclusive",
+          "guaranteed"
+        ]
+      },
+      "risk_reduction": {
+        "patterns": [
+          "Try {solution} Risk-Free",
+          "{action} with {guarantee}",
+          "No {risk} - {action} Today",
+          "{action} - {assurance} Included"
+        ],
+        "risk_reducers": [
+          "risk-free",
+          "money-back guarantee",
+          "no commitment",
+          "cancel anytime"
+        ]
+      }
+    },
+    "content_length": {
+      "short": {
+        "word_range": [
+          150,
+          300
+        ],
+        "structure": [
+          "hook",
+          "main_point",
+          "cta"
+        ],
+        "tone": "punchy and direct"
+      },
+      "medium": {
+        "word_range": [
+          300,
+          600
+        ],
+        "structure": [
+          "introduction",
+          "main_points",
+          "supporting_details",
+          "cta"
+        ],
+        "tone": "informative and engaging"
+      },
+      "long": {
+        "word_range": [
+          600,
+          1200
+        ],
+        "structure": [
+          "introduction",
+          "problem",
+          "solution",
+          "benefits",
+          "proof",
+          "cta"
+        ],
+        "tone": "comprehensive and authoritative"
+      },
+      "comprehensive": {
+        "word_range": [
+          1200,
+          2000
+        ],
+        "structure": [
+          "introduction",
+          "background",
+          "detailed_analysis",
+          "case_studies",
+          "implementation",
+          "conclusion",
+          "cta"
+        ],
+        "tone": "expert and thorough"
+      }
+    },
+    "tone_variations": {
+      "professional": {
+        "characteristics": [
+          "formal language",
+          "industry terminology",
+          "third person",
+          "objective tone"
+        ],
+        "avoid": [
+          "slang",
+          "casual expressions",
+          "personal anecdotes",
+          "humor"
+        ]
+      },
+      "friendly": {
+        "characteristics": [
+          "conversational tone",
+          "personal pronouns",
+          "warm language",
+          "approachable"
+        ],
+        "avoid": [
+          "overly formal",
+          "jargon",
+          "cold language",
+          "distant tone"
+        ]
+      },
+      "authoritative": {
+        "characteristics": [
+          "confident statements",
+          "expert positioning",
+          "data-driven",
+          "decisive"
+        ],
+        "avoid": [
+          "uncertain language",
+          "hedging",
+          "questions",
+          "weak modifiers"
+        ]
+      },
+      "conversational": {
+        "characteristics": [
+          "casual tone",
+          "questions",
+          "you/I language",
+          "storytelling"
+        ],
+        "avoid": [
+          "formal structure",
+          "complex sentences",
+          "academic language",
+          "passive voice"
+        ]
+      }
+    }
+  },
+  "placeholders": {
+    "business_types": [
+      "HVAC",
+      "plumbing",
+      "electrical",
+      "landscaping",
+      "cleaning",
+      "pest control"
+    ],
+    "services": [
+      "installation",
+      "repair",
+      "maintenance",
+      "inspection",
+      "consultation"
+    ],
+    "benefits": [
+      "energy savings",
+      "comfort",
+      "reliability",
+      "peace of mind",
+      "convenience"
+    ],
+    "timeframes": [
+      "24 hours",
+      "same day",
+      "this week",
+      "30 days",
+      "this season"
+    ],
+    "guarantees": [
+      "100% satisfaction guarantee",
+      "money-back guarantee",
+      "lifetime warranty"
+    ],
+    "target_audiences": [
+      "homeowners",
+      "business owners",
+      "property managers",
+      "contractors"
+    ]
+  }
+}

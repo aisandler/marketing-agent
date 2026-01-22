@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEO Performance Dashboard - Marketing Context Engineering</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid;
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .metric-card.primary {
+            border-left-color: #007bff;
+        }
+
+        .metric-card.success {
+            border-left-color: #28a745;
+        }
+
+        .metric-card.warning {
+            border-left-color: #ffc107;
+        }
+
+        .metric-card.info {
+            border-left-color: #17a2b8;
+        }
+
+        .metric-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 5px;
+        }
+
+        .metric-subtitle {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e9ecef;
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .platform-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .platform-card h3 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .platform-metric {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .chatgpt { color: #10a37f; }
+        .perplexity { color: #1fb8cd; }
+        .claude { color: #d97706; }
+        .gemini { color: #4285f4; }
+
+        .content-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .content-table th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .content-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .content-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .status-high { background: #d4edda; color: #155724; }
+        .status-medium { background: #fff3cd; color: #856404; }
+        .status-low { background: #f8d7da; color: #721c24; }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .citation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .citation-source {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        .citation-count {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .question-list {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+        }
+
+        .question-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .question-stats {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 AEO Performance Dashboard</h1>
+            <p>Answer Engine Optimization Metrics for Marketing Context Engineering</p>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="alert alert-info">
+                <strong>AEO Integration Status:</strong> System enhanced with Answer Engine Optimization capabilities. Tracking AI engine visibility and citation performance across ChatGPT, Claude, Perplexity, and Gemini.
+            </div>
+
+            <!-- Primary KPI Metrics -->
+            <div class="section">
+                <h2 class="section-title">📊 Primary AEO KPIs</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card primary">
+                        <div class="metric-title">Share of Voice</div>
+                        <div class="metric-value">---%</div>
+                        <div class="metric-subtitle">Target: 25% for MCE questions</div>
+                    </div>
+                    <div class="metric-card success">
+                        <div class="metric-title">Citation Frequency</div>
+                        <div class="metric-value">---</div>
+                        <div class="metric-subtitle">Citations across all AI platforms</div>
+                    </div>
+                    <div class="metric-card warning">
+                        <div class="metric-title">AI Traffic Conversion</div>
+                        <div class="metric-value">---%</div>
+                        <div class="metric-subtitle">vs Traditional SEO: ---x</div>
+                    </div>
+                    <div class="metric-card info">
+                        <div class="metric-title">Question Coverage</div>
+                        <div class="metric-value">---%</div>
+                        <div class="metric-subtitle">Target questions optimized</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Platform-Specific Performance -->
+            <div class="section">
+                <h2 class="section-title">🤖 AI Platform Performance</h2>
+                <div class="platform-grid">
+                    <div class="platform-card">
+                        <h3>ChatGPT</h3>
+                        <div class="platform-metric chatgpt">---%</div>
+                        <div>Share of Voice</div>
+                        <small>Avg: 2.62 citations per response</small>
+                    </div>
+                    <div class="platform-card">
+                        <h3>Perplexity</h3>
+                        <div class="platform-metric perplexity">---%</div>
+                        <div>Share of Voice</div>
+                        <small>Avg: 6.61 citations per response</small>
+                    </div>
+                    <div class="platform-card">
+                        <h3>Claude</h3>
+                        <div class="platform-metric claude">---%</div>
+                        <div>Share of Voice</div>
+                        <small>Low internet reliance</small>
+                    </div>
+                    <div class="platform-card">
+                        <h3>Gemini</h3>
+                        <div class="platform-metric gemini">---%</div>
+                        <div>Share of Voice</div>
+                        <small>Avg: 6.1 citations per response</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Target Questions Performance -->
+            <div class="section">
+                <h2 class="section-title">❓ Target Questions Performance</h2>
+                <div class="question-list">
+                    <div class="question-item">
+                        <div class="question-text">What is Marketing Context Engineering?</div>
+                        <div class="question-stats">Share of Voice: ---% | Target: 100% | Citations: ---</div>
+                    </div>
+                    <div class="question-item">
+                        <div class="question-text">How to build AI marketing systems?</div>
+                        <div class="question-stats">Share of Voice: ---% | Target: 50% | Citations: ---</div>
+                    </div>
+                    <div class="question-item">
+                        <div class="question-text">Claude Code marketing implementation?</div>
+                        <div class="question-stats">Share of Voice: ---% | Target: 75% | Citations: ---</div>
+                    </div>
+                    <div class="question-item">
+                        <div class="question-text">Best AI marketing automation consultant?</div>
+                        <div class="question-stats">Share of Voice: ---% | Target: 25% | Citations: ---</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Performance -->
+            <div class="section">
+                <h2 class="section-title">📝 AEO Content Performance</h2>
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>Content Title</th>
+                            <th>Word Count</th>
+                            <th>AEO Score</th>
+                            <th>Citations</th>
+                            <th>AI Traffic</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Marketing Context Engineering Guide</td>
+                            <td>2,150</td>
+                            <td>85%</td>
+                            <td>12</td>
+                            <td>---</td>
+                            <td><span class="status-badge status-high">Optimized</span></td>
+                        </tr>
+                        <tr>
+                            <td>AI Marketing Systems Implementation</td>
+                            <td>1,890</td>
+                            <td>78%</td>
+                            <td>8</td>
+                            <td>---</td>
+                            <td><span class="status-badge status-medium">Needs FAQ</span></td>
+                        </tr>
+                        <tr>
+                            <td>Claude Code Marketing Automation</td>
+                            <td>1,450</td>
+                            <td>65%</td>
+                            <td>3</td>
+                            <td>---</td>
+                            <td><span class="status-badge status-low">Needs Enhancement</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Citation Sources -->
+            <div class="section">
+                <h2 class="section-title">🔗 Citation Sources</h2>
+                <div class="citation-grid">
+                    <div class="citation-source">
+                        <div class="citation-count">---</div>
+                        <div>Reddit Citations</div>
+                    </div>
+                    <div class="citation-source">
+                        <div class="citation-count">---</div>
+                        <div>LinkedIn Citations</div>
+                    </div>
+                    <div class="citation-source">
+                        <div class="citation-count">---</div>
+                        <div>YouTube Citations</div>
+                    </div>
+                    <div class="citation-source">
+                        <div class="citation-count">---</div>
+                        <div>Industry Publications</div>
+                    </div>
+                    <div class="citation-source">
+                        <div class="citation-count">---</div>
+                        <div>G2/Capterra</div>
+                    </div>
+                    <div class="citation-source">
+                        <div class="citation-count">---</div>
+                        <div>Technical Forums</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Items -->
+            <div class="section">
+                <h2 class="section-title">⚡ Recommended Actions</h2>
+                <div class="question-list">
+                    <div class="question-item">
+                        <div class="question-text">Enhance content for Claude Code marketing queries</div>
+                        <div class="question-stats">Priority: High | Impact: Increase citations by 200%</div>
+                    </div>
+                    <div class="question-item">
+                        <div class="question-text">Build Reddit presence in r/marketing and r/entrepreneur</div>
+                        <div class="question-stats">Priority: Medium | Impact: Improve citation diversity</div>
+                    </div>
+                    <div class="question-item">
+                        <div class="question-text">Create YouTube technical walkthrough series</div>
+                        <div class="question-stats">Priority: Medium | Impact: Boost Perplexity citations</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="enhanceContent()">Enhance Content with AEO</button>
+                <button class="btn btn-secondary" onclick="generateReport()">Generate Monthly Report</button>
+                <button class="btn btn-secondary" onclick="refreshMetrics()">Refresh Metrics</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Placeholder for future functionality
+        function enhanceContent() {
+            alert('AEO Content Enhancement: Run ./automation/aeo-enhance.sh to optimize content for AI engines');
+        }
+
+        function generateReport() {
+            alert('Monthly AEO Report: Full performance analysis and optimization recommendations');
+        }
+
+        function refreshMetrics() {
+            alert('Metrics Refresh: Connect monitoring tools (Writesonic, Otterly.AI) for live data');
+        }
+
+        // Auto-refresh placeholder
+        setInterval(() => {
+            console.log('AEO Metrics Dashboard: Ready for live data integration');
+        }, 30000);
+    </script>
+</body>
+</html>

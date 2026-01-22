@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPL Marketing Hub | Command Center</title>
+    <meta name="description" content="CPL Law Firm Marketing Dashboard - Q1 2026 Content Strategy & Execution">
+
+    <!-- Fonts: Distinctive editorial choices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&family=Bricolage+Grotesque:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Critical Alert Banner -->
+    <div class="alert-banner" id="criticalAlert">
+        <div class="alert-content">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-text">
+                <strong>6 DECISIONS NEEDED BY NOV 25</strong>
+                <span class="alert-countdown" id="countdown"></span>
+            </div>
+            <button class="alert-action" onclick="scrollToDecisions()">REVIEW NOW</button>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <h1 class="site-title">CPL Marketing</h1>
+                <span class="site-subtitle">Command Center</span>
+            </div>
+            <nav class="main-nav">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#calendar" class="nav-link">Calendar</a>
+                <a href="#partners" class="nav-link">Partners</a>
+                <a href="#workflow" class="nav-link">Workflow</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section-dashboard">
+
+            <!-- Quick Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card stat-primary">
+                    <div class="stat-label">Q1 Content</div>
+                    <div class="stat-value" id="totalPosts">41</div>
+                    <div class="stat-sublabel">posts scheduled</div>
+                </div>
+                <div class="stat-card stat-video">
+                    <div class="stat-label">Partner Videos</div>
+                    <div class="stat-value" id="videoCount">28</div>
+                    <div class="stat-sublabel">Dec-Feb</div>
+                </div>
+                <div class="stat-card stat-pending">
+                    <div class="stat-label">Pending</div>
+                    <div class="stat-value" id="pendingCount">41</div>
+                    <div class="stat-sublabel">awaiting approval</div>
+                </div>
+                <div class="stat-card stat-critical">
+                    <div class="stat-label">Days Until</div>
+                    <div class="stat-value" id="daysUntil">6</div>
+                    <div class="stat-sublabel">decision deadline</div>
+                </div>
+            </div>
+
+            <!-- Next 30 Days Timeline -->
+            <div class="timeline-section">
+                <h2 class="section-title">
+                    <span class="title-accent">Next</span> 30 Days
+                </h2>
+                <div class="timeline-container" id="timelineContainer">
+                    <!-- Timeline items populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Decision Status Board -->
+            <div class="decisions-section" id="decisions">
+                <h2 class="section-title">
+                    <span class="title-accent">Decision</span> Status Board
+                </h2>
+                <div class="decisions-grid" id="decisionsGrid">
+                    <!-- Decision cards populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Partner Action Center -->
+            <div class="partners-section">
+                <h2 class="section-title">
+                    <span class="title-accent">Partner</span> Action Center
+                </h2>
+                <div class="partners-grid" id="partnersGrid">
+                    <!-- Partner cards populated by JavaScript -->
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Calendar Section -->
+        <section id="calendar" class="section-calendar" style="display: none;">
+            <div class="calendar-header">
+                <h2 class="section-title">
+                    <span class="title-accent">Q1 2026</span> Content Calendar
+                </h2>
+                <div class="calendar-tabs">
+                    <button class="tab-btn active" data-month="december">December</button>
+                    <button class="tab-btn" data-month="january">January</button>
+                    <button class="tab-btn" data-month="february">February</button>
+                </div>
+            </div>
+            <div class="calendar-filters">
+                <button class="filter-btn active" data-filter="all">All Content</button>
+                <button class="filter-btn" data-filter="video">Videos</button>
+                <button class="filter-btn" data-filter="firm-post">Firm Posts</button>
+                <button class="filter-btn" data-filter="blog">Blog Posts</button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Calendar populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Partners Detail Section -->
+        <section id="partners" class="section-partners-detail" style="display: none;">
+            <div class="partners-detail-container" id="partnersDetailContainer">
+                <!-- Partner detail views populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Workflow Section -->
+        <section id="workflow" class="section-workflow" style="display: none;">
+            <h2 class="section-title">
+                <span class="title-accent">Production</span> Workflow
+            </h2>
+            <div class="workflow-board">
+                <div class="workflow-column">
+                    <h3 class="workflow-title">Idea</h3>
+                    <div class="workflow-items" data-status="idea"></div>
+                </div>
+                <div class="workflow-column">
+                    <h3 class="workflow-title">Recording</h3>
+                    <div class="workflow-items" data-status="recording"></div>
+                </div>
+                <div class="workflow-column">
+                    <h3 class="workflow-title">Editing</h3>
+                    <div class="workflow-items" data-status="editing"></div>
+                </div>
+                <div class="workflow-column">
+                    <h3 class="workflow-title">Approval</h3>
+                    <div class="workflow-items" data-status="approval"></div>
+                </div>
+                <div class="workflow-column">
+                    <h3 class="workflow-title">Scheduled</h3>
+                    <div class="workflow-items" data-status="scheduled"></div>
+                </div>
+                <div class="workflow-column">
+                    <h3 class="workflow-title">Published</h3>
+                    <div class="workflow-items" data-status="published"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>CPL Law Firm Marketing Dashboard</p>
+                <p class="footer-meta">Last updated: <span id="lastUpdated">Nov 19, 2025</span></p>
+            </div>
+            <div class="footer-links">
+                <a href="https://aisandler.github.io/cpl-docs/" target="_blank">Full Documentation</a>
+                <a href="../deliverables/decision-points-for-approval.md" target="_blank">Decision Points</a>
+                <a href="../deliverables/partner-content-strategy.md" target="_blank">Partner Strategy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Decision Details -->
+    <div class="modal" id="decisionModal">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>

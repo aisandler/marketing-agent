@@ -1,0 +1,100 @@
+{
+  "client": {
+    "name": "Apex Roofing",
+    "industry": "roofing",
+    "businessType": "home services",
+    "serviceArea": {
+      "primary": "Phoenix, AZ",
+      "secondary": ["Scottsdale", "Tempe", "Mesa", "Chandler"],
+      "state": "Arizona", 
+      "region": "Southwest"
+    },
+    "website": "apexroofing.com",
+    "phone": "(602) 555-ROOF",
+    "email": "info@apexroofing.com"
+  },
+  "branding": {
+    "primaryMessage": "Protect Your Investment. Secure Your Future.",
+    "tagline": "Arizona's Most Trusted Roofing Experts",
+    "tone": "professional, trustworthy, expert, local",
+    "personality": ["reliable", "experienced", "community-focused"],
+    "differentiators": [
+      "25+ years serving Phoenix area",
+      "Licensed and fully insured",
+      "Lifetime workmanship warranty"
+    ]
+  },
+  "services": {
+    "primary": [
+      "roof repair",
+      "roof replacement", 
+      "roof inspection"
+    ],
+    "secondary": [
+      "gutter installation",
+      "emergency roof repair"
+    ],
+    "seasonal": {
+      "spring": ["storm damage repair"],
+      "summer": ["heat damage prevention"],
+      "fall": ["winter preparation"],
+      "winter": ["emergency leak repair"]
+    }
+  },
+  "seo": {
+    "primaryKeywords": [
+      "roofing phoenix",
+      "roof repair arizona", 
+      "phoenix roofer"
+    ],
+    "localModifiers": [
+      "near me",
+      "phoenix area"
+    ],
+    "contentTopics": [
+      "desert roofing challenges",
+      "Arizona weather protection",
+      "energy efficient roofing"
+    ]
+  },
+  "competition": {
+    "primaryCompetitors": [
+      "Desert Sky Roofing",
+      "Arizona Roof Rescue",
+      "Sunny Slope Roofing"
+    ],
+    "competitiveAdvantages": [
+      "Fastest emergency response time",
+      "Most comprehensive warranty"
+    ]
+  },
+  "leadGeneration": {
+    "primaryCTA": "Get Your Free Roof Inspection",
+    "leadMagnets": [
+      "Free Storm Damage Assessment",
+      "Arizona Homeowner's Roofing Guide"
+    ],
+    "conversionGoals": [
+      "Schedule roof inspection",
+      "Request emergency repair"
+    ]
+  },
+  "contentStrategy": {
+    "contentPillars": [
+      "roof protection expertise",
+      "arizona weather challenges",
+      "homeowner education"
+    ],
+    "contentTypes": [
+      "blog posts",
+      "location pages", 
+      "service pages",
+      "seasonal campaigns"
+    ],
+    "publishingFrequency": {
+      "blogPosts": "2 per week",
+      "locationPages": "1 per service area", 
+      "servicePages": "1 per core service"
+    }
+  }
+}

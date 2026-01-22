@@ -1,0 +1,34 @@
+{
+  "scale_level": "local",
+  "max_concurrent_agents": 3,
+  "content_generation_limit": 50,
+  "storage_type": "local",
+  "dashboard_instances": 1,
+  "api_rate_limits": {
+    "requests_per_minute": 100,
+    "tokens_per_hour": 50000
+  },
+  "features": {
+    "multi_location": false,
+    "enterprise_integrations": false,
+    "load_balancing": false,
+    "auto_scaling": false,
+    "enterprise_security": false
+  },
+  "resource_requirements": {
+    "ram_gb": 1,
+    "cpu_cores": 2,
+    "storage_gb": 10,
+    "bandwidth_mbps": 1
+  },
+  "estimated_costs": {
+    "api_monthly": 75,
+    "infrastructure_monthly": 25,
+    "maintenance_hours_monthly": 3
+  },
+  "performance_targets": {
+    "content_pieces_per_hour": 4,
+    "response_time_seconds": 3,
+    "concurrent_users": 2
+  }
+}

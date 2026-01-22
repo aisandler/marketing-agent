@@ -1,0 +1,302 @@
+{
+  "execute_workflow_trigger_parameters": {
+    "parameters": {
+      "workflowInputs": {
+        "values": [
+          {
+            "name": "operation",
+            "type": "string",
+            "required": true,
+            "description": "The service to use: googledrive, googledocs, or airtable"
+          },
+          {
+            "name": "subOperation", 
+            "type": "number",
+            "required": true,
+            "description": "The specific operation number (1-8)"
+          },
+          {
+            "name": "searchQuery",
+            "type": "string", 
+            "required": false,
+            "description": "Search terms for Google Drive"
+          },
+          {
+            "name": "fileId",
+            "type": "string",
+            "required": false,
+            "description": "Google Drive file ID"
+          },
+          {
+            "name": "fileName",
+            "type": "string",
+            "required": false,
+            "description": "Name for new/uploaded files"
+          },
+          {
+            "name": "parentId",
+            "type": "string",
+            "required": false,
+            "description": "Google Drive parent folder ID"
+          },
+          {
+            "name": "newParentId",
+            "type": "string",
+            "required": false,
+            "description": "Destination folder ID for move operations"
+          },
+          {
+            "name": "newName",
+            "type": "string",
+            "required": false,
+            "description": "New name for copied files"
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "required": false,
+            "description": "Email address for sharing permissions"
+          },
+          {
+            "name": "role",
+            "type": "string",
+            "required": false,
+            "description": "Permission role: viewer, editor, owner"
+          },
+          {
+            "name": "folderName",
+            "type": "string",
+            "required": false,
+            "description": "Name for new folders"
+          },
+          {
+            "name": "documentId",
+            "type": "string",
+            "required": false,
+            "description": "Google Docs document ID or URL"
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "required": false,
+            "description": "Title for new Google Docs"
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "required": false,
+            "description": "Text content to insert into documents"
+          },
+          {
+            "name": "index",
+            "type": "number",
+            "required": false,
+            "description": "Position to insert text in documents"
+          },
+          {
+            "name": "baseId",
+            "type": "string",
+            "required": false,
+            "description": "Airtable base ID"
+          },
+          {
+            "name": "tableId",
+            "type": "string",
+            "required": false,
+            "description": "Airtable table ID"
+          },
+          {
+            "name": "recordId",
+            "type": "string",
+            "required": false,
+            "description": "Airtable record ID"
+          },
+          {
+            "name": "fields",
+            "type": "object",
+            "required": false,
+            "description": "Airtable field data for create/update operations"
+          }
+        ]
+      }
+    }
+  },
+  
+  "updated_mcp_connector_workflow_inputs": {
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "operation": "={{ $json.body.body.operation }}",
+        "subOperation": "={{ $json.body.body.subOperation }}",
+        "searchQuery": "={{ $json.body.body.searchQuery }}",
+        "fileId": "={{ $json.body.body.fileId }}",
+        "fileName": "={{ $json.body.body.fileName }}",
+        "parentId": "={{ $json.body.body.parentId }}",
+        "newParentId": "={{ $json.body.body.newParentId }}",
+        "newName": "={{ $json.body.body.newName }}",
+        "email": "={{ $json.body.body.email }}",
+        "role": "={{ $json.body.body.role }}",
+        "folderName": "={{ $json.body.body.folderName }}",
+        "documentId": "={{ $json.body.body.documentId }}",
+        "title": "={{ $json.body.body.title }}",
+        "text": "={{ $json.body.body.text }}",
+        "index": "={{ $json.body.body.index }}",
+        "baseId": "={{ $json.body.body.baseId }}",
+        "tableId": "={{ $json.body.body.tableId }}",
+        "recordId": "={{ $json.body.body.recordId }}",
+        "fields": "={{ $json.body.body.fields }}"
+      },
+      "matchingColumns": [],
+      "schema": [
+        {
+          "id": "operation",
+          "displayName": "operation", 
+          "required": true,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "subOperation",
+          "displayName": "subOperation",
+          "required": true, 
+          "defaultValue": "",
+          "type": "number"
+        },
+        {
+          "id": "searchQuery",
+          "displayName": "searchQuery",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "fileId", 
+          "displayName": "fileId",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "fileName",
+          "displayName": "fileName", 
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "parentId",
+          "displayName": "parentId",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "newParentId",
+          "displayName": "newParentId",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "newName",
+          "displayName": "newName",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "email",
+          "displayName": "email",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "role",
+          "displayName": "role",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "folderName",
+          "displayName": "folderName",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "documentId",
+          "displayName": "documentId",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "title",
+          "displayName": "title",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "text",
+          "displayName": "text",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "index",
+          "displayName": "index",
+          "required": false,
+          "defaultValue": "",
+          "type": "number"
+        },
+        {
+          "id": "baseId",
+          "displayName": "baseId",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "tableId",
+          "displayName": "tableId",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "recordId",
+          "displayName": "recordId",
+          "required": false,
+          "defaultValue": "",
+          "type": "string"
+        },
+        {
+          "id": "fields",
+          "displayName": "fields",
+          "required": false,
+          "defaultValue": "",
+          "type": "object"
+        }
+      ],
+      "attemptToConvertTypes": false,
+      "convertFieldsToString": false
+    }
+  },
+
+  "workflow_node_reference_updates": {
+    "description": "Update all node references in the target workflow from Webhook to Execute Workflow Trigger",
+    "old_references": "={{ $('Webhook').item.json.body.body.FIELD }}",
+    "new_references": "={{ $('Execute Workflow Trigger').item.json.FIELD }}",
+    "examples": {
+      "operation": "={{ $('Execute Workflow Trigger').item.json.operation }}",
+      "subOperation": "={{ $('Execute Workflow Trigger').item.json.subOperation }}",
+      "searchQuery": "={{ $('Execute Workflow Trigger').item.json.searchQuery }}",
+      "fileId": "={{ $('Execute Workflow Trigger').item.json.fileId }}",
+      "fileName": "={{ $('Execute Workflow Trigger').item.json.fileName }}"
+    }
+  }
+}

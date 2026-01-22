@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisis Alert System - {{CLIENT_NAME}}</title>
+    <style>
+        :root {
+            --crisis-red: #dc2626;
+            --crisis-orange: #ea580c;
+            --crisis-yellow: #d97706;
+            --crisis-green: #16a34a;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--crisis-red), var(--crisis-orange));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .alert-level-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: var(--gray-50);
+        }
+
+        .alert-level {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .alert-level:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .level-1 {
+            border-color: var(--crisis-green);
+        }
+
+        .level-1:hover {
+            background: #f0fdf4;
+        }
+
+        .level-2 {
+            border-color: var(--crisis-yellow);
+        }
+
+        .level-2:hover {
+            background: #fffbeb;
+        }
+
+        .level-3 {
+            border-color: var(--crisis-orange);
+        }
+
+        .level-3:hover {
+            background: #fff7ed;
+        }
+
+        .level-4 {
+            border-color: var(--crisis-red);
+        }
+
+        .level-4:hover {
+            background: #fef2f2;
+        }
+
+        .level-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .level-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .level-description {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-bottom: 15px;
+        }
+
+        .response-time {
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 5px 10px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        .level-1 .response-time {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .level-2 .response-time {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .level-3 .response-time {
+            background: #fed7aa;
+            color: #ea580c;
+        }
+
+        .level-4 .response-time {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+        .crisis-form {
+            padding: 30px;
+            display: none;
+        }
+
+        .crisis-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--gray-200);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--crisis-red);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .urgent-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .action-button {
+            background: var(--crisis-red);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .action-button:hover {
+            background: #b91c1c;
+        }
+
+        .action-button.secondary {
+            background: var(--gray-600);
+        }
+
+        .action-button.secondary:hover {
+            background: var(--gray-700);
+        }
+
+        .crisis-timer {
+            background: var(--crisis-red);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .response-checklist {
+            background: var(--gray-50);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checklist-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .checklist-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .contact-card {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .contact-role {
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 5px;
+        }
+
+        .contact-info {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-active { background: #22c55e; }
+        .status-pending { background: #f59e0b; }
+        .status-escalated { background: #ef4444; }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            body {
+                padding: 10px;
+            }
+
+            .alert-level-selector {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 Crisis Alert System</h1>
+            <p>Rapid response protocol for {{CLIENT_NAME}}</p>
+        </div>
+
+        <div id="levelSelector" class="alert-level-selector">
+            <div class="alert-level level-1" onclick="selectLevel(1)">
+                <div class="level-icon">🟢</div>
+                <div class="level-title">Level 1: Standard</div>
+                <div class="level-description">Routine customer service issues</div>
+                <div class="response-time">4 hours response</div>
+            </div>
+
+            <div class="alert-level level-2" onclick="selectLevel(2)">
+                <div class="level-icon">🟡</div>
+                <div class="level-title">Level 2: Priority</div>
+                <div class="level-description">Serious concerns requiring management</div>
+                <div class="response-time">2 hours response</div>
+            </div>
+
+            <div class="alert-level level-3" onclick="selectLevel(3)">
+                <div class="level-icon">🟠</div>
+                <div class="level-title">Level 3: Urgent</div>
+                <div class="level-description">Immediate senior management intervention</div>
+                <div class="response-time">1 hour response</div>
+            </div>
+
+            <div class="alert-level level-4" onclick="selectLevel(4)">
+                <div class="level-icon">🔴</div>
+                <div class="level-title">Level 4: Critical</div>
+                <div class="level-description">Severe reputation or legal threats</div>
+                <div class="response-time">30 min response</div>
+            </div>
+        </div>
+
+        <div id="crisisForm" class="crisis-form">
+            <div id="crisisTimer" class="crisis-timer">
+                Response Timer: <span id="timerDisplay">00:00</span>
+            </div>
+
+            <form id="alertForm">
+                <div class="form-group">
+                    <label for="issueDescription">Crisis Description</label>
+                    <textarea id="issueDescription" placeholder="Describe the crisis situation in detail..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="issueType">Crisis Type</label>
+                    <select id="issueType" required>
+                        <option value="">Select crisis type...</option>
+                        <option value="negative-review">Negative Review</option>
+                        <option value="social-media">Social Media Crisis</option>
+                        <option value="service-failure">Service Failure</option>
+                        <option value="property-damage">Property Damage</option>
+                        <option value="safety-incident">Safety Incident</option>
+                        <option value="legal-threat">Legal Threat</option>
+                        <option value="media-inquiry">Media Inquiry</option>
+                        <option value="regulatory-issue">Regulatory Issue</option>
+                        <option value="staff-behavior">Staff Behavior</option>
+                        <option value="billing-dispute">Billing Dispute</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerInfo">Customer Information</label>
+                    <input type="text" id="customerInfo" placeholder="Customer name, contact info, account details...">
+                </div>
+
+                <div class="form-group">
+                    <label for="urgencyNotes">Urgency Factors</label>
+                    <textarea id="urgencyNotes" placeholder="Why is this urgent? What's the potential impact?"></textarea>
+                </div>
+
+                <div class="urgent-actions">
+                    <button type="button" class="action-button" onclick="initiateResponse()">
+                        🚀 Initiate Crisis Response
+                    </button>
+                    <button type="button" class="action-button secondary" onclick="alertManagement()">
+                        📞 Alert Management
+                    </button>
+                    <button type="button" class="action-button secondary" onclick="documentIncident()">
+                        📋 Document Incident
+                    </button>
+                    <button type="button" class="action-button secondary" onclick="contactCustomer()">
+                        👤 Contact Customer
+                    </button>
+                </div>
+            </form>
+
+            <div class="response-checklist">
+                <h3>Crisis Response Checklist</h3>
+                <div id="checklist"></div>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-role">Management</div>
+                    <div class="contact-info">{{MANAGER_PHONE}}</div>
+                    <div class="contact-info">Available 24/7</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-role">Legal Counsel</div>
+                    <div class="contact-info">{{LEGAL_PHONE}}</div>
+                    <div class="contact-info">Business hours</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-role">Insurance</div>
+                    <div class="contact-info">{{INSURANCE_PHONE}}</div>
+                    <div class="contact-info">24/7 claims</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-role">PR Support</div>
+                    <div class="contact-info">{{PR_PHONE}}</div>
+                    <div class="contact-info">Emergency line</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedLevel = 0;
+        let responseTimer = null;
+        let startTime = null;
+
+        const checklists = {
+            1: [
+                "Document customer concern in CRM",
+                "Acknowledge receipt within 4 hours",
+                "Investigate issue thoroughly",
+                "Respond with solution or status update",
+                "Follow up within 24-48 hours"
+            ],
+            2: [
+                "Notify supervisor within 30 minutes",
+                "Personal customer contact within 2 hours",
+                "Develop resolution plan with timeline",
+                "Implement solution with customer approval",
+                "Same-day follow-up confirmation",
+                "Document lessons learned"
+            ],
+            3: [
+                "Alert senior management immediately",
+                "Personal contact within 1 hour (phone preferred)",
+                "Activate emergency response team if needed",
+                "Detailed incident investigation",
+                "Legal consultation if liability concerns",
+                "Comprehensive resolution with compensation",
+                "Multiple follow-up contacts until satisfied"
+            ],
+            4: [
+                "CEO/Owner notification within 15 minutes",
+                "Legal counsel contacted within 30 minutes",
+                "Crisis team assembled within 1 hour",
+                "Stakeholder notification (insurance, partners)",
+                "Coordinated public response within 2 hours",
+                "Legal-standard documentation",
+                "Comprehensive reputation management plan",
+                "Full organizational review initiated"
+            ]
+        };
+
+        function selectLevel(level) {
+            selectedLevel = level;
+            document.getElementById('levelSelector').style.display = 'none';
+            document.getElementById('crisisForm').classList.add('active');
+
+            // Start response timer
+            startResponseTimer(level);
+
+            // Load appropriate checklist
+            loadChecklist(level);
+
+            // Update form based on level
+            updateFormForLevel(level);
+        }
+
+        function startResponseTimer(level) {
+            const timeTargets = {
+                1: 4 * 60 * 60, // 4 hours in seconds
+                2: 2 * 60 * 60, // 2 hours in seconds
+                3: 1 * 60 * 60, // 1 hour in seconds
+                4: 30 * 60      // 30 minutes in seconds
+            };
+
+            startTime = new Date();
+            const targetSeconds = timeTargets[level];
+
+            responseTimer = setInterval(() => {
+                const now = new Date();
+                const elapsed = Math.floor((now - startTime) / 1000);
+                const remaining = targetSeconds - elapsed;
+
+                if (remaining <= 0) {
+                    document.getElementById('timerDisplay').textContent = 'OVERDUE!';
+                    document.getElementById('crisisTimer').style.background = '#dc2626';
+                    clearInterval(responseTimer);
+                } else {
+                    const hours = Math.floor(remaining / 3600);
+                    const minutes = Math.floor((remaining % 3600) / 60);
+                    const seconds = remaining % 60;
+
+                    if (hours > 0) {
+                        document.getElementById('timerDisplay').textContent =
+                            `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    } else {
+                        document.getElementById('timerDisplay').textContent =
+                            `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    }
+
+                    // Warning colors
+                    if (remaining < targetSeconds * 0.25) {
+                        document.getElementById('crisisTimer').style.background = '#dc2626';
+                    } else if (remaining < targetSeconds * 0.5) {
+                        document.getElementById('crisisTimer').style.background = '#ea580c';
+                    }
+                }
+            }, 1000);
+        }
+
+        function loadChecklist(level) {
+            const checklistContainer = document.getElementById('checklist');
+            const items = checklists[level] || [];
+
+            checklistContainer.innerHTML = items.map((item, index) => `
+                <div class="checklist-item" onclick="toggleChecklistItem(${index})">
+                    <input type="checkbox" id="check-${index}">
+                    <label for="check-${index}">${item}</label>
+                </div>
+            `).join('');
+        }
+
+        function toggleChecklistItem(index) {
+            const checkbox = document.getElementById(`check-${index}`);
+            const item = checkbox.parentElement;
+
+            checkbox.checked = !checkbox.checked;
+
+            if (checkbox.checked) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
+        }
+
+        function updateFormForLevel(level) {
+            const form = document.getElementById('alertForm');
+
+            // Add level-specific styling
+            form.classList.add(`level-${level}`);
+
+            // Update timer display color based on level
+            const timerColors = {
+                1: '#16a34a',
+                2: '#d97706',
+                3: '#ea580c',
+                4: '#dc2626'
+            };
+
+            document.getElementById('crisisTimer').style.background = timerColors[level];
+        }
+
+        function initiateResponse() {
+            const form = document.getElementById('alertForm');
+            const formData = new FormData(form);
+
+            // In a real implementation, this would:
+            // 1. Send alerts to appropriate team members
+            // 2. Create incident tracking record
+            // 3. Initiate automated response workflows
+            // 4. Log all actions for documentation
+
+            alert(`Crisis response initiated for Level ${selectedLevel}!\n\nActions taken:\n- Management notified\n- Incident documented\n- Response timer started\n- Escalation protocols activated`);
+
+            // Mark first checklist item as complete
+            const firstCheckbox = document.getElementById('check-0');
+            if (firstCheckbox) {
+                firstCheckbox.checked = true;
+                firstCheckbox.parentElement.classList.add('completed');
+            }
+        }
+
+        function alertManagement() {
+            // In real implementation, would send SMS/email/phone alerts
+            alert(`Management alert sent for Level ${selectedLevel} crisis!\n\nNotifications sent to:\n- Senior Management\n- Operations Manager\n- On-call Support Team`);
+        }
+
+        function documentIncident() {
+            const description = document.getElementById('issueDescription').value;
+            const type = document.getElementById('issueType').value;
+
+            // In real implementation, would create incident record
+            alert(`Incident documented:\n\nType: ${type}\nDescription: ${description}\nLevel: ${selectedLevel}\nTimestamp: ${new Date().toLocaleString()}`);
+        }
+
+        function contactCustomer() {
+            const customerInfo = document.getElementById('customerInfo').value;
+
+            // In real implementation, would initiate customer contact workflow
+            alert(`Customer contact initiated:\n\nCustomer: ${customerInfo}\nPriority: Level ${selectedLevel}\nResponse SLA: Active\n\nContact methods available:\n- Phone\n- Email\n- In-person visit if needed`);
+        }
+
+        // Reset function to go back to level selection
+        function resetCrisisAlert() {
+            if (responseTimer) {
+                clearInterval(responseTimer);
+            }
+
+            selectedLevel = 0;
+            document.getElementById('levelSelector').style.display = 'grid';
+            document.getElementById('crisisForm').classList.remove('active');
+            document.getElementById('alertForm').reset();
+        }
+
+        // Add reset button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add a reset button to the form
+            const resetButton = document.createElement('button');
+            resetButton.type = 'button';
+            resetButton.className = 'action-button secondary';
+            resetButton.innerHTML = '🔄 Reset Alert';
+            resetButton.onclick = resetCrisisAlert;
+
+            const actionsContainer = document.querySelector('.urgent-actions');
+            actionsContainer.appendChild(resetButton);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.node_repl_history
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+.nyc_output
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Serverless directories
+.serverless
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# API Keys and Secrets (IMPORTANT for this project)
+**/api-keys.txt
+**/secrets.txt
+**/config/secrets/
+**/.secrets/
+
+# Airtable API tokens
+**/airtable-token.txt
+**/automation/*token*
+
+# Local development files
+temp/
+tmp/
+*.tmp
+*.backup
+*.bak
+
+# Build artifacts
+build/
+dist/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache
+.cache/
+*.cache
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+planning-data/cache/
+dashboard/cache/
+automation/logs/
+
+# Deliverables (large binary files - keep local only)
+deliverables/
+*.docx
+*.pdf
+
+# Data exports (keep local only)
+*.csv
+!data/sample_*.csv
+
+# Brand-specific content (keep main branch agnostic)
+client-brand/
+client-context/brand/
+client-context/business/
+client-context/keywords/
+client-context/handoffs/
+client-context/validation/
+content/blog-posts/
+content/email-campaigns/
+content/social-media/
+content/client-documents/
+content/*.md
+onboarding/intake/
+analytics/
+content-strategy/
+strategic-output/
+
+# Brand-specific Claude configuration
+.claude/settings.local.json
+.claude/memory/
+
+# Note: System templates (content/templates/, client-context/templates/, onboarding/templates/)
+# are tracked in git on main branch but will be overridden in brand branches
+
+.ignore/.DS_Store
+**/.DS_Store
