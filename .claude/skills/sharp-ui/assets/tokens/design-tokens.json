@@ -1,0 +1,143 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "color": {
+    "sharp": {
+      "bg": {
+        "value": "#0a0a0a",
+        "type": "color",
+        "description": "Near-black page background"
+      },
+      "surface": {
+        "value": "#141414",
+        "type": "color",
+        "description": "Card and element surface"
+      },
+      "hover": {
+        "value": "#1a1a1a",
+        "type": "color",
+        "description": "Hover state background"
+      },
+      "active": {
+        "value": "#222222",
+        "type": "color",
+        "description": "Active/pressed background"
+      },
+      "border": {
+        "value": "#333333",
+        "type": "color",
+        "description": "Standard visible border"
+      },
+      "text": {
+        "value": "#ffffff",
+        "type": "color",
+        "description": "Primary text - pure white"
+      },
+      "text-muted": {
+        "value": "#888888",
+        "type": "color",
+        "description": "Secondary text and labels"
+      },
+      "accent": {
+        "value": "#00ff88",
+        "type": "color",
+        "description": "Primary accent - electric green"
+      },
+      "accent-alt": {
+        "value": "#ff3366",
+        "type": "color",
+        "description": "Secondary accent - hot pink"
+      },
+      "warning": {
+        "value": "#ffcc00",
+        "type": "color",
+        "description": "Warning state - yellow"
+      }
+    }
+  },
+  "borderRadius": {
+    "sharp": {
+      "value": "0px",
+      "type": "dimension",
+      "description": "Default - truly sharp corners"
+    },
+    "sharp-sm": {
+      "value": "2px",
+      "type": "dimension",
+      "description": "Subtle softening"
+    },
+    "sharp-md": {
+      "value": "4px",
+      "type": "dimension",
+      "description": "Maximum allowed radius"
+    }
+  },
+  "borderWidth": {
+    "sharp": {
+      "value": "2px",
+      "type": "dimension",
+      "description": "Standard border width"
+    },
+    "sharp-lg": {
+      "value": "3px",
+      "type": "dimension",
+      "description": "Emphasized border width"
+    }
+  },
+  "timing": {
+    "transition": {
+      "value": "150ms ease-out",
+      "type": "duration",
+      "description": "Default transition timing - snappy"
+    }
+  },
+  "typography": {
+    "label": {
+      "fontWeight": {
+        "value": "600",
+        "type": "fontWeight",
+        "description": "Label font weight"
+      },
+      "textTransform": {
+        "value": "uppercase",
+        "type": "textTransform",
+        "description": "Labels are always uppercase"
+      },
+      "letterSpacing": {
+        "value": "0.05em",
+        "type": "dimension",
+        "description": "Wide tracking for labels"
+      }
+    },
+    "heading": {
+      "fontWeight": {
+        "value": "700",
+        "type": "fontWeight",
+        "description": "Heading font weight"
+      },
+      "letterSpacing": {
+        "value": "-0.01em",
+        "type": "dimension",
+        "description": "Tight tracking for headings"
+      }
+    }
+  },
+  "spacing": {
+    "padding": {
+      "sm": {
+        "value": "12px",
+        "type": "dimension",
+        "description": "Small padding"
+      },
+      "md": {
+        "value": "16px",
+        "type": "dimension",
+        "description": "Medium padding"
+      },
+      "lg": {
+        "value": "20px",
+        "type": "dimension",
+        "description": "Large padding"
+      }
+    }
+  }
+}

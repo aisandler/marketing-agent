@@ -1,0 +1,135 @@
+/**
+ * Sharp UI Design System - CSS Custom Properties
+ *
+ * Use for non-Tailwind projects or as CSS variable layer.
+ * Dark theme only - brutalist design works best in dark mode.
+ */
+
+:root {
+  /* ===== Colors - Backgrounds ===== */
+  --sharp-bg: #0a0a0a;
+  --sharp-surface: #141414;
+  --sharp-hover: #1a1a1a;
+  --sharp-active: #222222;
+
+  /* ===== Colors - Borders ===== */
+  --sharp-border: #333333;
+  --sharp-border-focus: #00ff88;
+
+  /* ===== Colors - Text ===== */
+  --sharp-text: #ffffff;
+  --sharp-text-muted: #888888;
+
+  /* ===== Colors - Accents ===== */
+  --sharp-accent: #00ff88;
+  --sharp-accent-alt: #ff3366;
+  --sharp-warning: #ffcc00;
+
+  /* ===== Border Radius ===== */
+  --radius-sharp: 0px;
+  --radius-sharp-sm: 2px;
+  --radius-sharp-md: 4px;
+
+  /* ===== Border Width ===== */
+  --border-sharp: 2px;
+  --border-sharp-lg: 3px;
+
+  /* ===== Transitions ===== */
+  --transition-sharp: 150ms ease-out;
+
+  /* ===== Focus Ring ===== */
+  --ring-sharp: 0 0 0 2px var(--sharp-accent);
+  --ring-sharp-alt: 0 0 0 2px var(--sharp-accent-alt);
+
+  /* ===== Typography ===== */
+  --font-sharp-label: 600;
+  --font-sharp-heading: 700;
+  --tracking-sharp-label: 0.05em;
+  --tracking-sharp-heading: -0.01em;
+}
+
+/* ===== Utility Classes ===== */
+
+.sharp-card {
+  background: var(--sharp-surface);
+  border: var(--border-sharp) solid var(--sharp-border);
+  border-radius: var(--radius-sharp);
+  transition: all var(--transition-sharp);
+}
+
+.sharp-card:hover {
+  background: var(--sharp-hover);
+}
+
+.sharp-card--accent {
+  border-color: var(--sharp-accent);
+}
+
+.sharp-button {
+  padding: 10px 20px;
+  border: var(--border-sharp) solid var(--sharp-border);
+  border-radius: var(--radius-sharp);
+  font-weight: var(--font-sharp-label);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-sharp-label);
+  transition: all var(--transition-sharp);
+}
+
+.sharp-button--primary {
+  background: transparent;
+  color: var(--sharp-accent);
+  border-color: var(--sharp-accent);
+}
+
+.sharp-button--primary:hover {
+  background: var(--sharp-accent);
+  color: var(--sharp-bg);
+}
+
+.sharp-button--secondary {
+  background: var(--sharp-surface);
+  color: var(--sharp-text);
+  border-color: var(--sharp-border);
+}
+
+.sharp-button--secondary:hover {
+  background: var(--sharp-hover);
+  border-color: var(--sharp-text-muted);
+}
+
+.sharp-input {
+  background: var(--sharp-bg);
+  border: var(--border-sharp) solid var(--sharp-border);
+  border-radius: var(--radius-sharp);
+  padding: 10px 12px;
+  color: var(--sharp-text);
+  transition: all var(--transition-sharp);
+}
+
+.sharp-input:focus {
+  outline: none;
+  border-color: var(--sharp-accent);
+  box-shadow: var(--ring-sharp);
+}
+
+.sharp-input::placeholder {
+  color: var(--sharp-text-muted);
+}
+
+.sharp-label {
+  font-size: 10px;
+  font-weight: var(--font-sharp-label);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-sharp-label);
+  color: var(--sharp-text-muted);
+}
+
+.sharp-divider {
+  height: var(--border-sharp);
+  background: var(--sharp-border);
+  border: none;
+}
+
+.sharp-divider--accent {
+  background: var(--sharp-accent);
+}

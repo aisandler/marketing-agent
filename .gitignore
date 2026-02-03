@@ -173,6 +173,7 @@ strategic-output/
 # Brand-specific Claude configuration
 .claude/settings.local.json
 .claude/memory/
+__pycache__/
 
 # Note: System templates (content/templates/, client-context/templates/, onboarding/templates/)
 # are tracked in git on main branch but will be overridden in brand branches

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "color": {
+    "soft": {
+      "indigo": {
+        "50": { "value": "#eef2ff", "type": "color", "description": "Very light indigo - backgrounds" },
+        "100": { "value": "#e0e7ff", "type": "color", "description": "Light indigo - hover backgrounds" },
+        "200": { "value": "#c7d2fe", "type": "color", "description": "Light accent" },
+        "300": { "value": "#a5b4fc", "type": "color", "description": "Medium light" },
+        "400": { "value": "#8b9cf8", "type": "color", "description": "Hover state accent" },
+        "500": { "value": "#6b7cf0", "type": "color", "description": "Primary accent color" },
+        "600": { "value": "#5566e8", "type": "color", "description": "Pressed/active accent" }
+      },
+      "dark": {
+        "100": { "value": "#1e2128", "type": "color", "description": "Lightest dark - sidebar backgrounds" },
+        "200": { "value": "#252931", "type": "color", "description": "Standard card background" },
+        "300": { "value": "#2d323c", "type": "color", "description": "Hover state surface" },
+        "400": { "value": "#363c48", "type": "color", "description": "Active/pressed surface" },
+        "500": { "value": "#14171d", "type": "color", "description": "Deepest dark - page background" }
+      },
+      "light": {
+        "100": { "value": "#ffffff", "type": "color", "description": "Card surfaces (pure white)" },
+        "200": { "value": "#f8fafc", "type": "color", "description": "Page background (slate-50)" },
+        "300": { "value": "#f1f5f9", "type": "color", "description": "Hover state (slate-100)" },
+        "400": { "value": "#e2e8f0", "type": "color", "description": "Borders, dividers (slate-200)" },
+        "500": { "value": "#cbd5e1", "type": "color", "description": "Disabled state (slate-300)" }
+      }
+    },
+    "text": {
+      "dark": {
+        "primary": { "value": "#e2e8f0", "type": "color", "description": "Primary text in dark mode" },
+        "secondary": { "value": "#94a3b8", "type": "color", "description": "Secondary text in dark mode" },
+        "muted": { "value": "#64748b", "type": "color", "description": "Muted text in dark mode" },
+        "disabled": { "value": "#475569", "type": "color", "description": "Disabled text in dark mode" }
+      },
+      "light": {
+        "primary": { "value": "#1e293b", "type": "color", "description": "Primary text in light mode" },
+        "secondary": { "value": "#64748b", "type": "color", "description": "Secondary text in light mode" },
+        "muted": { "value": "#94a3b8", "type": "color", "description": "Muted text in light mode" },
+        "disabled": { "value": "#cbd5e1", "type": "color", "description": "Disabled text in light mode" }
+      }
+    },
+    "border": {
+      "dark": {
+        "default": { "value": "rgba(255, 255, 255, 0.06)", "type": "color", "description": "Default border in dark mode" },
+        "hover": { "value": "rgba(255, 255, 255, 0.12)", "type": "color", "description": "Hover border in dark mode" },
+        "focus": { "value": "rgba(107, 124, 240, 0.5)", "type": "color", "description": "Focus border" }
+      },
+      "light": {
+        "default": { "value": "rgba(226, 232, 240, 0.6)", "type": "color", "description": "Default border in light mode" },
+        "hover": { "value": "rgba(203, 213, 225, 0.8)", "type": "color", "description": "Hover border in light mode" },
+        "focus": { "value": "rgba(107, 124, 240, 0.5)", "type": "color", "description": "Focus border" }
+      }
+    }
+  },
+  "borderRadius": {
+    "soft": { "value": "12px", "type": "dimension", "description": "Buttons, inputs, small elements" },
+    "soft-lg": { "value": "16px", "type": "dimension", "description": "Cards, sections" },
+    "soft-xl": { "value": "20px", "type": "dimension", "description": "Modals, large containers" }
+  },
+  "boxShadow": {
+    "soft": {
+      "value": "0 4px 24px -4px rgba(0, 0, 0, 0.12)",
+      "type": "shadow",
+      "description": "Standard elevation (dark mode)"
+    },
+    "soft-lg": {
+      "value": "0 8px 40px -8px rgba(0, 0, 0, 0.16)",
+      "type": "shadow",
+      "description": "Large elevation (dark mode)"
+    },
+    "soft-glow": {
+      "value": "0 0 20px -4px rgba(107, 124, 240, 0.3)",
+      "type": "shadow",
+      "description": "Indigo glow effect for focus/active states"
+    },
+    "soft-light": {
+      "value": "0 4px 24px -4px rgba(0, 0, 0, 0.06)",
+      "type": "shadow",
+      "description": "Standard elevation (light mode)"
+    },
+    "soft-light-lg": {
+      "value": "0 8px 40px -8px rgba(0, 0, 0, 0.08)",
+      "type": "shadow",
+      "description": "Large elevation (light mode)"
+    },
+    "soft-glow-light": {
+      "value": "0 0 20px -4px rgba(107, 124, 240, 0.2)",
+      "type": "shadow",
+      "description": "Indigo glow effect (light mode, reduced)"
+    }
+  },
+  "timing": {
+    "transition": {
+      "value": "200ms ease-out",
+      "type": "duration",
+      "description": "Default transition timing"
+    },
+    "transition-slow": {
+      "value": "300ms ease-out",
+      "type": "duration",
+      "description": "Slower transition for toggles"
+    }
+  },
+  "spacing": {
+    "padding": {
+      "sm": { "value": "12px", "type": "dimension", "description": "Small padding" },
+      "md": { "value": "16px", "type": "dimension", "description": "Medium padding" },
+      "lg": { "value": "20px", "type": "dimension", "description": "Large padding" }
+    }
+  }
+}
