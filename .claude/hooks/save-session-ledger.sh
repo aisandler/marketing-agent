@@ -1,6 +1,7 @@
 #!/bin/bash
 # SessionEnd hook: Append session summary to context intelligence ledger
 # Captures session metadata for the /analyst command's internal data dependencies
+# Detects which command (/cmo, /analyst, /onboard) was used during the session
 
 INPUT=$(cat)
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
@@ -12,6 +13,25 @@ REASON=$(echo "$INPUT" | jq -r '.reason // "unknown"')
 TRANSCRIPT=$(echo "$INPUT" | jq -r '.transcript_path // "n/a"')
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DATE_SLUG=$(date '+%Y-%m-%d')
+
+# Detect command used by scanning transcript
+COMMAND="unknown"
+if [ -f "$TRANSCRIPT" ]; then
+  # Search for command invocations in the transcript, take the last match
+  if grep -q '/cmo' "$TRANSCRIPT" 2>/dev/null; then
+    COMMAND="cmo"
+  fi
+  if grep -q '/analyst' "$TRANSCRIPT" 2>/dev/null; then
+    COMMAND="analyst"
+  fi
+  if grep -q '/onboard' "$TRANSCRIPT" 2>/dev/null; then
+    COMMAND="onboard"
+  fi
+  if grep -q '/report' "$TRANSCRIPT" 2>/dev/null; then
+    COMMAND="report"
+  fi
+  # If multiple commands found, the last assignment wins (last command used)
+fi
 
 # Create ledger with header if it doesn't exist
 if [ ! -f "$LEDGER" ]; then
@@ -32,6 +52,7 @@ cat >> "$LEDGER" << EOF
 ### Session: $DATE_SLUG ($SESSION_ID)
 - **Ended:** $TIMESTAMP
 - **Reason:** $REASON
+- **Command:** $COMMAND
 - **Transcript:** $TRANSCRIPT
 
 ---

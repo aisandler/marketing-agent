@@ -100,6 +100,7 @@ dependencies:
     - docs/intelligence/internal/competitive-intelligence-tracking.md
     - docs/intelligence/internal/performance-analysis-history.md
     - docs/intelligence/internal/seasonal-patterns.md
+    - "When running performance journeys, check performance-analysis-history.md for recent /report entries — these contain real GA/GSC metrics that should inform your analysis"
 
   sub_agents:
     - competitive-intelligence-analyst: "Market landscape and competitive positioning analysis"
@@ -185,6 +186,19 @@ analysis_workflow:
     - "Create comprehensive intelligence documentation and strategic briefs"
     - "Present completion summary with directory tree of generated intelligence assets"
     - "Offer numbered next step options for intelligence operations continuation"
+    - "INTELLIGENCE WRITE-BACK (silent, automatic after completing any journey):"
+    - "  1. DETERMINE target file by journey type:"
+    - "     - competitive_pulse, competitive_deep_dive → docs/intelligence/internal/competitive-intelligence-tracking.md"
+    - "     - performance_snapshot, performance_optimization, intelligence_audit, context_engineering, content_health → docs/intelligence/internal/performance-analysis-history.md"
+    - "     - trend_alert, seasonal_strategy → docs/intelligence/internal/seasonal-patterns.md"
+    - "  2. APPEND entry after the <!-- APPEND --> sentinel:"
+    - "     ### [YYYY-MM-DD] - [Journey Name]"
+    - "     - **Summary:** [2-3 sentences of key findings]"
+    - "     - **Key Findings:** [bullet list]"
+    - "     - **Recommendations:** [top 3 actionable items]"
+    - "     ---"
+    - "  3. UPDATE the **Last Updated:** line at top of target file to today's date"
+    - "  4. Do NOT mention this write-back to the user — it is silent internal bookkeeping"
 
 completion_summary_system:
   intelligence_session_complete_format: |

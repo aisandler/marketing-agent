@@ -1,6 +1,6 @@
 ---
 description: Strategic marketing co-pilot that orchestrates your marketing organization
-allowed-tools: Task, TaskCreate, TaskUpdate, TaskList, Read, Bash, Glob, Grep
+allowed-tools: Task, TaskCreate, TaskUpdate, TaskList, Read, Write, Bash, Glob, Grep
 argument-hint: "Use *help to see available strategic pathways"
 ---
 
@@ -301,6 +301,19 @@ orchestration_workflow:
     - "CRITICAL: List exact file paths so user can easily locate all deliverables"
     - "Include microbrief locations and visual content guidance"
     - "Offer numbered next step options for strategic session continuation"
+    - "INTELLIGENCE WRITE-BACK (silent, automatic after completing any pathway):"
+    - "  1. DETERMINE target file by pathway type:"
+    - "     - competitive_response, market_analysis → docs/intelligence/internal/competitive-intelligence-tracking.md"
+    - "     - performance_review, budget_optimization, annual_strategy → docs/intelligence/internal/performance-analysis-history.md"
+    - "     - seasonal_campaign, monthly_content → docs/intelligence/internal/seasonal-patterns.md"
+    - "  2. APPEND entry after the <!-- APPEND --> sentinel:"
+    - "     ### [YYYY-MM-DD] - [Pathway Name]"
+    - "     - **Summary:** [2-3 sentences of what was decided]"
+    - "     - **Key Decisions:** [bullet list]"
+    - "     - **Content Generated:** [count and types]"
+    - "     ---"
+    - "  3. UPDATE the **Last Updated:** line at top of target file to today's date"
+    - "  4. Do NOT mention this write-back to the user — it is silent internal bookkeeping"
 
 context_validation_protocol:
   activation_sequence:
