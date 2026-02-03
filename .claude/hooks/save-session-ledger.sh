@@ -30,6 +30,9 @@ if [ -f "$TRANSCRIPT" ]; then
   if grep -q '/report' "$TRANSCRIPT" 2>/dev/null; then
     COMMAND="report"
   fi
+  if grep -q '/transcript' "$TRANSCRIPT" 2>/dev/null; then
+    COMMAND="transcript"
+  fi
   # If multiple commands found, the last assignment wins (last command used)
 fi
 
