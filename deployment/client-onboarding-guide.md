@@ -22,7 +22,7 @@ A step-by-step, slash-command driven process for onboarding new clients with com
 **Step 1: Business Fundamentals**
 ```
 Client Name: [Auto-filled from command]
-Industry Type: [Dropdown: pest_control, hvac, roofing, landscaping, etc.]
+Industry Type: [Dropdown: home_services, hvac, roofing, landscaping, legal, real_estate, etc.]
 Business Model: [local_service, franchise, multi_location, etc.]
 Service Area: [Geographic coverage]
 Website URL: [For analysis]

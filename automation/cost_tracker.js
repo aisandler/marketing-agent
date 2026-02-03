@@ -259,7 +259,7 @@ if (require.main === module) {
     const sampleContent = {
         id: 'test_001',
         contentType: 'Blog Post',
-        description: 'Fall Pest Prevention Guide for Illinois Homeowners',
+        description: 'Fall Prevention Guide for Local Homeowners',
         images_required: true,
         searchVolume: 450,
         expected_leads: 3,

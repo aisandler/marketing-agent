@@ -68,7 +68,7 @@ push_to_airtable() {
     "Content Type": "$content_type",
     "Priority": "$priority",
     "Target Location": "Multi-State",
-    "Pest Type": "General",
+    "Service Category": "General",
     "Content Format": "$content_format",
     "Seasonal Relevance": "Fall",
     "Notes": "LOCAL generation - AUTO_INITIALIZE_TRIGGER - Direct Claude Code submission with content quality validation"
@@ -161,16 +161,16 @@ Optional Arguments:
 
 Examples:
   # Blog Post with full metadata
-  $0 --description "Comprehensive fall pest prevention guide" \\
+  $0 --description "Comprehensive fall service preparation guide" \\
      --type "Blog Post" \\
      --priority "HIGH" \\
-     --keywords "fall pest prevention,stink bugs,mice" \\
+     --keywords "fall service tips,seasonal maintenance,home preparation" \\
      --search-volume "8200" \\
      --publication-date "2024-09-20" \\
      --source-file "content/blog-posts/fall-guide.md"
 
   # Social Media Post
-  $0 --description "Fall pest alert for homeowners" \\
+  $0 --description "Fall service alert for homeowners" \\
      --type "Social Media" \\
      --priority "MEDIUM" \\
      --publication-date "2024-09-18"

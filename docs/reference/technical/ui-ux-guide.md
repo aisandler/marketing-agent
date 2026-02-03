@@ -71,7 +71,7 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 │ │ ▒ 52 paid customers                                             │ │
 │ │                                                                 │ │
 │ │ 🔍 Key Insight: Landing page optimization needed               │ │
-│ │ 💡 Recommendation: Test pest control methodology headlines     │ │
+│ │ 💡 Recommendation: Test content strategy methodology headlines     │ │
 │ └─────────────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -102,7 +102,7 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 │ 📝 TODAY'S CONTENT PRIORITIES                                       │
 │ ┌─────────────────────────────────────────────────────────────────┐ │
 │ │ 🔥 URGENT (Due Today)                                           │ │
-│ │ ├─ Pest Control Guide Review (Due: 2:00 PM)                     │ │
+│ │ ├─ Content Strategy Guide Review (Due: 2:00 PM)                     │ │
 │ │ │  Status: 📋 Ready for Review | Agent: 2 | Est: 45 min        │ │
 │ │ │  [REVIEW NOW] [Delegate] [Reschedule]                        │ │
 │ │ ├─ LinkedIn Article Publication (Due: 4:00 PM)                  │ │
@@ -167,13 +167,13 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Step 2 of 4: Content Creation                                      │
 ├─────────────────────────────────────────────────────────────────────┤
-│ Title: [How Pest Control AI Coaching Transforms Sales Teams      ] │
-│ Slug: [pest-control-ai-coaching-transformation                   ] │
+│ Title: [How Content Strategy AI Coaching Transforms Sales Teams      ] │
+│ Slug: [content-strategy-ai-coaching-transformation                   ] │
 │ ┌─────────────────────────────────────────────────────────────────┐ │
 │ │ 🤖 AI Title Suggestions (Based on High-Converting Content):     │ │
-│ │ • "Stop Guessing: How AI Perfects Your Pest Control"           │ │
-│ │ • "Pest Control Secrets: What AI Analysis Reveals"             │ │
-│ │ • "Turn Every Call Into a Pest Control Masterclass"            │ │
+│ │ • "Stop Guessing: How AI Perfects Your Content Strategy"           │ │
+│ │ • "Content Strategy Secrets: What AI Analysis Reveals"             │ │
+│ │ • "Turn Every Call Into a Content Strategy Masterclass"            │ │
 │ │ [USE SUGGESTION] [GENERATE MORE] [OPTIMIZE CURRENT]             │ │
 │ └─────────────────────────────────────────────────────────────────┘ │
 ├─────────────────────────────────────────────────────────────────────┤
@@ -181,14 +181,14 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 │ ┌─────────────────────────────────────────────────────────────────┐ │
 │ │ [B] [I] [Link] [Image] [CTA] [Stats] [Quote] [Video]            │ │
 │ │ ─────────────────────────────────────────────────────────────── │ │
-│ │ # How Pest Control AI Coaching Transforms Sales Teams          │ │
+│ │ # How Content Strategy AI Coaching Transforms Sales Teams          │ │
 │ │                                                                 │ │
 │ │ Did you know that 73% of salespeople can't accurately predict  │ │
 │ │ deal outcomes after their calls? The problem isn't their       │ │
 │ │ skills—it's their ability to objectively analyze what          │ │
 │ │ happened during each conversation.                              │ │
 │ │                                                                 │ │
-│ │ That's where AI-powered pest control analysis becomes a        │ │
+│ │ That's where AI-powered content strategy analysis becomes a        │ │
 │ │ game-changer. Instead of relying on gut feelings and          │ │
 │ │ subjective self-assessment...                                  │ │
 │ │                                                                 │ │
@@ -198,7 +198,7 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 │ 🤖 AI WRITING ASSISTANT                                             │
 │ ┌─────────────────────────────────────────────────────────────────┐ │
 │ │ 💡 Content Suggestions:                                         │ │
-│ │ • Add specific pest control methodology examples                │ │
+│ │ • Add specific content strategy methodology examples                │ │
 │ │ • Include {{COMPANY_NAME}} feature callouts                                │ │
 │ │ • Insert social proof/customer testimonials                    │ │
 │ │ • Add clear call-to-action for service request                 │ │
@@ -246,7 +246,7 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 ├─────────────────────────┤
 │ 🎯 TODAY'S FOCUS        │
 │ ┌─────────────────────┐ │
-│ │ 🔍 pest control Market     │ │
+│ │ 🔍 content strategy Market     │ │
 │ │ Trends Research     │ │
 │ │                     │ │
 │ │ ⏱️ Due: 6:00 PM      │ │
@@ -292,19 +292,19 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 │ [Blog Post      ▼]      │
 │                         │
 │ Topic Focus:            │
-│ [Pest Control   ▼]      │
+│ [Content Strategy   ▼]      │
 │                         │
 │ Target Persona:         │
 │ [Sales Managers ▼]      │
 ├─────────────────────────┤
 │ 📝 TITLE                │
 │ ┌─────────────────────┐ │
-│ │ How Pest Control    │ │
+│ │ How Content Strategy    │ │
 │ │ Transforms Sales    │ │
 │ │ Performance         │ │
 │ └─────────────────────┘ │
 │ 💡 AI suggests:         │
-│ "Stop Guessing: pest control    │
+│ "Stop Guessing: content strategy    │
 │ Selling Secrets"        │
 │ [USE SUGGESTION]        │
 ├─────────────────────────┤
@@ -344,11 +344,11 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 ├─────────────────────────┤
 │ 📝 TRANSCRIPTION        │
 │ ┌─────────────────────┐ │
-│ │ "pest control is    │ │
+│ │ "content strategy is    │ │
 │ │ becoming more       │ │
 │ │ important than ever │ │
 │ │ in the age of AI    │ │
-│ │ pest control education.     │ │
+│ │ content strategy education.     │ │
 │ │ Sales managers need │ │
 │ │ better tools to..."  │ │
 │ └─────────────────────┘ │
@@ -396,7 +396,7 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 ├─────────────────────────┤
 │ 🔥 TOP CONTENT TODAY    │
 │ ┌─────────────────────┐ │
-│ │ Pest Control Guide  │ │
+│ │ Content Strategy Guide  │ │
 │ │ 89 views, 3 trials  │ │
 │ │ 📊 3.4% conversion  │ │
 │ └─────────────────────┘ │
@@ -433,7 +433,7 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 ├─────────────────────────┤
 │ 🎯 OFFLINE TASKS        │
 │ ┌─────────────────────┐ │
-│ │ Continue pest control       │ │
+│ │ Continue content strategy       │ │
 │ │ research writing    │ │
 │ │ [OPEN DRAFT]        │ │
 │ └─────────────────────┘ │
@@ -462,12 +462,12 @@ Comprehensive user interface and experience system for {{COMPANY_NAME}}'s web-ba
 │ │ ████████████████████████▒▒▒▒▒▒▒▒▒▒▒ 53% (2:30 PM checkpoint)    │ │
 │ │                                                                 │ │
 │ │ 🔥 ACTIVE CAMPAIGNS                                             │ │
-│ │ ├─ Pest Control Campaign: 3 agents active, 2 deliverables due  │ │
+│ │ ├─ Content Strategy Campaign: 3 agents active, 2 deliverables due  │ │
 │ │ ├─ LinkedIn Thought Leadership: 2 agents, content ready        │ │
 │ │ └─ Trial Conversion Optimization: 4 agents, A/B test running   │ │
 │ │                                                                 │ │
 │ │ ⚡ REAL-TIME COORDINATION NEEDED                                │ │
-│ │ • Agent 2 & 5: pest control content review alignment (30 min overdue)  │ │
+│ │ • Agent 2 & 5: content strategy content review alignment (30 min overdue)  │ │
 │ │ • Agent 6 & 7: LinkedIn promotion timing conflict              │ │
 │ │ • Agent 8 & 9: Video script approval bottleneck                │ │
 │ └─────────────────────────────────────────────────────────────────┘ │

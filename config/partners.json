@@ -1,0 +1,38 @@
+{
+  "$schema": "./partners.schema.json",
+  "_comment": "Partner configuration - customize for your team. Run /onboard to auto-generate.",
+
+  "accounts": {
+    "partner1": ["Partner1 LinkedIn"],
+    "company": ["Company LinkedIn"]
+  },
+
+  "names": {
+    "all": "All Partners",
+    "partner1": "Partner One Name",
+    "company": "Company Name"
+  },
+
+  "initials": {
+    "partner1": "P1",
+    "company": "CO"
+  },
+
+  "colors": {
+    "partner1": {
+      "border": "border-l-blue-500",
+      "bg": "bg-blue-500",
+      "text": "text-blue-600"
+    },
+    "company": {
+      "border": "border-l-emerald-500",
+      "bg": "bg-emerald-500",
+      "text": "text-emerald-600"
+    }
+  },
+
+  "emails": {
+    "partner1": "",
+    "company": ""
+  }
+}

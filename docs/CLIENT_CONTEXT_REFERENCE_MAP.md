@@ -130,7 +130,7 @@ Services: content/client-samples/services/services-list-updated.md
 - [ ] Keywords sourced from content/client-samples/keywords/keyword-list-updated.md
 - [ ] Messaging follows content/client-samples/branding/storybrand-framework-complete.md
 - [ ] Service descriptions align with content/client-samples/services/services-list-updated.md
-- [ ] Contact info uses (815) 284-4101 from company profile
+- [ ] Contact info uses {{PHONE_NUMBER}} from company profile
 
 ### **For System Integration**
 - [ ] All file paths point to content/client-samples/ structure  

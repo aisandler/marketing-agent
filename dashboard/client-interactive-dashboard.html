@@ -2656,7 +2656,7 @@
                 <div class="airtable-section">
                     <p style="color: #666; margin-bottom: 20px; padding: 0 20px; padding-top: 16px;">
                         View your content from Airtable in different formats.
-                        <br><a href="https://airtable.com/appS6XjjRUrELJRgC/" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: 500;">
+                        <br><a href="https://airtable.com/YOUR_BASE_ID/" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: 500;">
                             🔗 Open Full Airtable Base
                         </a>
                         <br><a href="email-preview.html" target="_blank" style="color: #ef4444; text-decoration: none; font-weight: 500;">
@@ -2678,10 +2678,10 @@
                     <div class="tab-content" style="padding: 20px;">
                         <!-- Planned - Card View -->
                         <div id="inventory-card" class="tab-pane active">
-                            <div class="iframe-container" data-src="https://airtable.com/embed/appS6XjjRUrELJRgC/shr9MzUotKm1GFD3C?layout=card&viewControls=on">
+                            <div class="iframe-container" data-src="https://airtable.com/embed/YOUR_BASE_ID/shr9MzUotKm1GFD3C?layout=card&viewControls=on">
                                 <iframe 
                                     class="airtable-embed" 
-                                    src="https://airtable.com/embed/appS6XjjRUrELJRgC/shr9MzUotKm1GFD3C?layout=card&viewControls=on" 
+                                    src="https://airtable.com/embed/YOUR_BASE_ID/shr9MzUotKm1GFD3C?layout=card&viewControls=on" 
                                     frameborder="0" 
                                     onmousewheel="" 
                                     width="100%" 
@@ -2693,7 +2693,7 @@
                         
                         <!-- In Production - Card View -->
                         <div id="todo-card" class="tab-pane">
-                            <div class="iframe-container" data-src="https://airtable.com/embed/appS6XjjRUrELJRgC/shrXePkz0qqKaflso?layout=card&viewControls=on">
+                            <div class="iframe-container" data-src="https://airtable.com/embed/YOUR_BASE_ID/shrXePkz0qqKaflso?layout=card&viewControls=on">
                                 <div class="loading-placeholder">
                                     <p>🎴 Loading In Production View...</p>
                                     <p style="color: #666; font-size: 14px;">Click to load this view</p>
@@ -2703,7 +2703,7 @@
                         
                         <!-- Ready - Card View -->
                         <div id="ready-card" class="tab-pane">
-                            <div class="iframe-container" data-src="https://airtable.com/embed/appS6XjjRUrELJRgC/shrLHz4uxUAYFwsaj?layout=card&viewControls=on">
+                            <div class="iframe-container" data-src="https://airtable.com/embed/YOUR_BASE_ID/shrLHz4uxUAYFwsaj?layout=card&viewControls=on">
                                 <div class="loading-placeholder">
                                     <p>✅ Loading Ready View...</p>
                                     <p style="color: #666; font-size: 14px;">Click to load this view</p>
@@ -3534,26 +3534,16 @@
                 seasonalKeyword = 'summer';
             }
             
-            // Extract pest type
-            let pestType = 'General';
-            if (inputLower.includes('ant')) pestType = 'Ants';
-            else if (inputLower.includes('spider')) pestType = 'Spiders';
-            else if (inputLower.includes('rodent') || inputLower.includes('mice') || inputLower.includes('rat')) pestType = 'Rodents';
-            else if (inputLower.includes('termite')) pestType = 'Termites';
-            else if (inputLower.includes('mosquito')) pestType = 'Mosquitoes';
-            else if (inputLower.includes('wasp') || inputLower.includes('bee')) pestType = 'Wasps';
+            // Extract service category
+            // TODO: Load service categories from config/brand.json for config-driven detection
+            // For now, uses 'General' as default. Override via the form dropdown.
+            let serviceCategory = 'General';
             
             // Extract location focus
+            // TODO: Load location list from config for config-driven detection
             let primaryLocation = 'Multi-State';
             let locationFocus = false;
-            if (inputLower.includes('illinois') || inputLower.includes('dixon') || inputLower.includes('sycamore')) {
-                locationFocus = true;
-                if (inputLower.includes('dixon')) primaryLocation = 'Dixon IL';
-                else if (inputLower.includes('sycamore')) primaryLocation = 'Sycamore IL';
-                else if (inputLower.includes('rockford')) primaryLocation = 'Rockford IL';
-                else if (inputLower.includes('dekalb')) primaryLocation = 'DeKalb IL';
-                else primaryLocation = 'Illinois';
-            }
+            // Location detection is config-driven; override via the form dropdown
             
             // Extract theme/focus
             let theme = 'prevention';
@@ -3568,7 +3558,7 @@
                 let description, targetLocation, contentFormat, priority, keywords, notes;
                 
                 if (defaultContentType === 'Social Media') {
-                    // Social media posts are location-agnostic per Brad's rules
+                    // Social media posts are typically location-agnostic
                     targetLocation = 'Multi-State';
                     contentFormat = i % 2 === 0 ? 'Facebook Post' : 'Instagram Post';
                     priority = 'MEDIUM';
@@ -3582,55 +3572,56 @@
                         'Checklist', 'Alert Post', 'Tips Series', 'How-To'
                     ];
                     
-                    if (pestType === 'General') {
-                        description = `${season} Pest ${topics[i % topics.length]} - ${formats[i % formats.length]}`;
-                        keywords = `${seasonalKeyword} pest ${theme}`;
+                    if (serviceCategory === 'General') {
+                        description = `${season} ${topics[i % topics.length]} - ${formats[i % formats.length]}`;
+                        keywords = `${seasonalKeyword} ${theme}`;
                     } else {
-                        description = `${season} ${pestType} ${topics[i % topics.length]} - ${formats[i % formats.length]}`;
-                        keywords = `${seasonalKeyword} ${pestType.toLowerCase()} ${theme}`;
+                        description = `${season} ${serviceCategory} ${topics[i % topics.length]} - ${formats[i % formats.length]}`;
+                        keywords = `${seasonalKeyword} ${serviceCategory.toLowerCase()} ${theme}`;
                     }
-                    
-                    notes = 'Location-agnostic per Brad rules';
+
+                    notes = 'Location-agnostic content';
                     
                 } else if (defaultContentType === 'Blog Post') {
                     // Blog posts can be location-specific
-                    const locations = ['Dixon IL', 'Sycamore IL', 'Rockford IL', 'DeKalb IL'];
-                    targetLocation = locationFocus ? (primaryLocation !== 'Illinois' ? primaryLocation : locations[i % locations.length]) : locations[i % locations.length];
+                    // TODO: Load locations from config
+                    const locations = ['Multi-State'];
+                    targetLocation = locationFocus ? primaryLocation : locations[i % locations.length];
                     contentFormat = 'WordPress Blog';
-                    priority = targetLocation.includes('Dixon') || targetLocation.includes('Sycamore') ? 'HIGH' : 'MEDIUM';
-                    
+                    priority = 'MEDIUM';
+
                     const blogTopics = [
                         'Complete Guide', 'Expert Solutions', 'Homeowner Guide', 'Seasonal Strategy',
                         'Professional Tips', 'Advanced Methods', 'Comprehensive Plan', 'Local Solutions'
                     ];
-                    
-                    if (pestType === 'General') {
-                        description = `${targetLocation} ${season} Pest ${theme.charAt(0).toUpperCase() + theme.slice(1)} - ${blogTopics[i % blogTopics.length]}`;
-                        keywords = `${seasonalKeyword} pest ${theme} ${targetLocation}`;
+
+                    if (serviceCategory === 'General') {
+                        description = `${targetLocation} ${season} ${theme.charAt(0).toUpperCase() + theme.slice(1)} - ${blogTopics[i % blogTopics.length]}`;
+                        keywords = `${seasonalKeyword} ${theme} ${targetLocation}`;
                     } else {
-                        description = `${targetLocation} ${season} ${pestType} ${theme.charAt(0).toUpperCase() + theme.slice(1)} - ${blogTopics[i % blogTopics.length]}`;
-                        keywords = `${seasonalKeyword} ${pestType.toLowerCase()} ${theme} ${targetLocation}`;
+                        description = `${targetLocation} ${season} ${serviceCategory} ${theme.charAt(0).toUpperCase() + theme.slice(1)} - ${blogTopics[i % blogTopics.length]}`;
+                        keywords = `${seasonalKeyword} ${serviceCategory.toLowerCase()} ${theme} ${targetLocation}`;
                     }
-                    
-                    notes = targetLocation.includes('Dixon') || targetLocation.includes('Sycamore') ? 'Office location priority' : 'Market expansion content';
+
+                    notes = 'Content for target location';
                     
                 } else {
                     // Location pages
-                    const locations = ['Naperville IL', 'Wheaton IL', 'Aurora IL', 'Batavia IL'];
+                    // TODO: Load locations from config
+                    const locations = ['Multi-State'];
                     targetLocation = locations[i % locations.length];
                     contentFormat = 'Landing Page';
                     priority = 'MEDIUM';
-                    
-                    description = `${targetLocation} Pest Control Services`;
-                    keywords = `pest control ${targetLocation}`;
+
+                    description = `${targetLocation} Services`;
+                    keywords = `services ${targetLocation}`;
                     notes = 'Local SEO expansion';
                 }
                 
-                // Calculate realistic search volume based on location and pest type
+                // Calculate realistic search volume based on location and service category
                 let searchVolume = 150;
                 if (targetLocation.includes('Multi-State')) searchVolume = 500 + Math.floor(Math.random() * 300);
-                else if (targetLocation.includes('Rockford') || targetLocation.includes('Aurora')) searchVolume = 300 + Math.floor(Math.random() * 200);
-                else searchVolume = 100 + Math.floor(Math.random() * 150);
+                else searchVolume = 100 + Math.floor(Math.random() * 200);
                 
                 const keywordDifficulty = searchVolume > 400 ? 'Medium' : searchVolume > 200 ? 'Low' : 'Low';
                 
@@ -3639,7 +3630,7 @@
                     contentType: defaultContentType,
                     priority: priority,
                     targetLocation: targetLocation,
-                    pestType: pestType,
+                    serviceCategory: serviceCategory,
                     contentFormat: contentFormat,
                     seasonalRelevance: season,
                     primaryKeyword: keywords,
@@ -3848,7 +3839,7 @@
                         }
                         
                         // Add tooltip with modern content
-                        info.el.title = `📝 ${record.description}\n🎯 Type: ${record.contentType}\n⚡ Priority: ${record.priority}\n📍 Location: ${record.targetLocation}\n🐛 Pest: ${record.pestType}`;
+                        info.el.title = `📝 ${record.description}\n🎯 Type: ${record.contentType}\n⚡ Priority: ${record.priority}\n📍 Location: ${record.targetLocation}\n🏷️ Category: ${record.serviceCategory}`;
                         
                         // Add modern hover effects
                         info.el.style.transition = 'all 0.2s ease';
@@ -3941,7 +3932,7 @@
                             contentType: record.contentType,
                             priority: record.priority,
                             targetLocation: record.targetLocation,
-                            pestType: record.pestType,
+                            serviceCategory: record.serviceCategory,
                             selected: record.selected
                         }
                     };
@@ -4019,7 +4010,7 @@
                     contentType: document.getElementById('contentType').value,
                     priority: document.getElementById('contentPriority').value,
                     targetLocation: document.getElementById('targetLocation').value,
-                    pestType: document.getElementById('pestType').value,
+                    serviceCategory: document.getElementById('serviceCategory').value,
                     keywords: document.getElementById('primaryKeywords').value,
                     notes: document.getElementById('contentNotes').value,
                     targetPublishDate: window.selectedContentDate,
@@ -4042,7 +4033,7 @@
                     priority: contentData.priority,
                     productionMethod: contentData.productionMethod,
                     targetLocation: contentData.targetLocation || 'Multi-State',
-                    pestType: contentData.pestType || 'General',
+                    serviceCategory: contentData.serviceCategory || 'General',
                     contentFormat: 'WordPress Blog',
                     seasonalRelevance: 'Year-Round',
                     primaryKeyword: contentData.keywords,
@@ -4411,16 +4402,16 @@
                 locationCell.appendChild(locationInput);
                 row.appendChild(locationCell);
                 
-                const pestCell = document.createElement('td');
-                const pestInput = document.createElement('input');
-                pestInput.type = 'text';
-                pestInput.className = 'editable-cell';
-                pestInput.value = item.pestType || '';
-                pestInput.readOnly = !editMode;
-                preventDragInterference(pestInput);
-                pestInput.onchange = () => updateField(item.id, 'pestType', pestInput.value);
-                pestCell.appendChild(pestInput);
-                row.appendChild(pestCell);
+                const categoryCell = document.createElement('td');
+                const categoryInput = document.createElement('input');
+                categoryInput.type = 'text';
+                categoryInput.className = 'editable-cell';
+                categoryInput.value = item.serviceCategory || '';
+                categoryInput.readOnly = !editMode;
+                preventDragInterference(categoryInput);
+                categoryInput.onchange = () => updateField(item.id, 'serviceCategory', categoryInput.value);
+                categoryCell.appendChild(categoryInput);
+                row.appendChild(categoryCell);
                 
                 const keywordCell = document.createElement('td');
                 const keywordInput = document.createElement('input');
@@ -4778,8 +4769,8 @@
                         <div class="meta-value">${item.targetLocation || item.location || 'Multi-State'}</div>
                     </div>
                     <div class="meta-item">
-                        <div class="meta-label">Pest Type</div>
-                        <div class="meta-value">${item.pestType || 'General'}</div>
+                        <div class="meta-label">Service Category</div>
+                        <div class="meta-value">${item.serviceCategory || 'General'}</div>
                     </div>
                     <div class="meta-item">
                         <div class="meta-label">Search Volume</div>
@@ -5222,11 +5213,8 @@
                 
                 contentType = contentTypeMapping[contentType] || 'Location Page';
                 
-                // Map pest types to valid Airtable values  
-                let pestType = contentData.pestType || 'General';
-                if (pestType === 'Spiders') {
-                    pestType = 'General'; // Spiders not in schema, use General
-                }
+                // Map service categories to valid Airtable values
+                let serviceCategory = contentData.serviceCategory || 'General';
                 
                 // Read text content if available
                 let textContent = contentData.textContent || '';
@@ -5263,7 +5251,7 @@
                         "Content Type": contentType,
                         "Priority": contentData.priority || 'MEDIUM',
                         "Target Location": contentData.targetLocation || 'Multi-State',
-                        "Pest Type": pestType,
+                        "Service Category": serviceCategory,
                         "Primary Keyword": contentData.primaryKeyword || contentData.keywords || '',
                         "Content Format": "WordPress Blog",
                         "Seasonal Relevance": "Year-Round",
@@ -5364,7 +5352,7 @@
                             "Content Type": record.contentType || '',
                             "Priority": record.priority || 'MEDIUM',
                             "Target Location": record.targetLocation || '',
-                            "Pest Type": record.pestType || '',
+                            "Service Category": record.serviceCategory || '',
                             "Content Format": record.contentFormat || 'WordPress Blog',
                             "Seasonal Relevance": record.seasonalRelevance || 'Year-Round',
                             "Primary Keyword": primaryKeyword, // Fixed: Handle array of keywords
@@ -5601,7 +5589,7 @@
             
             const headers = [
                 'Content ID', 'Description', 'Target Publish Date', 'Status', 'Content Type',
-                'Priority', 'Target Location', 'Pest Type', 'Primary Keyword',
+                'Priority', 'Target Location', 'Service Category', 'Primary Keyword',
                 'Content Format', 'Seasonal Relevance', 'Search Volume', 'Keyword Difficulty', 'Notes'
             ];
             
@@ -5616,7 +5604,7 @@
                     record.contentType || '',
                     record.priority || '',
                     record.targetLocation || '',
-                    record.pestType || '',
+                    record.serviceCategory || '',
                     record.primaryKeyword || '',
                     record.contentFormat || '',
                     record.seasonalRelevance || '',
@@ -5951,9 +5939,9 @@
                         contentType: record.fields['Content Type'] || 'Blog Post',
                         priority: record.fields.Priority || 'MEDIUM',
                         targetLocation: record.fields['Target Location'] || record.fields.Location || 'Multi-State',
-                        pestType: record.fields['Pest Type'] || record.fields['Pest Focus'] || 'General',
+                        serviceCategory: record.fields['Service Category'] || 'General',
                         primaryKeyword: record.fields['Primary Keyword'] || record.fields.Keywords || record.fields['SEO Keywords'] || '',
-                        notes: record.fields.Notes || record.fields['Brad Notes'] || '',
+                        notes: record.fields.Notes || '',
                         generationType: 'SYSTEMATIC',
                         source: 'airtable',
                         status: record.fields.Status || 'Planned',
@@ -6595,13 +6583,13 @@
             }
             
             // SEO opportunity insights
-            if (analyticsData.pestTypes && analyticsData.pestTypes.length > 0) {
-                const highOpportunityPests = analyticsData.pestTypes.filter(pest => pest.y > 3 && pest.x > 500);
-                if (highOpportunityPests.length > 0) {
+            if (analyticsData.serviceCategories && analyticsData.serviceCategories.length > 0) {
+                const highOpportunityCategories = analyticsData.serviceCategories.filter(cat => cat.y > 3 && cat.x > 500);
+                if (highOpportunityCategories.length > 0) {
                     insights.push({
                         type: 'opportunity',
                         title: 'High-Value SEO Opportunities',
-                        description: `Focus on ${highOpportunityPests[0].label} content for maximum ROI`
+                        description: `Focus on ${highOpportunityCategories[0].label} content for maximum ROI`
                     });
                 }
             }
@@ -6823,7 +6811,7 @@
                 type: 'bubble',
                 data: {
                     datasets: [{
-                        label: 'Pest Type Opportunities',
+                        label: 'Service Category Opportunities',
                         data: data,
                         backgroundColor: 'rgba(139, 92, 246, 0.6)',
                         borderColor: '#8b5cf6',
@@ -6890,7 +6878,7 @@
                 createPriorityChart(analyticsData.priorities);
                 createLocationChart(analyticsData.locations);
                 createSeasonalChart(analyticsData.seasonal);
-                createSEOChart(analyticsData.pestTypes);
+                createSEOChart(analyticsData.serviceCategories);
                 
                 // Update summary statistics
                 updateAnalyticsSummary(analyticsData);
@@ -7196,41 +7184,41 @@
                 locationData[location] = (locationData[location] || 0) + 1;
             });
 
-            // Pest Type Analysis
-            const pestTypeData = [];
-            const pestTypes = {};
+            // Service Category Analysis
+            const serviceCategoryData = [];
+            const serviceCategories = {};
             contentData.forEach(record => {
-                const pestType = record.pestType || 'General';
-                if (!pestTypes[pestType]) {
-                    pestTypes[pestType] = {
-                        name: pestType,
+                const serviceCategory = record.serviceCategory || 'General';
+                if (!serviceCategories[serviceCategory]) {
+                    serviceCategories[serviceCategory] = {
+                        name: serviceCategory,
                         count: 0,
                         totalSearchVolume: 0,
                         difficulties: []
                     };
                 }
-                pestTypes[pestType].count += 1;
+                serviceCategories[serviceCategory].count += 1;
                 
                 const searchVolume = parseInt(record.searchVolume || 0);
-                pestTypes[pestType].totalSearchVolume += searchVolume;
+                serviceCategories[serviceCategory].totalSearchVolume += searchVolume;
                 
                 const difficulty = record.keywordDifficulty || 'Medium';
                 const difficultyValue = difficulty === 'Low' ? 1 : difficulty === 'Medium' ? 2 : 3;
-                pestTypes[pestType].difficulties.push(difficultyValue);
+                serviceCategories[serviceCategory].difficulties.push(difficultyValue);
             });
 
             // Convert to bubble chart format
-            Object.keys(pestTypes).forEach(pestType => {
-                const data = pestTypes[pestType];
+            Object.keys(serviceCategories).forEach(serviceCategory => {
+                const data = serviceCategories[serviceCategory];
                 const avgSearchVolume = data.count > 0 ? data.totalSearchVolume / data.count : 0;
                 const avgDifficulty = data.difficulties.length > 0 ? 
                     data.difficulties.reduce((a, b) => a + b, 0) / data.difficulties.length : 2;
                 
-                pestTypeData.push({
+                serviceCategoryData.push({
                     x: avgSearchVolume,
                     y: 4 - avgDifficulty, // Invert difficulty (higher = easier)
                     r: data.count * 5 + 5, // Bubble size
-                    label: pestType,
+                    label: serviceCategory,
                     count: data.count
                 });
             });
@@ -7279,13 +7267,13 @@
                     labels: Object.keys(locationData),
                     data: Object.values(locationData),
                     colors: [
-                        '#3b82f6', // Blue - Illinois
-                        '#8b5cf6', // Purple - Iowa
-                        '#10b981', // Green - Wisconsin
+                        '#3b82f6', // Blue - Location 1
+                        '#8b5cf6', // Purple - Location 2
+                        '#10b981', // Green - Location 3
                         '#f59e0b'  // Amber - Other
                     ]
                 },
-                pestTypes: pestTypeData,
+                serviceCategories: serviceCategoryData,
                 seasonal: {
                     labels: Object.keys(seasonalData),
                     data: Object.values(seasonalData),
@@ -7567,7 +7555,7 @@
                 <div class="form-group">
                     <label class="form-label" for="contentDescription">Content Description*</label>
                     <input type="text" id="contentDescription" class="form-input" 
-                           placeholder="e.g., Fall Pest Prevention Guide for Dixon, IL" required>
+                           placeholder="e.g., Fall Seasonal Guide for Your Service Area" required>
                 </div>
                 
                 <div class="form-row">
@@ -7597,26 +7585,15 @@
                         <label class="form-label" for="targetLocation">Target Location</label>
                         <select id="targetLocation" class="form-select">
                             <option value="Multi-State">Multi-State</option>
-                            <option value="Dixon IL">Dixon IL</option>
-                            <option value="Rockford IL">Rockford IL</option>
-                            <option value="DeKalb IL">DeKalb IL</option>
-                            <option value="Sycamore IL">Sycamore IL</option>
-                            <option value="Iowa">Iowa</option>
-                            <option value="Wisconsin">Wisconsin</option>
+                            <!-- TODO: Populate from config/brand.json -->
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label" for="pestType">Pest Type</label>
-                        <select id="pestType" class="form-select">
+                        <label class="form-label" for="serviceCategory">Service Category</label>
+                        <select id="serviceCategory" class="form-select">
                             <option value="General">General</option>
-                            <option value="Bed Bugs">Bed Bugs</option>
-                            <option value="Termites">Termites</option>
-                            <option value="Ants">Ants</option>
-                            <option value="Rodents">Rodents</option>
-                            <option value="Mosquitoes">Mosquitoes</option>
-                            <option value="Wasps">Wasps</option>
-                            <option value="Spiders">Spiders</option>
+                            <!-- TODO: Populate from config/brand.json -->
                         </select>
                     </div>
                 </div>
@@ -7624,7 +7601,7 @@
                 <div class="form-group">
                     <label class="form-label" for="primaryKeywords">Primary Keywords</label>
                     <input type="text" id="primaryKeywords" class="form-input" 
-                           placeholder="e.g., pest control Dixon IL, fall pest prevention">
+                           placeholder="e.g., seasonal services, fall prevention guide">
                 </div>
                 
                 <div class="form-group">
@@ -7740,7 +7717,7 @@
                     📍 ${record.targetLocation || 'Multi-State'}
                 </div>
                 <div class="meta-item">
-                    🐛 ${record.pestType || 'General'}
+                    🏷️ ${record.serviceCategory || 'General'}
                 </div>
                 <div class="meta-item">
                     📅 ${record.targetPublishDate || 'No date set'}
@@ -7796,7 +7773,7 @@
             // Airtable record link
             if (record.airtableId) {
                 linksHtml += `
-                    <a href="https://airtable.com/appS6XjjRUrELJRgC/tblCR8yF9HHQlDij1/${record.airtableId}" 
+                    <a href="https://airtable.com/YOUR_BASE_ID/YOUR_CONTENT_TABLE_ID/${record.airtableId}" 
                        target="_blank" class="file-link">
                         📊 Airtable Record
                     </a>
@@ -7935,7 +7912,7 @@
                                 </div>
                             </div>
                             
-                            <!-- Location & Pest Type Section -->
+                            <!-- Location & Service Category Section -->
                             <div class="form-section">
                                 <div class="form-grid">
                                     <div class="form-group-modern">
@@ -7943,15 +7920,15 @@
                                             <span class="label-icon">📍</span>
                                             <span class="label-text">Target Location</span>
                                         </label>
-                                        <input type="text" id="editTargetLocation" class="form-input-modern" value="${record.targetLocation || ''}" placeholder="e.g., Illinois, Chicago">
+                                        <input type="text" id="editTargetLocation" class="form-input-modern" value="${record.targetLocation || ''}" placeholder="e.g., Multi-State, New York, Chicago">
                                     </div>
                                     
                                     <div class="form-group-modern">
-                                        <label for="editPestType" class="form-label-modern">
-                                            <span class="label-icon">🐛</span>
-                                            <span class="label-text">Pest Type</span>
+                                        <label for="editServiceCategory" class="form-label-modern">
+                                            <span class="label-icon">🏷️</span>
+                                            <span class="label-text">Service Category</span>
                                         </label>
-                                        <input type="text" id="editPestType" class="form-input-modern" value="${record.pestType || ''}" placeholder="e.g., Spiders, Ants, General">
+                                        <input type="text" id="editServiceCategory" class="form-input-modern" value="${record.serviceCategory || ''}" placeholder="e.g., General, Consulting, Maintenance">
                                     </div>
                                 </div>
                             </div>
@@ -8026,7 +8003,7 @@
             record.contentType = document.getElementById('editContentType').value;
             record.priority = document.getElementById('editPriority').value;
             record.targetLocation = document.getElementById('editTargetLocation').value;
-            record.pestType = document.getElementById('editPestType').value;
+            record.serviceCategory = document.getElementById('editServiceCategory').value;
             record.primaryKeywords = document.getElementById('editPrimaryKeywords').value;
             record.notes = document.getElementById('editNotes').value;
             record.targetPublishDate = document.getElementById('editTargetPublishDate').value;

@@ -405,13 +405,13 @@
 
                 <div class="email-preview">
                     <div class="email-subject">
-                        <strong>Subject:</strong> <span id="previewSubject">Fall Pest Prevention Tips for Atlanta Homeowners</span>
+                        <strong>Subject:</strong> <span id="previewSubject">Seasonal Service Tips for Atlanta Homeowners</span>
                     </div>
 
                     <div class="email-content" id="emailContent">
                         <div class="email-header">
                             <h1>{{CLIENT_NAME}}</h1>
-                            <p>Your Trusted Local Pest Control Experts | Serving {{SERVICE_AREA}} for {{YEARS_EXPERIENCE}} Years</p>
+                            <p>Your Trusted Local Service Experts | Serving {{SERVICE_AREA}} for {{YEARS_EXPERIENCE}} Years</p>
                         </div>
 
                         <div class="email-section">
@@ -427,7 +427,7 @@
 
                         <div class="email-section">
                             <h2>⭐ Customer Success Story</h2>
-                            <p><em>"{{CLIENT_NAME}} solved our ant problem completely. Haven't seen a single ant since!"</em> - Sarah, Atlanta</p>
+                            <p><em>"{{CLIENT_NAME}} solved our issue completely. Couldn't be happier with the service!"</em> - Sarah M., {{SERVICE_AREA}}</p>
                             <p>We love helping families across {{SERVICE_AREA}} feel safe and comfortable in their homes!</p>
                         </div>
 
@@ -435,7 +435,7 @@
                             <h2>🗓️ Seasonal Service Reminder</h2>
                             <p>Fall is the perfect time for preventative treatments. Here's why:</p>
                             <ul>
-                                <li>Prevent winter infestations</li>
+                                <li>Prevent winter issues before they start</li>
                                 <li>Seal entry points before cold weather</li>
                                 <li>Protect your family's comfort</li>
                             </ul>
@@ -469,7 +469,7 @@
             } else {
                 switch (campaignType) {
                     case 'newsletter':
-                        newSubject = `${season.charAt(0).toUpperCase() + season.slice(1)} Pest Prevention Tips${location ? ' for ' + location : ''} Homeowners`;
+                        newSubject = `${season.charAt(0).toUpperCase() + season.slice(1)} Service Tips${location ? ' for ' + location : ''} Homeowners`;
                         break;
                     case 'promotional':
                         newSubject = offer ? `Special Offer: ${offer}` : `${season.charAt(0).toUpperCase() + season.slice(1)} Service Special`;
@@ -478,7 +478,7 @@
                         newSubject = `Welcome to {{CLIENT_NAME}} - What Happens Next`;
                         break;
                     case 'transactional':
-                        newSubject = `Service Confirmation: Pest Control Scheduled`;
+                        newSubject = `Service Confirmation: Service Scheduled`;
                         break;
                 }
             }

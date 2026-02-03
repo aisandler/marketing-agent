@@ -84,13 +84,13 @@ get_seasonal_context() {
     local season="$1"
     case $season in
         "spring")
-            echo "Spring preparation and pest emergence prevention"
+            echo "Spring preparation and seasonal service needs"
             ;;
         "summer")
-            echo "Peak activity protection and immediate treatment needs"
+            echo "Peak activity protection and immediate service needs"
             ;;
         "fall")
-            echo "Winter preparation and exclusion services"
+            echo "Winter preparation and preventive services"
             ;;
         "winter")
             echo "Indoor comfort and spring planning"

@@ -28,9 +28,9 @@ node serve_gui.js
 
 ### Examples
 ```
-"I need 5 social media posts about winter pest prevention for Illinois"
-"Create 3 blog posts about fall rodent control for Wisconsin"  
-"Give me 8 social media posts about spider prevention"
+"I need 5 social media posts about winter seasonal tips for our primary market"
+"Create 3 blog posts about fall service preparation for our expansion market"
+"Give me 8 social media posts about seasonal maintenance"
 ```
 
 ---

@@ -13,14 +13,14 @@ fi
 echo "🚀 Starting bulk import from $CSV_FILE"
 
 # Skip header line, process each data row
-tail -n +2 "$CSV_FILE" | while IFS=',' read -r content_id description publish_date status content_type priority target_location pest_type primary_keyword content_format seasonal_relevance search_volume keyword_difficulty notes; do
+tail -n +2 "$CSV_FILE" | while IFS=',' read -r content_id description publish_date status content_type priority target_location service_category primary_keyword content_format seasonal_relevance search_volume keyword_difficulty notes; do
     
     # Clean up fields (remove quotes and whitespace)
     description=$(echo "$description" | tr -d '"' | xargs)
     content_type=$(echo "$content_type" | tr -d '"' | xargs)
     priority=$(echo "$priority" | tr -d '"' | xargs)
     target_location=$(echo "$target_location" | tr -d '"' | xargs)
-    pest_type=$(echo "$pest_type" | tr -d '"' | xargs)
+    service_category=$(echo "$service_category" | tr -d '"' | xargs)
     content_format=$(echo "$content_format" | tr -d '"' | xargs)
     seasonal_relevance=$(echo "$seasonal_relevance" | tr -d '"' | xargs)
     primary_keyword=$(echo "$primary_keyword" | tr -d '"' | xargs)
@@ -42,14 +42,14 @@ tail -n +2 "$CSV_FILE" | while IFS=',' read -r content_id description publish_da
         \"body\": {
           \"operation\": \"airtable\",
           \"subOperation\": 4,
-          \"baseId\": \"appS6XjjRUrELJRgC\",
-          \"tableId\": \"tblCR8yF9HHQlDij1\",
+          \"baseId\": \"${AIRTABLE_BASE_ID}\",
+          \"tableId\": \"${AIRTABLE_CONTENT_TABLE_ID}\",
           \"fields\": {
             \"Description\": \"$description\",
             \"Content Type\": \"$content_type\",
             \"Priority\": \"$priority\",
             \"Target Location\": \"$target_location\",
-            \"Pest Type\": \"$pest_type\",
+            \"Service Category\": \"$service_category\",
             \"Content Format\": \"$content_format\",
             \"Seasonal Relevance\": \"$seasonal_relevance\",
             \"Primary Keyword\": \"$primary_keyword\",

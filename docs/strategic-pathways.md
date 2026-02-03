@@ -11,7 +11,7 @@ When the user triggers planning with **"let's plan"**, present this strategic pa
 ### **Monthly Content Calendar**
 **Outcome**: Complete 30-day content strategy with publication schedule  
 **Process**: 
-1. Analyze upcoming seasonal opportunities and pest activity patterns
+1. Analyze upcoming seasonal opportunities and service demand patterns
 2. Review brand guidelines and content themes
 3. Generate balanced mix of blog posts, social media, and location pages
 4. Present content calendar with LOCAL/SYSTEMATIC classification
@@ -23,7 +23,7 @@ When the user triggers planning with **"let's plan"**, present this strategic pa
 ### **Seasonal Campaign Development** 
 **Outcome**: Targeted campaign content for upcoming seasonal opportunity  
 **Process**:
-1. Identify next seasonal pest challenge (spring prep, summer pests, fall prevention, winter maintenance)
+1. Identify next seasonal service opportunity (spring prep, summer peak, fall prevention, winter maintenance)
 2. Research competitive landscape and content gaps
 3. Develop comprehensive campaign messaging and content suite
 4. Create coordinated content across all three content types
@@ -44,10 +44,10 @@ When the user triggers planning with **"let's plan"**, present this strategic pa
 
 ---
 
-### **Seasonal Pest Prevention Campaign**
-**Outcome**: Time-sensitive prevention content calendar  
+### **Seasonal Prevention Campaign**
+**Outcome**: Time-sensitive prevention content calendar
 **Process**:
-1. Analyze upcoming pest season patterns
+1. Analyze upcoming seasonal service patterns
 2. Develop prevention-focused messaging and education content
 3. Create urgency-driven social media and location-specific content
 4. Schedule content for optimal seasonal timing
@@ -102,7 +102,7 @@ When the user triggers planning with **"let's plan"**, present this strategic pa
 ### **Keyword Strategy Development**
 **Outcome**: Comprehensive keyword targeting strategy  
 **Process**:
-1. Research high-value pest control keywords via web search
+1. Research high-value industry keywords via web search
 2. Analyze search volume and competition data
 3. Map keywords to content types and seasonal timing
 4. Create keyword clusters for content development
@@ -115,7 +115,7 @@ When the user triggers planning with **"let's plan"**, present this strategic pa
 **Outcome**: Content strategy for new service areas  
 **Process**:
 1. Query user on new target locations
-2. Research local pest challenges and seasonal patterns
+2. Research local service challenges and seasonal patterns
 3. Develop location-specific content strategy
 4. Create location pages and supporting content
 
@@ -126,7 +126,7 @@ When the user triggers planning with **"let's plan"**, present this strategic pa
 ### **Social Media Content Blitz**
 **Outcome**: Coordinated social media campaign  
 **Process**:
-1. Research current social media trends in pest control industry
+1. Research current social media trends in target industry
 2. Develop platform-specific content strategy
 3. Create varied social media content with engagement focus
 4. Coordinate with existing blog and location page content

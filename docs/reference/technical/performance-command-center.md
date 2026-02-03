@@ -30,13 +30,13 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │ 📖 Content Engagement                                           │ │
 │ │ ██████████████████████████ 223 (65%)                           │ │
 │ │ Avg Time on Page: 4:23 ▲ +18% vs last week                    │ │
-│ │ Top Content: "Pest Control Guide" (89 views, 12 downloads)     │ │
+│ │ Top Content: "{{INDUSTRY}} Guide" (89 views, 12 downloads)     │ │
 │ │           ↓ 8.1% Download Lead Magnet                          │ │
 │ │                                                                 │ │
 │ │ 💾 Lead Magnet Downloads                                        │ │
 │ │ ██████▒ 18 (8.1%)                                               │ │
-│ │ Best Performer: "pest control Checklist" (67% of downloads)            │ │
-│ │ 🔍 Insight: pest control content drives 3x more downloads              │ │
+│ │ Best Performer: "{{INDUSTRY}} Checklist" (67% of downloads)            │ │
+│ │ 🔍 Insight: {{INDUSTRY}} content drives 3x more downloads              │ │
 │ │           ↓ 44% Start Trial                                     │ │
 │ │                                                                 │ │
 │ │ 🚀 Trial Signups                                                │ │
@@ -73,7 +73,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │ Trial→Paid: 15% (Target: 15%) ✅ Meeting target               │ │
 │ │                                                                 │ │
 │ │ 💡 AI INSIGHTS                                                  │ │
-│ │ • pest control methodology content converts 67% better than generic    │ │
+│ │ • {{INDUSTRY}} methodology content converts 67% better than generic    │ │
 │ │ • Tuesday-Thursday see 23% higher conversion rates             │ │
 │ │ • Mobile users convert 31% lower (optimization opportunity)    │ │
 │ │ • Email follow-up increases trial activation by 45%            │ │
@@ -96,7 +96,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │ ┌─────────────────┬──────────┬──────────┬──────────┬──────────┐   │ │
 │ │ │ CONTENT PIECE   │ VIEWS    │ DOWNLOADS│ TRIALS   │ ROI %    │   │ │
 │ │ ├─────────────────┼──────────┼──────────┼──────────┼──────────┤   │ │
-│ │ │ 🔍 pest control Guide   │ 2,847    │ 847      │ 23       │ 347%     │   │ │
+│ │ │ 🔍 {{INDUSTRY}} Guide   │ 2,847    │ 847      │ 23       │ 347%     │   │ │
 │ │ │ 2025 Ultimate   │          │          │          │ 🏆 #1    │   │ │
 │ │ │ ─────────────── │ ──────── │ ──────── │ ──────── │ ──────── │   │ │
 │ │ │ Cost: $67       │ Rev: $232│ CAC: $2.91│ LTV: $156│ Payback: │   │ │
@@ -117,7 +117,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │                                                                 │ │
 │ │ 📊 Performance Insights:                                        │ │
 │ │ • Email sequences have 2.1x higher conversion rates            │ │
-│ │ • pest control-focused content drives 67% of total trial volume        │ │
+│ │ • {{INDUSTRY}}-focused content drives 67% of total trial volume        │ │
 │ │ • Agent 5 content has average 3.2% conversion rate (vs 2.1%)   │ │
 │ │ • Video content supplements increase conversions by 34%        │ │
 │ └─────────────────────────────────────────────────────────────────┘ │
@@ -146,7 +146,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │ 💡 Optimization Opportunities:                                  │ │
 │ │ 1. Increase video content production (+45% engagement)         │ │
 │ │ 2. Optimize email follow-up sequences (+45% attribution)       │ │
-│ │ 3. Expand pest control methodology content (+67% of trials)            │ │
+│ │ 3. Expand {{INDUSTRY}} methodology content (+67% of trials)            │ │
 │ │ 4. Add retargeting campaigns (+9% additional attribution)      │ │
 │ └─────────────────────────────────────────────────────────────────┘ │
 ├─────────────────────────────────────────────────────────────────────┤
@@ -154,7 +154,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ ┌─────────────────────────────────────────────────────────────────┐ │
 │ │ Active & Completed Tests                                        │ │
 │ │                                                                 │ │
-│ │ ✅ COMPLETED: pest control Guide CTA Button Test                        │ │
+│ │ ✅ COMPLETED: {{INDUSTRY}} Guide CTA Button Test                        │ │
 │ │ ┌─────────────┬─────────────┬─────────────┬─────────────────────┐ │ │
 │ │ │ VARIANT     │ VISITORS    │ TRIALS      │ CONV RATE           │ │ │
 │ │ ├─────────────┼─────────────┼─────────────┼─────────────────────┤ │ │
@@ -162,13 +162,13 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │ │ "Free Guide"│             │             │                     │ │ │
 │ │ ├─────────────┼─────────────┼─────────────┼─────────────────────┤ │ │
 │ │ │ Variant B   │ 1,289       │ 39          │ 3.03% 🏆 WINNER     │ │ │
-│ │ │ "pest control        │             │             │ +34% Improvement    │ │ │
+│ │ │ "{{INDUSTRY}}        │             │             │ +34% Improvement    │ │ │
 │ │ │ Roadmap"    │             │             │ 98% Confidence      │ │ │
 │ │ └─────────────┴─────────────┴─────────────┴─────────────────────┘ │ │
 │ │ Result: Implement Variant B | Projected Impact: +11 trials/month│ │ │
 │ │                                                                 │ │
 │ │ 🧪 RUNNING: Email Subject Line Test                             │ │
-│ │ Control: "Pest Control Tips" | Open Rate: 22.3%                │ │
+│ │ Control: "{{INDUSTRY}} Tips" | Open Rate: 22.3%                │ │
 │ │ Variant: "Stop Guessing in Sales Calls" | Open Rate: 27.1%     │ │
 │ │ Status: 73% statistical power | 2 days remaining               │ │
 │ │ Early Indicator: +21% improvement | 89% confidence             │ │
@@ -233,7 +233,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │ 🏆 Agent 2 + Agent 5 (Research + Content)                      │ │
 │ │ Joint Projects: 8 | Combined Trial Attribution: 45             │ │
 │ │ Synergy Multiplier: 2.3x (vs individual work)                  │ │
-│ │ Best Collaboration: "pest control Ultimate Guide"                      │ │
+│ │ Best Collaboration: "{{INDUSTRY}} Ultimate Guide"                      │ │
 │ │ Success Metrics:                                                │ │
 │ │ • 34% faster completion than solo projects                     │ │
 │ │ • 67% higher engagement rates                                  │ │
@@ -263,7 +263,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │ Content Quality Score: 4.8/5 (Target: 4.0+) ✅ Excellent       │ │
 │ │                                                                 │ │
 │ │ 🔥 TOP PERFORMING CONTENT (Agent 5):                           │ │
-│ │ 1. "pest control Email Sequence" - 15 trial attributions               │ │
+│ │ 1. "{{INDUSTRY}} Email Sequence" - 15 trial attributions               │ │
 │ │ 2. "Call Analysis Guide" - 12 trial attributions               │ │
 │ │ 3. "Trial Onboarding Series" - 11 trial attributions           │ │
 │ │                                                                 │ │
@@ -271,7 +271,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │ • Consistently high conversion rates (3.2% avg vs 2.1% team)   │ │
 │ │ • Fast turnaround times (2.1 days vs 3.2 team avg)            │ │
 │ │ • Strong collaboration skills (8 joint projects)               │ │
-│ │ • pest control methodology expertise drives 67% of trial volume        │ │
+│ │ • {{INDUSTRY}} methodology expertise drives 67% of trial volume        │ │
 │ │                                                                 │ │
 │ │ 🎯 GROWTH OPPORTUNITIES:                                        │ │
 │ │ • Expand video content creation (+45% engagement potential)    │ │
@@ -294,7 +294,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 ├─────────────────────────────────────────────────────────────────────┤
 │ 🚀 ACTIVE CAMPAIGN PERFORMANCE                                      │
 │ ┌─────────────────────────────────────────────────────────────────┐ │
-│ │ 🔥 Q4 Pest Control Campaign (Primary Focus)                     │ │
+│ │ 🔥 Q4 {{INDUSTRY}} Campaign (Primary Focus)                     │ │
 │ │ ┌─────────────┬─────────────┬─────────────┬─────────────────────┐ │ │
 │ │ │ METRIC      │ TARGET      │ CURRENT     │ PERFORMANCE         │ │ │
 │ │ ├─────────────┼─────────────┼─────────────┼─────────────────────┤ │ │
@@ -339,13 +339,13 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │ ████████████████████████████████▒▒▒▒▒▒▒▒ 84% confidence        │ │
 │ │                                                                 │ │
 │ │ Weekly Breakdown:                                               │ │
-│ │ Week 1: 112 trials (Current momentum + pest control campaign boost)    │ │
+│ │ Week 1: 112 trials (Current momentum + {{INDUSTRY}} campaign boost)    │ │
 │ │ Week 2: 108 trials (Sustained growth + LinkedIn optimization)  │ │
 │ │ Week 3: 103 trials (Normal performance + email improvements)   │ │
 │ │ Week 4: 100 trials (Baseline + optimization implementations)   │ │
 │ │                                                                 │ │
 │ │ 🎯 Key Influencing Factors:                                    │ │
-│ │ ✅ pest control content performance (+23% engagement trend)            │ │
+│ │ ✅ {{INDUSTRY}} content performance (+23% engagement trend)            │ │
 │ │ ⚠️ Landing page conversion decline (-5% needs attention)        │ │
 │ │ ✅ Email sequence optimization (+18% activation improvement)   │ │
 │ │ ✅ LinkedIn follower growth (+28% reach expansion)             │ │
@@ -373,7 +373,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │   Impact: -7 trials/week | Recommendation: Mobile optimization │ │
 │ │                                                                 │ │
 │ │ 🟢 POSITIVE TRENDS (Capitalize On)                             │ │
-│ │ • pest control content engagement up 34% month-over-month              │ │
+│ │ • {{INDUSTRY}} content engagement up 34% month-over-month              │ │
 │ │   Opportunity: +15 trials/week | Action: Increase production   │ │
 │ │ • Video content performing 45% better than text               │ │
 │ │   Opportunity: +12 trials/week | Action: Expand video strategy │ │
@@ -381,7 +381,7 @@ Comprehensive guide for implementing and managing the performance analytics dash
 │ │ 🤖 AI RECOMMENDATIONS                                           │ │
 │ │ 1. Immediate: Fix landing page performance (Critical)          │ │
 │ │ 2. This Week: Optimize mobile experience (+7 trials/week)      │ │
-│ │ 3. This Month: Scale pest control content production (+15 trials/week) │ │
+│ │ 3. This Month: Scale {{INDUSTRY}} content production (+15 trials/week) │ │
 │ │ 4. Next Quarter: Expand video content strategy (+25% reach)    │ │
 │ │                                                                 │ │
 │ │ [IMPLEMENT FIXES] [MONITOR CLOSELY] [SET AUTOMATION RULES]      │ │
@@ -490,13 +490,13 @@ CLAUDE CODE MARKETING COMMAND CENTER
 
 **1. Content Marketing Strategist**
 - **Configuration:** Complete {{COMPANY_NAME}} specialization  
-- **Expertise:** Local SEO content strategy, pest control industry knowledge, IL/IA/WI markets  
+- **Expertise:** Local SEO content strategy, {{INDUSTRY}} industry knowledge, {{SERVICE_AREA}} markets  
 - **Primary Role:** Blog post strategy and editorial calendar planning  
 - **{{CLIENT_CONTACT}}'s Need:** HIGH PRIORITY - ongoing blog content  
 
 **2. SEO Optimization Specialist**  
 - **Configuration:** Complete local SEO specialization  
-- **Expertise:** Multi-location pest control SEO, local search optimization  
+- **Expertise:** Multi-location {{INDUSTRY}} SEO, local search optimization  
 - **Primary Role:** Keyword research and content optimization  
 - **{{CLIENT_CONTACT}}'s Need:** HIGH PRIORITY - local search rankings  
 
@@ -510,14 +510,14 @@ CLAUDE CODE MARKETING COMMAND CENTER
 
 **4. Social Media Strategist**
 - **Current Status:** Generic social media agent  
-- **Required Updates:** {{COMPANY_NAME}} pest control focus, StoryBrand messaging, local market emphasis  
+- **Required Updates:** {{COMPANY_NAME}} {{INDUSTRY}} focus, StoryBrand messaging, local market emphasis  
 - **Primary Role:** Social content creation with graphic headlines  
 - **{{CLIENT_CONTACT}}'s Need:** HIGH PRIORITY - ongoing social media content  
 
 #### SUPPORTING AGENTS - READY TO USE ✅
 
 **5. Market Research Specialist**
-- **Role:** Location-specific pest intelligence, seasonal trends, competitive analysis  
+- **Role:** Location-specific market intelligence, seasonal trends, competitive analysis  
 - **{{CLIENT_CONTACT}}'s Need:** MEDIUM PRIORITY - ongoing market insights  
 
 **6. Brand Strategy Consultant**  
@@ -586,7 +586,7 @@ CLAUDE CODE MARKETING COMMAND CENTER
 ### System Advantages
 
 #### Immediate Benefits
-- **Specialized Expertise:** Agents configured for pest control industry
+- **Specialized Expertise:** Agents configured for {{INDUSTRY}} industry
 - **Local SEO Focus:** Multi-location optimization built-in
 - **Production Ready:** WordPress-compatible output format
 - **Brand Consistency:** StoryBrand framework integration

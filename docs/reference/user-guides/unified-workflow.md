@@ -93,7 +93,7 @@ Local MD files now include comprehensive metadata:
 **Generation Type**: LOCAL | SYSTEMATIC
 **Keywords**: [extracted from content]
 **Target Location**: [location data]
-**Pest Type**: [pest classification]
+**Service Category**: [service classification]
 
 ## Airtable Integration
 - **Airtable Record ID**: rec123ABC (if linked)
@@ -167,7 +167,7 @@ export [filename]
 **Use Case**: Need fast content for immediate use, no images required
 
 ```bash
-./automation/claude_gui_sync.sh create "Emergency Bed Bug Response Guide" "Blog Post" "LOCAL" "HIGH"
+./automation/claude_gui_sync.sh create "Emergency Service Response Guide" "Blog Post" "LOCAL" "HIGH"
 ```
 
 **Result**:
@@ -180,7 +180,7 @@ export [filename]
 **Use Case**: Professional content requiring images, SEO optimization, full workflow
 
 ```bash
-./automation/claude_gui_sync.sh create "Spring Ant Prevention Campaign" "Social Media" "SYSTEMATIC" "HIGH"
+./automation/claude_gui_sync.sh create "Spring Service Promotion Campaign" "Social Media" "SYSTEMATIC" "HIGH"
 ```
 
 **Result**:
@@ -196,10 +196,10 @@ export [filename]
 
 ```bash
 # Step 1: Create local content for planning
-./automation/claude_gui_sync.sh create "Comprehensive Termite Guide" "Blog Post" "LOCAL" "HIGH"
+./automation/claude_gui_sync.sh create "Comprehensive Service Guide" "Blog Post" "LOCAL" "HIGH"
 
 # Step 2: Get Content ID when ready for systematic production
-./automation/claude_gui_sync.sh get-id '{"description":"Comprehensive Termite Guide","contentType":"Blog Post"}'
+./automation/claude_gui_sync.sh get-id '{"description":"Comprehensive Service Guide","contentType":"Blog Post"}'
 
 # Step 3: Create Google Drive workspace
 ./automation/claude_gui_sync.sh create-workspace "C126" "Blog Post"
@@ -231,9 +231,9 @@ Generation Types:
   SYSTEMATIC: 5
 
 Recent Content IDs:
-  C123: Fall Pest Prevention Guide
-  C124: Winter Mouse Control Campaign
-  C125: Spring Ant Prevention Strategy
+  C123: Fall Seasonal Service Guide
+  C124: Winter Maintenance Campaign
+  C125: Spring Promotion Strategy
 ```
 
 ---
@@ -270,14 +270,14 @@ Recent Content IDs:
 ```
 content/
 ├── local-generation/          # Claude Code created files
-│   ├── C123_2025-08-27-fall-pest-guide.md
-│   └── temp_123_2025-08-27-mouse-control.md
+│   ├── C123_2025-08-27-fall-service-guide.md
+│   └── temp_123_2025-08-27-seasonal-campaign.md
 ├── blog-posts/               # Published content
 ├── social-media/             # Social content
 └── systematic-tracking/      # Legacy systematic files
 
 Google Drive:
-├── C123_Fall_Pest_Guide/     # Content ID folders
+├── C123_Fall_Service_Guide/   # Content ID folders
 │   ├── C123_Blog_Post_Working_Document.docx
 │   └── C123_Featured_Image.jpg
 ```
@@ -359,7 +359,7 @@ Google Drive:
 
 ```bash
 # 1. Create content locally with unified system
-./automation/claude_gui_sync.sh create "Fall Pest Prevention Guide" "Blog Post" "LOCAL" "HIGH"
+./automation/claude_gui_sync.sh create "Fall Seasonal Service Guide" "Blog Post" "LOCAL" "HIGH"
 
 # 2. Submit content with automatic Text field population  
 ./automation/claude_gui_sync.sh streamlined-submit

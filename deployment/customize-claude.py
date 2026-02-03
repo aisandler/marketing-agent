@@ -160,15 +160,8 @@ def generate_seasonal_calendar(config: Dict[str, Any]) -> str:
         "**Winter (December-February):** Indoor services, maintenance, planning for next year"
     ]
 
-    # Industry-specific calendars can be added here
-    if industry == 'pest_control':
-        seasonal_calendar = [
-            "**Spring (March-May):** Ants, spiders, stink bugs, beetles, springtails, mice, rodent activity",
-            "**Summer (June-August):** Wasps, spiders, ants, mosquitoes, ticks, flies, beetles, outdoor pest activity",
-            "**Fall (September-November):** Overwintering pests, stink bugs, beetles, mice, rats, spiders seeking shelter",
-            "**Winter (December-February):** Mice, indoor pests, overwintering pest management"
-        ]
-    elif industry == 'hvac':
+    # Industry-specific calendars - add new industries here or configure via client.config.json serviceCategories.seasonalMapping
+    if industry == 'hvac':
         seasonal_calendar = [
             "**Spring (March-May):** AC maintenance, filter changes, spring tune-ups, duct cleaning",
             "**Summer (June-August):** AC repairs, cooling efficiency, emergency services, high-demand period",

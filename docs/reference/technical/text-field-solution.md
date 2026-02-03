@@ -75,7 +75,7 @@ const fields = {
 ### API Response Verification
 ```json
 {
-  "id": "rechuHaFLbWZWKvsZ",
+  "id": "recXXXXXXXXXXXXXXX",
   "fields": {
     "Content ID": "C227",
     "Text": "# Full markdown content here...", // ✅ POPULATED

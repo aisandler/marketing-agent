@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../partners.schema.json",
+
+  "accounts": {
+    "ceo": ["Alex Rivera LinkedIn", "Alex Rivera Twitter"],
+    "product": ["Jordan Lee LinkedIn"],
+    "company": ["TaskFlow LinkedIn", "TaskFlow Twitter"]
+  },
+
+  "names": {
+    "all": "All Team Members",
+    "ceo": "Alex Rivera",
+    "product": "Jordan Lee",
+    "company": "TaskFlow"
+  },
+
+  "initials": {
+    "ceo": "AR",
+    "product": "JL",
+    "company": "TF"
+  },
+
+  "colors": {
+    "ceo": {
+      "border": "border-l-violet-600",
+      "bg": "bg-violet-600",
+      "text": "text-violet-700"
+    },
+    "product": {
+      "border": "border-l-cyan-500",
+      "bg": "bg-cyan-500",
+      "text": "text-cyan-600"
+    },
+    "company": {
+      "border": "border-l-slate-600",
+      "bg": "bg-slate-600",
+      "text": "text-slate-700"
+    }
+  },
+
+  "emails": {
+    "ceo": "alex@taskflow.io",
+    "product": "jordan@taskflow.io",
+    "company": "hello@taskflow.io"
+  }
+}

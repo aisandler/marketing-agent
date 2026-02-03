@@ -1,0 +1,37 @@
+{
+  "$schema": "../../../partners.schema.json",
+
+  "accounts": {
+    "mike": ["Mike Thompson LinkedIn"],
+    "company": ["Comfort Aire HVAC LinkedIn", "Comfort Aire HVAC Facebook"]
+  },
+
+  "names": {
+    "all": "All Team Members",
+    "mike": "Mike Thompson",
+    "company": "Comfort Aire HVAC"
+  },
+
+  "initials": {
+    "mike": "MT",
+    "company": "CA"
+  },
+
+  "colors": {
+    "mike": {
+      "border": "border-l-sky-500",
+      "bg": "bg-sky-500",
+      "text": "text-sky-600"
+    },
+    "company": {
+      "border": "border-l-orange-500",
+      "bg": "bg-orange-500",
+      "text": "text-orange-600"
+    }
+  },
+
+  "emails": {
+    "mike": "mike@comfortairehvac.com",
+    "company": "info@comfortairehvac.com"
+  }
+}

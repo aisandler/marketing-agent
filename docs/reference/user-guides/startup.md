@@ -17,7 +17,7 @@
 6. **12 Specialized Agents** for professional services content expertise
 
 ### Current Status:
-- **Airtable Integration**: ✅ Working (Table ID: `tblCR8yF9HHQlDij1`)
+- **Airtable Integration**: ✅ Working (Table ID: `YOUR_CONTENT_TABLE_ID`)
 - **Webhook Endpoint**: ✅ Active (`{{WEBHOOK_URL}}`)
 - **Preview System**: ✅ Ready (`automation/preview_and_submit.sh`)
 - **Agent System**: ✅ Configured with 12 specialized agents
@@ -59,8 +59,8 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "airtable",
       "subOperation": 2,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblCR8yF9HHQlDij1"
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_CONTENT_TABLE_ID"
     }
   }'
 ```
@@ -87,11 +87,11 @@ source /Users/adamsandler/projects/marketing-team-base/automation/preview_and_su
 ## 🎯 **TYPICAL PLANNING SESSION FLOW**
 
 ### 1. Strategy Discussion:
-**You**: "I need December content focusing on winter pest preparation"
+**You**: "I need December content focusing on winter seasonal preparation"
 
-**Claude Code**: 
-- Reviews seasonal pest patterns from brand guidelines
-- Considers Illinois/Iowa/Wisconsin market priorities
+**Claude Code**:
+- Reviews seasonal patterns from brand guidelines
+- Considers {{SERVICE_AREA}} market priorities
 - Suggests content mix (blog posts, social media, location pages)
 - Leverages market research and competitive intelligence agents
 
@@ -106,10 +106,10 @@ source /Users/adamsandler/projects/marketing-team-base/automation/preview_and_su
 ```
 📋 CONTENT PREVIEW - Ready for Airtable Submission
 ==================================================
-ID   | Description                    | Content Type | Priority | Target Location | Pest Type
-------+--------------------------------+--------------+----------+-----------------+------------
-1    | December Rodent Control Dixon  | Blog Post    | HIGH     | Dixon IL        | Rodents
-2    | Winter Pest Prep Social        | Social Media | MEDIUM   | Multi-State     | General
+ID   | Description                    | Content Type | Priority | Target Location | Service Category
+------+--------------------------------+--------------+----------+-----------------+------------------
+1    | December Service Guide Market A| Blog Post    | HIGH     | Market A        | Core Services
+2    | Winter Prep Social             | Social Media | MEDIUM   | Multi-Market    | General
 [...]
 
 📊 Total Records Ready: 8
@@ -132,7 +132,7 @@ ID   | Description                    | Content Type | Priority | Target Locatio
 - ✅ Voice input processing (via monthly-content-planner agent)
 - ✅ Strategic content recommendations
 - ✅ Local SEO keyword research
-- ✅ Seasonal pest timing alignment
+- ✅ Seasonal timing alignment
 - ✅ Brand guideline adherence
 - ✅ Multi-location targeting
 - ✅ Priority assignment based on business strategy
@@ -157,8 +157,8 @@ ID   | Description                    | Content Type | Priority | Target Locatio
 ## 📊 **AIRTABLE INTEGRATION STATUS**
 
 ### Current Configuration:
-- **Base ID**: `appS6XjjRUrELJRgC`
-- **Table ID**: `tblCR8yF9HHQlDij1` *(Verified working)*
+- **Base ID**: `YOUR_BASE_ID`
+- **Table ID**: `YOUR_CONTENT_TABLE_ID` *(Verified working)*
 - **Webhook**: `{{WEBHOOK_URL}}`
 - **Records Created**: 125+ content pieces (as of August 2025)
 
@@ -175,7 +175,7 @@ ID   | Description                    | Content Type | Priority | Target Locatio
   "Content Type": "Blog Post | Social Media | Location Page",
   "Priority": "HIGH | MEDIUM | LOW", 
   "Target Location": "Specific city/state or Multi-State",
-  "Pest Type": "Specific pest or General",
+  "Service Category": "Specific service or General",
   "Content Format": "WordPress Blog | Instagram Post | Facebook Post | Landing Page",
   "Seasonal Relevance": "Spring | Summer | Fall | Winter | Year-Round",
   "Primary Keyword": "SEO-focused keyword phrase",
@@ -192,12 +192,12 @@ ID   | Description                    | Content Type | Priority | Target Locatio
 ### Planning Commands:
 ```bash
 # Start planning session
-"I need [number] [content type] for [timeframe] focusing on [pest/theme]"
+"I need [number] [content type] for [timeframe] focusing on [service/theme]"
 
 # Examples:
-"I need 5 blog posts for January focusing on winter rodent control"
-"Create 10 social media posts for holiday pest prevention" 
-"Plan February content for Illinois markets - mix of everything"
+"I need 5 blog posts for January focusing on winter seasonal services"
+"Create 10 social media posts for holiday service promotions"
+"Plan February content for our primary markets - mix of everything"
 ```
 
 ### Execution Commands:
@@ -209,7 +209,7 @@ ID   | Description                    | Content Type | Priority | Target Locatio
 
 # Modification requests  
 "Change record #3 to HIGH priority"
-"Update location for record #5 to Illinois only"
+"Update location for record #5 to primary market only"
 "Add seasonal timing note to record #2"
 ```
 

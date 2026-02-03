@@ -1,0 +1,38 @@
+{
+  "$schema": "../../partners.schema.json",
+  "_comment": "Example pest control partner configuration",
+
+  "accounts": {
+    "owner": ["Owner LinkedIn", "PCC Facebook"],
+    "company": ["Pest Control Consultants LinkedIn", "PCC Google Business"]
+  },
+
+  "names": {
+    "all": "All Partners",
+    "owner": "Business Owner",
+    "company": "Pest Control Consultants"
+  },
+
+  "initials": {
+    "owner": "BO",
+    "company": "PCC"
+  },
+
+  "colors": {
+    "owner": {
+      "border": "border-l-green-500",
+      "bg": "bg-green-500",
+      "text": "text-green-600"
+    },
+    "company": {
+      "border": "border-l-amber-500",
+      "bg": "bg-amber-500",
+      "text": "text-amber-600"
+    }
+  },
+
+  "emails": {
+    "owner": "",
+    "company": ""
+  }
+}

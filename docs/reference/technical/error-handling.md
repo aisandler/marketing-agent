@@ -158,7 +158,7 @@ QUALITY RECOVERY:
 3. Supplement with direct Claude Code analysis:
    - Brand guideline application
    - Industry best practices
-   - Seasonal pest control patterns
+   - Seasonal industry patterns
    - Local SEO considerations
 4. Present hybrid recommendations combining agent insights and direct analysis
 
@@ -505,8 +505,8 @@ EMERGENCY PROTOCOL:
 1. ACKNOWLEDGE: "I'm switching to direct marketing consultation to ensure you get comprehensive recommendations."
 
 2. MANUAL CONSULTATION:
-- Use brand guidelines manually (Shield your Home. Protect your Family)
-- Apply pest control industry knowledge directly
+- Use brand guidelines manually
+- Apply industry knowledge directly
 - Focus on strategic thinking and recommendations
 - Use simple content planning approach
 

@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../partners.schema.json",
+
+  "accounts": {
+    "founder": ["Rachel Kim LinkedIn", "Rachel Kim Twitter"],
+    "strategy": ["Marcus Johnson LinkedIn"],
+    "company": ["Catalyst Digital LinkedIn", "Catalyst Digital Instagram"]
+  },
+
+  "names": {
+    "all": "All Partners",
+    "founder": "Rachel Kim",
+    "strategy": "Marcus Johnson",
+    "company": "Catalyst Digital"
+  },
+
+  "initials": {
+    "founder": "RK",
+    "strategy": "MJ",
+    "company": "CD"
+  },
+
+  "colors": {
+    "founder": {
+      "border": "border-l-slate-700",
+      "bg": "bg-slate-700",
+      "text": "text-slate-800"
+    },
+    "strategy": {
+      "border": "border-l-amber-500",
+      "bg": "bg-amber-500",
+      "text": "text-amber-600"
+    },
+    "company": {
+      "border": "border-l-indigo-500",
+      "bg": "bg-indigo-500",
+      "text": "text-indigo-600"
+    }
+  },
+
+  "emails": {
+    "founder": "rachel@catalystdigital.co",
+    "strategy": "marcus@catalystdigital.co",
+    "company": "hello@catalystdigital.co"
+  }
+}

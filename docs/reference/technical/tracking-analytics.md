@@ -11,7 +11,7 @@
 ## 📊 **CONTENT INVENTORY OVERVIEW**
 
 ### **Content Categories**
-- **Blog Posts**: SEO-optimized pest control articles
+- **Blog Posts**: SEO-optimized industry articles
 - **Social Media Posts**: Platform-specific engagement content
 - **Location Pages**: Local SEO landing pages for service areas
 - **Email Campaigns**: Newsletter and promotional content
@@ -155,7 +155,7 @@ node automation/cost_tracker.js --detailed
 
 ### **Revenue Enhancement Strategies**
 1. **Lead Quality Focus**: Target high-intent keywords and audiences
-2. **Seasonal Optimization**: Align content with pest activity cycles
+2. **Seasonal Optimization**: Align content with seasonal demand cycles
 3. **Local Market Penetration**: Focus on underserved high-value areas
 4. **Service Expansion**: Create content supporting new service offerings
 5. **Customer Lifecycle**: Develop content for retention and upselling

@@ -1,0 +1,186 @@
+{
+  "client": {
+    "name": "Apex Roofing",
+    "industry": "roofing",
+    "businessType": "home services",
+    "serviceArea": {
+      "primary": "Phoenix, AZ",
+      "secondary": ["Scottsdale", "Tempe", "Mesa", "Chandler"],
+      "state": "Arizona",
+      "region": "Southwest"
+    },
+    "website": "https://apexroofing.com",
+    "phone": "(602) 555-ROOF",
+    "email": "info@apexroofing.com"
+  },
+  "airtable": {
+    "webhookUrl": "{{N8N_WEBHOOK_URL}}",
+    "baseId": "{{AIRTABLE_BASE_ID}}",
+    "tableId": "{{AIRTABLE_TABLE_ID}}",
+    "apiUrl": "https://api.airtable.com/v0"
+  },
+  "fields": {
+    "contentId": "Content ID",
+    "description": "Description",
+    "contentType": "Content Type",
+    "priority": "Priority",
+    "targetLocation": "Target Location",
+    "serviceCategory": "Roofing Service Type",
+    "contentFormat": "Content Format",
+    "seasonalRelevance": "Seasonal Relevance",
+    "primaryKeyword": "Primary Keyword",
+    "searchVolume": "Search Volume",
+    "keywordDifficulty": "Keyword Difficulty",
+    "notes": "Notes",
+    "text": "Text",
+    "status": "Status",
+    "title": "Title",
+    "publishDate": "Publish Date",
+    "targetPublishDate": "Target Publish Date"
+  },
+  "brand": {
+    "guidelines": [
+      "docs/brand-guidelines/brand-guide.md",
+      "docs/brand-guidelines/core-messaging-template.md"
+    ],
+    "voiceGuide": "docs/brand-guidelines/brand-guide.md",
+    "personas": null,
+    "styleGuide": null,
+    "assetsDir": "content/client-documents/brand-guides",
+    "knowledge": []
+  },
+  "templates": {
+    "blogOutline": null,
+    "blogDraft": null,
+    "socialPost": null,
+    "locationPage": null
+  },
+  "labels": {
+    "entitySubtypeLabel": "Roofing Service Type"
+  },
+  "drive": {
+    "folders": {
+      "blog": "{{DRIVE_BLOG_FOLDER_ID}}",
+      "social": "{{DRIVE_SOCIAL_FOLDER_ID}}",
+      "location": "{{DRIVE_LOCATION_FOLDER_ID}}",
+      "email": "{{DRIVE_EMAIL_FOLDER_ID}}",
+      "library": "{{DRIVE_LIBRARY_FOLDER_ID}}"
+    }
+  },
+  "branding": {
+    "primaryMessage": "Protect Your Investment. Secure Your Future.",
+    "tagline": "Arizona's Most Trusted Roofing Experts",
+    "tone": "professional, trustworthy, expert, local",
+    "personality": ["reliable", "experienced", "community-focused"],
+    "experience": "25+ years",
+    "differentiators": [
+      "25+ years serving Phoenix area",
+      "Licensed and fully insured",
+      "Lifetime workmanship warranty",
+      "Fastest emergency response time"
+    ]
+  },
+  "services": {
+    "primary": [
+      "Roof Repair",
+      "Roof Replacement",
+      "Roof Inspection"
+    ],
+    "secondary": [
+      "Gutter Installation",
+      "Emergency Roof Repair"
+    ],
+    "seasonal": {
+      "spring": ["Storm Damage Repair", "Spring Inspection"],
+      "summer": ["Heat Damage Prevention", "Coating Services"],
+      "fall": ["Winter Preparation", "Preventive Maintenance"],
+      "winter": ["Emergency Leak Repair", "Insurance Claims"]
+    }
+  },
+  "serviceCategories": {
+    "categories": [
+      { "name": "General", "aliases": ["roofing", "general"], "isDefault": true },
+      { "name": "Repair", "aliases": ["roof repair", "leak repair", "patch"] },
+      { "name": "Replacement", "aliases": ["roof replacement", "reroof", "new roof"] },
+      { "name": "Inspection", "aliases": ["roof inspection", "assessment", "evaluation"] },
+      { "name": "Emergency", "aliases": ["emergency", "storm damage", "urgent"] }
+    ],
+    "detectionPatterns": {
+      "Repair": ["repair", "leak", "patch", "fix", "damage", "shingle"],
+      "Replacement": ["replacement", "reroof", "new roof", "install", "upgrade"],
+      "Inspection": ["inspection", "assessment", "evaluation", "check", "survey"],
+      "Emergency": ["emergency", "storm", "urgent", "hail", "wind damage", "fallen tree"]
+    },
+    "seasonalMapping": {
+      "spring": { "focus": "Storm damage repair, spring inspection", "urgency": "high", "keyCategories": ["Repair", "Inspection"] },
+      "summer": { "focus": "Heat damage prevention, coating services", "urgency": "medium", "keyCategories": ["General", "Repair"] },
+      "fall": { "focus": "Winter preparation, preventive maintenance", "urgency": "medium", "keyCategories": ["Inspection", "General"] },
+      "winter": { "focus": "Emergency leak repair, insurance claims", "urgency": "high", "keyCategories": ["Emergency", "Repair"] }
+    }
+  },
+  "locations": {
+    "primary": "Arizona",
+    "secondary": [],
+    "states": ["Arizona"],
+    "detectionPatterns": {
+      "Arizona": ["arizona", "phoenix", "scottsdale", "tempe", "mesa", "chandler"]
+    }
+  },
+  "seo": {
+    "primaryKeywords": [
+      "roofing Phoenix",
+      "roof repair Arizona",
+      "Phoenix roofer"
+    ],
+    "localModifiers": [
+      "Phoenix",
+      "near me",
+      "Phoenix area"
+    ],
+    "contentTopics": [
+      "Desert roofing challenges",
+      "Arizona weather protection",
+      "Energy efficient roofing"
+    ]
+  },
+  "competition": {
+    "primaryCompetitors": [
+      "Desert Sky Roofing",
+      "Arizona Roof Rescue",
+      "Sunny Slope Roofing"
+    ],
+    "competitiveAdvantages": [
+      "Fastest emergency response time",
+      "Most comprehensive warranty"
+    ]
+  },
+  "leadGeneration": {
+    "primaryCTA": "Get Your Free Roof Inspection",
+    "leadMagnets": [
+      "Free Storm Damage Assessment",
+      "Arizona Homeowner's Roofing Guide"
+    ],
+    "conversionGoals": [
+      "Schedule roof inspection",
+      "Request emergency repair"
+    ]
+  },
+  "contentStrategy": {
+    "contentPillars": [
+      "Roof Protection Expertise",
+      "Arizona Weather Challenges",
+      "Homeowner Education"
+    ],
+    "contentTypes": [
+      "Blog Posts",
+      "Location Pages",
+      "Service Pages",
+      "Seasonal Campaigns"
+    ],
+    "publishingFrequency": {
+      "blogPosts": "2 per week",
+      "locationPages": "1 per service area",
+      "servicePages": "1 per core service"
+    }
+  }
+}

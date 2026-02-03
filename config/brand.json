@@ -1,0 +1,33 @@
+{
+  "$schema": "./brand.schema.json",
+  "_comment": "Brand configuration - customize these values for your brand. Run /onboard to auto-generate.",
+
+  "name": "{{BRAND_NAME}}",
+  "tagline": "{{BRAND_TAGLINE}}",
+
+  "colors": {
+    "primary": "#1a365d",
+    "secondary": "#c9a227",
+    "accent": "#ffffff",
+    "_names": {
+      "primary": "navy",
+      "secondary": "gold"
+    }
+  },
+
+  "imageStyleDirective": "sophisticated minimal professional aesthetic, navy blue (#1a365d) and gold (#c9a227) color palette, modern professional style, clean composition, no people, no faces",
+
+  "contentPillars": [
+    "{{PILLAR_1}}",
+    "{{PILLAR_2}}",
+    "{{PILLAR_3}}"
+  ],
+
+  "focusAreas": [
+    "{{FOCUS_1}}",
+    "{{FOCUS_2}}"
+  ],
+
+  "industry": "{{INDUSTRY}}",
+  "location": "{{LOCATION}}"
+}

@@ -78,7 +78,7 @@ class ClaudeGUIBridge {
                 contentId = `temp_${Date.now()}_${index}`;
             }
             
-            // Enhance content with intelligent pest type and location detection
+            // Enhance content with intelligent service category and location detection
             const enhancedContent = this.enhanceContentData(content);
             
             const record = {
@@ -745,7 +745,7 @@ class ClaudeGUIBridge {
             `**Generation Type**: ${record.generationType || 'LOCAL'}\n` +
             `**Keywords**: ${record.primaryKeyword || record.keywords || ''}\n` +
             `**Target Location**: ${record.targetLocation || record.target_location || ''}\n` +
-            `**${(cfg.labels && cfg.labels.entitySubtypeLabel) || 'Pest Type'}**: ${record.pestType || record.pest_type || ''}\n\n` +
+            `**${(cfg.labels && cfg.labels.entitySubtypeLabel) || 'Service Category'}**: ${record.serviceCategory || ''}\n\n` +
             (function brandSection() {
                 const lines = [];
                 const b = cfg.brand || {};
@@ -885,7 +885,7 @@ class ClaudeGUIBridge {
     exportToCSV() {
         const headers = [
             F.contentId, F.description, F.targetPublishDate, F.status, F.contentType,
-            F.priority, F.targetLocation, F.pestType, F.primaryKeyword,
+            F.priority, F.targetLocation, F.serviceCategory, F.primaryKeyword,
             F.contentFormat, F.seasonalRelevance, F.searchVolume, F.keywordDifficulty, F.notes
         ];
         
@@ -900,7 +900,7 @@ class ClaudeGUIBridge {
                 record.contentType || record.content_type || '',
                 record.priority || '',
                 record.targetLocation || record.target_location || '',
-                record.pestType || record.pest_type || '',
+                record.serviceCategory || '',
                 record.primaryKeyword || record.primary_keyword || '',
                 record.contentFormat || record.content_format || '',
                 record.seasonalRelevance || record.seasonal_relevance || '',
@@ -978,42 +978,42 @@ class ClaudeGUIBridge {
             locationData[location] = (locationData[location] || 0) + 1;
         });
         
-        // Pest Type Content Strategy (Bubble Chart)
-        const pestTypeData = [];
-        const pestTypes = {};
+        // Service Category Content Strategy (Bubble Chart)
+        const serviceCategoryData = [];
+        const serviceCategories = {};
         allRecords.forEach(record => {
-            const pestType = record.pestType || record.pest_type || 'General';
-            if (!pestTypes[pestType]) {
-                pestTypes[pestType] = {
-                    name: pestType,
+            const category = record.serviceCategory || 'General';
+            if (!serviceCategories[category]) {
+                serviceCategories[category] = {
+                    name: category,
                     count: 0,
                     totalSearchVolume: 0,
                     avgDifficulty: 0,
                     difficulties: []
                 };
             }
-            pestTypes[pestType].count += 1;
-            
+            serviceCategories[category].count += 1;
+
             const searchVolume = parseInt(record.searchVolume || record.search_volume || 0);
-            pestTypes[pestType].totalSearchVolume += searchVolume;
-            
+            serviceCategories[category].totalSearchVolume += searchVolume;
+
             const difficulty = record.keywordDifficulty || record.keyword_difficulty || 'Medium';
             const difficultyValue = difficulty === 'Low' ? 1 : difficulty === 'Medium' ? 2 : 3;
-            pestTypes[pestType].difficulties.push(difficultyValue);
+            serviceCategories[category].difficulties.push(difficultyValue);
         });
-        
-        // Convert pest types to bubble chart format
-        Object.keys(pestTypes).forEach(pestType => {
-            const data = pestTypes[pestType];
+
+        // Convert service categories to bubble chart format
+        Object.keys(serviceCategories).forEach(category => {
+            const data = serviceCategories[category];
             const avgSearchVolume = data.count > 0 ? data.totalSearchVolume / data.count : 0;
-            const avgDifficulty = data.difficulties.length > 0 ? 
+            const avgDifficulty = data.difficulties.length > 0 ?
                 data.difficulties.reduce((a, b) => a + b, 0) / data.difficulties.length : 2;
-            
-            pestTypeData.push({
+
+            serviceCategoryData.push({
                 x: avgSearchVolume,
-                y: 4 - avgDifficulty, // Invert difficulty (higher = easier)
-                r: data.count * 5 + 5, // Bubble size
-                label: pestType,
+                y: 4 - avgDifficulty,
+                r: data.count * 5 + 5,
+                label: category,
                 count: data.count
             });
         });
@@ -1078,13 +1078,13 @@ class ClaudeGUIBridge {
                 labels: Object.keys(locationData),
                 data: Object.values(locationData),
                 colors: [
-                    '#3b82f6', // Blue - Illinois
-                    '#8b5cf6', // Purple - Iowa
-                    '#10b981', // Green - Wisconsin
-                    '#f59e0b'  // Amber - Other
+                    '#3b82f6', // Blue
+                    '#8b5cf6', // Purple
+                    '#10b981', // Green
+                    '#f59e0b'  // Amber
                 ]
             },
-            pestTypes: pestTypeData,
+            serviceCategories: serviceCategoryData,
             seasonal: {
                 labels: Object.keys(seasonalData),
                 data: Object.values(seasonalData),
@@ -1145,7 +1145,7 @@ class ClaudeGUIBridge {
                             [F.contentType]: contentData.contentType || contentData.content_type || 'Blog Post',
                             [F.priority]: contentData.priority || 'MEDIUM',
                             [F.targetLocation]: contentData.targetLocation || contentData.target_location || 'Multi-State',
-                            [F.pestType]: contentData.pestType || contentData.pest_type || 'General',
+                            [F.serviceCategory]: contentData.serviceCategory || 'General',
                             [F.contentFormat]: contentData.contentFormat || contentData.content_format || 'WordPress Blog',
                             [F.seasonalRelevance]: contentData.seasonalRelevance || contentData.seasonal_relevance || 'Year-Round',
                             [F.primaryKeyword]: contentData.primaryKeyword || contentData.primary_keyword || '',
@@ -1615,7 +1615,7 @@ class ClaudeGUIBridge {
                 [F.contentType]: record.contentType || record.content_type || 'Blog Post',
                 [F.priority]: record.priority || 'MEDIUM',
                 [F.targetLocation]: record.targetLocation || record.target_location || 'Multi-State',
-                [F.pestType]: record.pestType || record.pest_type || 'General',
+                [F.serviceCategory]: record.serviceCategory || 'General',
                 [F.contentFormat]: record.contentFormat || record.content_format || 'WordPress Blog',
                 [F.seasonalRelevance]: record.seasonalRelevance || record.seasonal_relevance || 'Year-Round',
                 [F.primaryKeyword]: record.primaryKeyword || record.primary_keyword || '',
@@ -1800,64 +1800,51 @@ class ClaudeGUIBridge {
         );
     }
 
-    // Enhance content data with intelligent pest type and location detection
+    // Enhance content data with intelligent service category and location detection
     enhanceContentData(content) {
         const description = content.description || '';
         const enhancedContent = { ...content };
-        
-        // Intelligent location detection - default to primary service area
+
+        // Intelligent location detection - default to primary service area from config
         if (!enhancedContent.targetLocation && !enhancedContent.target_location) {
-            enhancedContent.targetLocation = 'Illinois';
+            enhancedContent.targetLocation = (cfg.locations && cfg.locations.primary) || (cfg.client && cfg.client.serviceArea && cfg.client.serviceArea.state) || '';
         }
-        
-        // Intelligent pest type detection from description
-        if (!enhancedContent.pestType) {
-            const desc = description.toLowerCase();
-            if (desc.includes('bed bug') || desc.includes('bedbug')) {
-                enhancedContent.pestType = 'Bed Bugs';
-            } else if (desc.includes('ant')) {
-                enhancedContent.pestType = 'Ants';
-            } else if (desc.includes('spider')) {
-                enhancedContent.pestType = 'Spiders';
-            } else if (desc.includes('wasp') || desc.includes('hornet')) {
-                enhancedContent.pestType = 'Wasps';
-            } else if (desc.includes('rodent') || desc.includes('mouse') || desc.includes('rat')) {
-                enhancedContent.pestType = 'Rodents';
-            } else {
-                enhancedContent.pestType = 'General';
-            }
+
+        // Intelligent service category detection from description
+        if (!enhancedContent.serviceCategory) {
+            enhancedContent.serviceCategory = this.detectServiceCategoryFromDescription(description);
         }
-        
+
         return enhancedContent;
     }
 
-    // TIER 3: Enhanced content generation with intelligent pest type detection and seasonal adaptation
+    // Enhanced content generation with intelligent service category detection and seasonal adaptation
     generateSampleContent(record) {
         let contentType = record.contentType || 'Blog Post';
-        
-        // TIER 1 FIX: Enhanced content type detection and normalization
-        contentType = this.normalizeContentType(contentType);
-        const location = record.targetLocation || record.target_location || 'Illinois';
-        const description = record.description || 'Professional Services Content';
-        
-        // TIER 3: Advanced pest type detection with semantic analysis
-        let pestType = record.pestType;
-        if (!pestType || pestType === 'General') {
-            pestType = this.detectPestTypeFromDescription(description);
-        }
-        
-        // TIER 3: Seasonal content adaptation
-        const seasonalContext = this.getSeasonalContext();
-        const contentEnhancement = this.getContentEnhancement(description, pestType, seasonalContext);
 
-        // TIER 3: Enhanced content templates with seasonal adaptation and content enhancement
+        // Enhanced content type detection and normalization
+        contentType = this.normalizeContentType(contentType);
+        const location = record.targetLocation || record.target_location || (cfg.locations && cfg.locations.primary) || '';
+        const description = record.description || 'Professional Services Content';
+
+        // Service category detection with config-driven patterns
+        let serviceCategory = record.serviceCategory;
+        if (!serviceCategory || serviceCategory === 'General') {
+            serviceCategory = this.detectServiceCategoryFromDescription(description);
+        }
+
+        // Seasonal content adaptation
+        const seasonalContext = this.getSeasonalContext();
+        const contentEnhancement = this.getContentEnhancement(description, serviceCategory, seasonalContext);
+
+        // Content templates with seasonal adaptation
         const templates = {
-            'Social Media': this.generateSocialMediaContent(pestType, location, description, contentEnhancement),
-            'Social Media Post': this.generateSocialMediaContent(pestType, location, description, contentEnhancement), // FIX: Added explicit mapping
-            'Email': this.generateEmailContent(pestType, location, description, contentEnhancement),
-            'Blog Post': this.generateBlogContent(pestType, location, description, contentEnhancement),
-            'Guide': this.generateBlogContent(pestType, location, description, contentEnhancement), // Maps Guide to Blog content
-            'Location Page': this.generateLocationPageContent(pestType, location, description, contentEnhancement)
+            'Social Media': this.generateSocialMediaContent(serviceCategory, location, description, contentEnhancement),
+            'Social Media Post': this.generateSocialMediaContent(serviceCategory, location, description, contentEnhancement),
+            'Email': this.generateEmailContent(serviceCategory, location, description, contentEnhancement),
+            'Blog Post': this.generateBlogContent(serviceCategory, location, description, contentEnhancement),
+            'Guide': this.generateBlogContent(serviceCategory, location, description, contentEnhancement),
+            'Location Page': this.generateLocationPageContent(serviceCategory, location, description, contentEnhancement)
         };
 
         return templates[contentType] || templates['Blog Post'];
@@ -1890,141 +1877,108 @@ class ClaudeGUIBridge {
         return contentType;
     }
     
-    // TIER 3: Advanced pest type detection with semantic analysis
-    detectPestTypeFromDescription(description) {
+    // Config-driven service category detection with semantic analysis
+    detectServiceCategoryFromDescription(description) {
         const desc = description.toLowerCase();
-        
-        // Enhanced semantic detection with context awareness
-        const pestPatterns = {
-            'Spiders': [
-                'spider', 'arachnid', 'web', 'black widow', 'brown recluse', 'wolf spider',
-                'house spider', 'jumping spider', 'orb weaver', 'cellar spider'
-            ],
-            'Wasps': [
-                'wasp', 'hornet', 'yellow jacket', 'paper wasp', 'mud dauber', 'nest',
-                'stinger', 'aggressive', 'late summer', 'fall aggression'
-            ],
-            'Bed Bugs': [
-                'bed bug', 'bedbug', 'blood', 'mattress', 'bite', 'infestation',
-                'hitchhiker', 'travel', 'hotel', 'secondhand'
-            ],
-            'Ants': [
-                'ant', 'colony', 'trail', 'carpenter ant', 'pavement ant', 'pharaoh ant',
-                'sugar ant', 'kitchen', 'crumb', 'scout'
-            ],
-            'Rodents': [
-                'rodent', 'mouse', 'rat', 'mice', 'gnaw', 'droppings', 'nest',
-                'attic', 'basement', 'chew', 'hole'
-            ],
-            'Overwintering': [
-                'overwintering', 'cluster flies', 'boxelder bug', 'asian lady beetle',
-                'stink bug', 'winter', 'hibernate', 'shelter'
-            ]
-        };
-        
+        const detectionPatterns = (cfg.serviceCategories && cfg.serviceCategories.detectionPatterns) || {};
+
+        // If no patterns configured, return default
+        if (Object.keys(detectionPatterns).length === 0) {
+            return 'General';
+        }
+
         // Score-based detection for better accuracy
         let bestMatch = 'General';
         let bestScore = 0;
-        
-        for (const [pestType, patterns] of Object.entries(pestPatterns)) {
+
+        for (const [category, patterns] of Object.entries(detectionPatterns)) {
             let score = 0;
             for (const pattern of patterns) {
                 if (desc.includes(pattern)) {
-                    // Weight certain patterns higher
-                    const weight = pattern.length > 8 ? 2 : 1; // Longer, more specific terms get higher weight
+                    const weight = pattern.length > 8 ? 2 : 1;
                     score += weight;
                 }
             }
-            
+
             if (score > bestScore) {
                 bestScore = score;
-                bestMatch = pestType;
+                bestMatch = category;
             }
         }
-        
+
         return bestMatch;
     }
     
-    // TIER 3: Seasonal context awareness
+    // Config-driven seasonal context awareness
     getSeasonalContext() {
         const now = new Date();
         const month = now.getMonth(); // 0-11
-        
-        const seasonalData = {
-            // Winter (Dec, Jan, Feb)
-            winter: {
-                months: [11, 0, 1],
-                focus: 'Indoor pest activity, overwintering pests, structural damage prevention',
-                urgency: 'high',
-                keyPests: ['Rodents', 'Overwintering', 'Spiders']
-            },
-            // Spring (Mar, Apr, May)
-            spring: {
-                months: [2, 3, 4],
-                focus: 'Emerging pests, colony establishment, prevention preparation',
-                urgency: 'medium',
-                keyPests: ['Ants', 'Spiders', 'General']
-            },
-            // Summer (Jun, Jul, Aug)
-            summer: {
-                months: [5, 6, 7],
-                focus: 'Peak pest activity, breeding cycles, outdoor control',
-                urgency: 'high',
-                keyPests: ['Wasps', 'Ants', 'Bed Bugs']
-            },
-            // Fall (Sep, Oct, Nov)
-            fall: {
-                months: [8, 9, 10],
-                focus: 'Overwintering preparation, home invasion, late season aggression',
-                urgency: 'critical',
-                keyPests: ['Overwintering', 'Wasps', 'Spiders']
-            }
+        const seasonalMapping = (cfg.serviceCategories && cfg.serviceCategories.seasonalMapping) || {};
+
+        const seasonMonths = {
+            winter: [11, 0, 1],
+            spring: [2, 3, 4],
+            summer: [5, 6, 7],
+            fall: [8, 9, 10]
         };
-        
-        for (const [season, data] of Object.entries(seasonalData)) {
-            if (data.months.includes(month)) {
-                return { season, ...data };
+
+        for (const [season, months] of Object.entries(seasonMonths)) {
+            if (months.includes(month)) {
+                const configData = seasonalMapping[season] || {};
+                return {
+                    season,
+                    months,
+                    focus: configData.focus || `${season.charAt(0).toUpperCase() + season.slice(1)} service priorities`,
+                    urgency: configData.urgency || 'medium',
+                    keyCategories: configData.keyCategories || ['General']
+                };
             }
         }
-        
-        return seasonalData.fall; // Default fallback
+
+        // Default fallback
+        const fallConfig = seasonalMapping.fall || {};
+        return {
+            season: 'fall',
+            months: [8, 9, 10],
+            focus: fallConfig.focus || 'Fall service priorities',
+            urgency: fallConfig.urgency || 'medium',
+            keyCategories: fallConfig.keyCategories || ['General']
+        };
     }
     
-    // TIER 3: Content enhancement based on context
-    getContentEnhancement(description, pestType, seasonalContext) {
+    // Content enhancement based on context
+    getContentEnhancement(description, serviceCategory, seasonalContext) {
+        const keyCategories = seasonalContext.keyCategories || [];
         const enhancement = {
             urgencyLevel: seasonalContext.urgency,
             seasonalFocus: seasonalContext.focus,
-            isPriorityPest: seasonalContext.keyPests.includes(pestType),
+            isPriorityCategory: keyCategories.includes(serviceCategory),
             locationRelevance: this.getLocationRelevance(description),
             familySafety: this.getFamilySafetyContext(description),
-            callToAction: this.getSeasonalCallToAction(pestType, seasonalContext)
+            callToAction: this.getSeasonalCallToAction(serviceCategory, seasonalContext)
         };
-        
+
         return enhancement;
     }
     
-    // TIER 3: Location relevance detection
+    // Config-driven location relevance detection
     getLocationRelevance(description) {
         const desc = description.toLowerCase();
-        const locations = {
-            'Illinois': ['illinois', 'chicago', 'rockford', 'peoria', 'springfield'],
-            'Iowa': ['iowa', 'des moines', 'cedar rapids', 'davenport'],
-            'Wisconsin': ['wisconsin', 'milwaukee', 'madison', 'green bay']
-        };
-        
-        for (const [state, cities] of Object.entries(locations)) {
-            for (const city of cities) {
-                if (desc.includes(city)) {
-                    return { state, hasSpecificLocation: city !== state.toLowerCase() };
+        const locationPatterns = (cfg.locations && cfg.locations.detectionPatterns) || {};
+        const primaryLocation = (cfg.locations && cfg.locations.primary) || '';
+
+        for (const [state, patterns] of Object.entries(locationPatterns)) {
+            for (const pattern of patterns) {
+                if (desc.includes(pattern)) {
+                    return { state, hasSpecificLocation: pattern !== state.toLowerCase() };
                 }
             }
         }
-        
-        return { state: 'Illinois', hasSpecificLocation: false }; // Default
+
+        return { state: primaryLocation, hasSpecificLocation: false };
     }
     
-    // TIER 3: Family safety context
+    // Family safety context detection
     getFamilySafetyContext(description) {
         const desc = description.toLowerCase();
         const safetyKeywords = [
@@ -2042,418 +1996,118 @@ class ClaudeGUIBridge {
         };
     }
     
-    // TIER 3: Seasonal call-to-action optimization
-    getSeasonalCallToAction(pestType, seasonalContext) {
+    // Generic seasonal call-to-action optimization
+    getSeasonalCallToAction(serviceCategory, seasonalContext) {
+        const clientName = (cfg.client && cfg.client.name) || '{{COMPANY_NAME}}';
         const urgencyMap = {
-            critical: 'Call {{COMPANY_NAME}} today for immediate inspection',
-            high: 'Schedule your {{COMPANY_NAME}} inspection this week',
-            medium: 'Contact {{COMPANY_NAME}} for professional assessment',
-            low: 'Learn more about {{COMPANY_NAME}} protection plans'
+            critical: `Call ${clientName} today for immediate service`,
+            high: `Schedule your ${clientName} appointment this week`,
+            medium: `Contact ${clientName} for professional assessment`,
+            low: `Learn more about ${clientName} service plans`
         };
-        
-        const seasonalCTAs = {
-            fall: {
-                'Overwintering': 'Act now before they move inside for winter',
-                'Wasps': 'Emergency wasp removal - same day service available',
-                'Spiders': 'Prevent fall spider invasion with professional treatment'
-            },
-            winter: {
-                'Rodents': 'Stop winter rodent damage before it starts',
-                'Overwintering': 'Eliminate indoor pest activity now'
-            },
-            spring: {
-                'Ants': 'Prevent spring ant colonies with barrier treatment',
-                'General': 'Get ahead of pest season with preventive care'
-            },
-            summer: {
-                'Wasps': 'Protect your family from aggressive summer wasps',
-                'Bed Bugs': 'Don\'t let bed bugs ruin your summer travel'
-            }
-        };
-        
-        const specificCTA = seasonalCTAs[seasonalContext.season]?.[pestType];
-        const urgencyCTA = urgencyMap[seasonalContext.urgency];
-        
+
+        const urgencyCTA = urgencyMap[seasonalContext.urgency] || urgencyMap.medium;
+
         return {
-            specific: specificCTA || 'Professional service you can trust',
+            specific: 'Professional service you can trust',
             urgency: urgencyCTA,
-            combined: specificCTA ? `${specificCTA} - ${urgencyCTA}` : urgencyCTA
+            combined: urgencyCTA
         };
     }
 
-    // TIER 3: Enhanced social media content generation with seasonal adaptation
-    generateSocialMediaContent(pestType, location, description, contentEnhancement = null) {
-        const pestMessages = {
-            'Ants': `🐜 Winter ant invasions are starting early this year! Don't let these tiny invaders take over your ${location} home. Our eco-friendly treatments create an invisible barrier that keeps ants out while keeping your family safe. Call {{COMPANY_NAME}} today for your FREE inspection! #PestControl #${location.replace(/\s+/g, '')}`,
-            'Spiders': `🕷️ Fall spider season is here! Common house spiders and black widows are seeking warm shelter in ${location} homes. Our targeted spider treatments eliminate existing populations and prevent new invasions. Professional results guaranteed! #SpiderControl #${location.replace(/\s+/g, '')}`,
-            'Wasps': `⚠️ WASP EMERGENCY PROTOCOL: If you discover a wasp nest near your ${location} property, DON'T attempt DIY removal! Our certified technicians have specialized equipment and protective gear. Same-day emergency service available. Call {{COMPANY_NAME}} immediately! #WaspRemoval #Emergency`,
-            'General': `🏠 Protect your ${location} home this season! {{COMPANY_NAME}}'s comprehensive pest protection covers ants, spiders, rodents, and more. Join our {{PROTECTION_PROGRAM_NAME}} for year-round coverage and priority service. {{CORE_MESSAGE}}. #PestControl #${location.replace(/\s+/g, '')}`
-        };
+    // Generic social media content generation with seasonal adaptation
+    generateSocialMediaContent(serviceCategory, location, description, contentEnhancement = null) {
+        const clientName = (cfg.client && cfg.client.name) || '{{COMPANY_NAME}}';
+        const industry = (cfg.client && cfg.client.industry) || '{{INDUSTRY}}';
+        const locationTag = location ? `#${location.replace(/[,\s]+/g, '')}` : '';
 
-        let content = pestMessages[pestType] || pestMessages['General'];
-        
-        // TIER 3: Apply content enhancement if provided
-        if (contentEnhancement) {
-            content = this.enhanceSocialContent(content, contentEnhancement, pestType, location);
-        }
-        
+        const content = `Protect your ${location} property this season! ${clientName} provides professional ${industry} services with guaranteed results. Contact us today for your FREE consultation! ${locationTag}`;
+
         return content;
     }
     
-    // TIER 3: Social media content enhancement
-    enhanceSocialContent(content, enhancement, pestType, location) {
-        let enhancedContent = content;
-        
-        // Apply seasonal urgency enhancement
-        if (enhancement.urgencyLevel === 'critical' && enhancement.isPriorityPest) {
-            enhancedContent = enhancedContent.replace('Call {{COMPANY_NAME}}', '⚠️ URGENT: Call {{COMPANY_NAME}}');
-        }
-        
-        // Add family safety messaging for high safety context
-        if (enhancement.familySafety.safetyLevel === 'high') {
-            enhancedContent = enhancedContent.replace('#PestControl', '#FamilySafe #PestControl');
-        }
-        
-        // Add seasonal call-to-action if different from default
-        if (enhancement.callToAction.specific) {
-            const ctaPattern = /(Call {{COMPANY_NAME}} [^!]*!)/;
-            const match = enhancedContent.match(ctaPattern);
-            if (match) {
-                enhancedContent = enhancedContent.replace(match[1], 
-                    `${enhancement.callToAction.specific} - ${enhancement.callToAction.urgency}!`);
-            }
-        }
-        
-        return enhancedContent;
-    }
-    
-    // TIER 3: Blog content enhancement
-    enhanceBlogContent(content, enhancement, pestType, location) {
-        let enhancedContent = content;
-        
-        // Add seasonal urgency to the introduction
-        if (enhancement.urgencyLevel === 'critical') {
-            const urgencyText = `\n\n⚠️ **URGENT SEASONAL ALERT**: ${enhancement.seasonalFocus} - immediate action is recommended.\n`;
-            enhancedContent = urgencyText + enhancedContent;
-        }
-        
-        // Enhance family safety messaging
-        if (enhancement.familySafety.safetyLevel === 'high') {
-            enhancedContent = enhancedContent.replace(
-                'family safe', 
-                'family-safe, child-friendly, and pet-safe'
-            );
-        }
-        
-        // Add enhanced call-to-action
-        if (enhancement.callToAction.combined) {
-            enhancedContent = enhancedContent.replace(
-                /Call {{COMPANY_NAME}} [^!]*!/,
-                `${enhancement.callToAction.combined}!`
-            );
-        }
-        
-        return enhancedContent;
-    }
-    
-    // TIER 3: Email content enhancement (simplified for space)
-    enhanceEmailContent(content, enhancement, pestType, location) {
-        let enhancedContent = content;
-        
-        // Add urgent subject line enhancement
-        if (enhancement.urgencyLevel === 'critical') {
-            enhancedContent = enhancedContent.replace('Subject:', 'Subject: ⚠️ URGENT:');
-        }
-        
-        return enhancedContent;
-    }
+    // Content enhancement helpers (generic, config-driven)
 
-    // Generate email content  
-    generateEmailContent(pestType, location, description) {
-        const pestEmails = {
-            'Wasps': `Subject: URGENT: Wasp Nest Discovered - Immediate Action Required
+    // Generate email content (generic, config-driven)
+    generateEmailContent(serviceCategory, location, description) {
+        const clientName = (cfg.client && cfg.client.name) || '{{COMPANY_NAME}}';
 
-Dear Homeowner,
-
-If you've discovered a wasp nest on your ${location} property, your safety is our top priority. Please follow this emergency protocol:
-
-IMMEDIATE STEPS:
-• Stay at least 20 feet away from the nest
-• Keep children and pets indoors
-• Do NOT attempt to remove or spray the nest yourself
-• Avoid loud noises or sudden movements near the area
-
-WHY PROFESSIONAL REMOVAL IS CRITICAL:
-Wasps become increasingly aggressive when threatened, and DIY attempts often result in multiple stings and incomplete removal.
-
-OUR EMERGENCY RESPONSE:
-✓ Same-day service available
-✓ Specialized protective equipment
-✓ Complete nest removal and treatment
-✓ Follow-up inspection included
-
-Call {{COMPANY_NAME}} immediately at {{PHONE_NUMBER}} for emergency wasp removal.
-
-Stay safe,
-The {{COMPANY_NAME}} Team
-
-P.S. Ask about our Pests Protection Club to prevent future wasp invasions.`,
-
-            'Ants': `Subject: Winter Ant Prevention - Act Now Before They Invade
-
-Dear ${location} Homeowner,
-
-Winter ant invasions are starting earlier than ever, and your home could be their next target.
-
-THE PROBLEM:
-As temperatures drop, ant colonies seek warm, food-rich environments - exactly what your home provides.
-
-OUR SOLUTION:
-Our advanced ant barrier treatment creates an invisible protective shield around your home that lasts all winter long.
-
-WHAT'S INCLUDED:
-✓ Complete perimeter treatment
-✓ Entry point sealing
-✓ Interior spot treatments as needed
-✓ 90-day guarantee
-
-LIMITED TIME: Schedule by [DATE] and save 20% on winter ant prevention.
-
-Book your FREE inspection today!
-
-Best regards,
-{{COMPANY_NAME}} Team`,
-
-            'General': `Subject: Your ${location} Home's Pest Protection Plan
+        return `Subject: Your ${location} ${serviceCategory} Service Update
 
 Dear Valued Customer,
 
-Seasonal pest activity is increasing in the ${location} area, and now is the perfect time to strengthen your home's defenses.
+Seasonal service needs are changing in the ${location} area, and now is the perfect time to schedule your next appointment.
 
 OUR COMPREHENSIVE APPROACH:
-• Thorough property inspection
-• Targeted treatment for active pests  
-• Preventive barrier application
-• Ongoing monitoring and maintenance
+- Thorough assessment and inspection
+- Targeted service for your specific needs
+- Preventive measures and maintenance
+- Ongoing monitoring and follow-up
 
-PESTS PROTECTION CLUB BENEFITS:
-✓ Priority scheduling
-✓ Quarterly inspections
-✓ Unlimited service calls
-✓ 25% savings on additional treatments
+WHY CHOOSE ${clientName}:
+- Priority scheduling
+- Regular maintenance plans
+- Professional, licensed service
+- Satisfaction guarantee
 
-Your home deserves professional protection. Schedule your inspection today!
+Your property deserves professional care. Schedule your consultation today!
 
-Protecting your family,
-The {{COMPANY_NAME}} Team`
-        };
-
-        return pestEmails[pestType] || pestEmails['General'];
+Best regards,
+The ${clientName} Team`;
     }
 
-    // Generate blog post content
-    generateBlogContent(pestType, location, description) {
-        // {{COMPANY_NAME}} GUIDELINE ENFORCEMENT: Blog posts must be agent-generated to meet {{CONTENT_LENGTH_REQUIREMENTS}} requirement
-        // Direct template generation is PROHIBITED for blog content to ensure brand compliance
-        
-        throw new Error(`
-🚫 {{COMPANY_NAME}} COMPLIANCE ERROR: Direct blog generation bypassed
+    // Generate blog post content (generic, config-driven)
+    generateBlogContent(serviceCategory, location, description) {
+        const clientName = (cfg.client && cfg.client.name) || '{{COMPANY_NAME}}';
 
-Blog posts must follow {{COMPANY_NAME}} guidelines:
-- Length: 1,000-1,500 words (template only has ~228 words)
-- Brand Voice: Empathetic, competent, neighborly 
-- Structure: 70% educational / 30% promotional
-- Location Integration: 5-7 mentions per 1,000 words
-- Seasonal Context: Weather/season integration required
+        // Blog posts should be agent-generated for quality
+        throw new Error(`
+Blog posts must be generated through agent orchestration:
 
 REQUIRED SOLUTION:
-Use agent orchestration for all blog content:
 1. Run "let's plan" workflow
 2. Coordinate with content-marketing-strategist
 3. Generate via lead-writer agent
 4. Stage completed content to dashboard
 
 BLOCKED COMMAND: ${description}
-CONTENT TYPE: Blog Post  
-REASON: Template bypass violates {{COMPANY_NAME}} content standards
+CONTENT TYPE: Blog Post
+REASON: Template generation does not meet content quality standards
         `);
-        
-        // Legacy template code preserved but unreachable
-        const pestBlogs = {
-            'Spiders': `Fall is prime spider season in ${location}, and homeowners are starting to notice more eight-legged visitors in their homes. While most spiders are harmless, some species like the black widow can pose serious health risks to your family.
-
-## Common Fall Spiders in ${location}
-
-**House Spiders**: These small, brown spiders build webs in corners and quiet areas. While not dangerous, they can quickly multiply if left unchecked.
-
-**Wolf Spiders**: Large, fast-moving spiders that hunt at night. They don't build webs but can deliver a painful bite if threatened.
-
-**Black Widow Spiders**: The most dangerous species in our area. Identified by their shiny black body and red hourglass marking, their bite requires immediate medical attention.
-
-## Why Professional Spider Control Works
-
-DIY sprays often miss spider hiding spots and egg sacs, leading to recurring infestations. Our trained technicians know exactly where spiders hide and breed, ensuring complete elimination.
-
-## Our Spider Treatment Process
-
-1. **Comprehensive Inspection**: We identify all spider species and nesting areas
-2. **Targeted Treatment**: Species-specific treatments for maximum effectiveness  
-3. **Web Removal**: Complete elimination of existing webs and egg sacs
-4. **Preventive Barrier**: Long-lasting perimeter treatment to prevent re-infestation
-
-## Protecting Your Family
-
-Don't let spiders take over your ${location} home this fall. Our guaranteed spider control service eliminates existing populations and prevents new invasions.
-
-Call {{COMPANY_NAME}} today for your free spider inspection and take back control of your home!`,
-
-            'Bed Bugs': `Bed bug infestations in ${location} are on the rise, and early identification is crucial for effective treatment. These elusive parasites are expert hitchhikers that can infest even the cleanest homes.
-
-## How to Identify Bed Bugs
-
-**Physical Appearance**: Adult bed bugs are small, oval, brownish insects about the size of an apple seed. When engorged with blood, they become reddish-brown and more elongated.
-
-**Common Hiding Spots**: 
-- Mattress seams and bed frames
-- Furniture crevices and upholstery
-- Behind headboards and nightstands  
-- Electrical outlets near beds
-- Picture frames and wall hangings
-
-## Early Warning Signs
-
-**Bite Patterns**: Bed bug bites often appear in clusters or lines on exposed skin, typically causing red, itchy welts.
-
-**Physical Evidence**:
-- Dark or rust-colored stains on sheets (crushed bed bugs)
-- Small blood spots on pillowcases
-- Sweet, musty odor in heavily infested rooms
-- Tiny dark spots (bed bug fecal matter) on mattresses
-
-## Why Professional Treatment is Essential
-
-DIY treatments often fail because bed bugs hide deep in cracks and crevices that are impossible to reach with consumer products. Our heat treatment and targeted chemical applications eliminate all life stages, including eggs.
-
-## {{COMPANY_NAME}}'s Bed Bug Elimination Process
-
-1. **Thorough Inspection**: We identify all infestation areas using detection tools
-2. **Customized Treatment Plan**: Combining heat treatment and residual applications  
-3. **Follow-up Service**: Ensuring complete elimination with return visits
-4. **Prevention Guidance**: Tips to avoid future infestations
-
-## Immediate Action Steps
-
-If you suspect bed bugs in your ${location} home:
-- Don't panic or start moving furniture
-- Avoid DIY sprays that can scatter the infestation
-- Call {{COMPANY_NAME}} immediately for professional inspection
-
-Early intervention saves time, money, and prevents the infestation from spreading throughout your home.
-
-Contact {{COMPANY_NAME}} today for emergency bed bug inspection and guaranteed elimination service!`,
-
-            'Ants': `Winter ant invasions in ${location} homes are becoming increasingly common, and this year's mild fall weather has created perfect conditions for early ant activity.
-
-## Why Ants Invade Homes in Winter
-
-Unlike many pests that hibernate, certain ant species remain active year-round. As outdoor food sources become scarce, they seek the warmth and abundance your home provides.
-
-## Common Winter Ants in ${location}
-
-**Pavement Ants**: Small black ants that enter through cracks in foundations and create trails to food sources.
-
-**Pharaoh Ants**: Tiny yellow ants that prefer warm, humid areas like kitchens and bathrooms.
-
-**Carpenter Ants**: Large black ants that can cause structural damage by excavating wood for their nests.
-
-## The {{COMPANY_NAME}} Winter Ant Solution
-
-Our advanced ant barrier treatment creates an invisible shield around your home that lasts all winter long. This environmentally-friendly approach eliminates existing colonies while preventing new invasions.
-
-## Treatment Benefits
-
-✓ Long-lasting protection (up to 6 months)
-✓ Safe for children and pets
-✓ Eliminates existing ant trails and colonies
-✓ Prevents structural damage from carpenter ants
-
-## Don't Wait Until It's Too Late
-
-Once ants establish trails in your home, elimination becomes much more difficult and expensive. Preventive treatment is always more effective than reactive measures.
-
-Protect your ${location} home today with {{COMPANY_NAME}}'s proven winter ant prevention program!`,
-
-            'General': `Pest activity in ${location} is changing with the seasons, and your home's pest protection strategy should adapt accordingly. Here's what every homeowner needs to know about year-round pest prevention.
-
-## Seasonal Pest Patterns in ${location}
-
-Each season brings unique pest challenges that require different approaches and treatments.
-
-**Spring**: Ant colonies become active, spiders emerge from winter hiding spots
-**Summer**: Peak activity for most pests, increased breeding and population growth
-**Fall**: Pests seek shelter in homes, preparing for winter survival
-**Winter**: Indoor pest activity continues, structural pests cause the most damage
-
-## The Comprehensive Approach
-
-Effective pest control isn't about treating one problem at a time - it's about creating a year-round protection system that adapts to seasonal pest behavior.
-
-## {{COMPANY_NAME}}'s Seasonal Protection Program
-
-Our Pests Protection Club membership provides:
-
-✓ Quarterly inspections and treatments
-✓ Seasonal adjustments to treatment methods
-✓ Priority service for urgent pest issues
-✓ Comprehensive coverage for all common pests
-
-## Why Choose Professional Protection
-
-DIY pest control often fails because it treats symptoms rather than causes. Our trained technicians understand pest behavior, breeding cycles, and the most effective treatment methods for each species.
-
-## Investment in Your Home's Value
-
-Professional pest protection preserves your property value and protects your family's health and comfort.
-
-Contact {{COMPANY_NAME}} today to learn more about our comprehensive pest protection programs!`
-        };
-
-        return pestBlogs[pestType] || pestBlogs['General'];
     }
 
-    // Generate location page content
-    generateLocationPageContent(pestType, location, description) {
-        return `Professional {{INDUSTRY}} services for ${location} homeowners and businesses. {{COMPANY_NAME}} provides comprehensive {{SERVICE_DESCRIPTION}} with guaranteed results.
+    // Generate location page content (generic, config-driven)
+    generateLocationPageContent(serviceCategory, location, description) {
+        const clientName = (cfg.client && cfg.client.name) || '{{COMPANY_NAME}}';
+        const industry = (cfg.client && cfg.client.industry) || '{{INDUSTRY}}';
+        const phone = (cfg.client && cfg.client.phone) || '{{PHONE_NUMBER}}';
+        const email = (cfg.client && cfg.client.email) || '{{EMAIL}}';
+        const experience = (cfg.branding && cfg.branding.experience) || '{{YEARS_EXPERIENCE}}';
+        const differentiators = (cfg.branding && cfg.branding.differentiators) || [];
 
-## Pest Control Services in ${location}
+        const diffList = differentiators.length > 0
+            ? differentiators.map(d => `- ${d}`).join('\n')
+            : '- Local expertise and knowledge\n- Professional, licensed service\n- Guaranteed results with follow-up\n- Satisfaction guarantee';
 
-{{COMPANY_NAME}} has been protecting ${location} properties for over {{YEARS_EXPERIENCE}} years with safe, effective {{INDUSTRY}} solutions. Our local expertise and advanced treatment methods ensure your {{INDUSTRY}} problems are solved quickly and completely.
+        return `Professional ${industry} services for ${location} homeowners and businesses. ${clientName} provides comprehensive service with guaranteed results.
 
-## Common Pest Issues in ${location}
+## ${industry.charAt(0).toUpperCase() + industry.slice(1)} Services in ${location}
 
-• Ant invasions during seasonal changes
-• Spider infestations in basements and garages  
-• Rodent problems in winter months
-• Wasp and hornet nest removal
-• General insect control year-round
+${clientName} has been serving ${location} properties for ${experience} with professional ${industry} solutions.
 
 ## Our ${location} Service Area
 
-We proudly serve all neighborhoods in ${location} including [LOCAL AREAS]. Same-day and emergency services available.
+We proudly serve all neighborhoods in ${location}. Same-day and emergency services available.
 
-## Why Choose {{COMPANY_NAME}} for ${location} {{INDUSTRY}}
+## Why Choose ${clientName} for ${location}
 
-✓ Local expertise and knowledge
-✓ Eco-friendly, family-safe treatments
-✓ Guaranteed results with follow-up service
-✓ Licensed and insured technicians
-✓ Pests Protection Club membership available
+${diffList}
 
-## Get Your Free ${location} Pest Inspection
+## Get Your Free Consultation
 
-Call today to schedule your complimentary pest inspection and receive a customized treatment plan for your ${location} property.
+Call today to schedule your complimentary consultation for your ${location} property.
 
-Contact {{COMPANY_NAME}}: {{PHONE_NUMBER}} | {{EMAIL}} | {{ADDRESS}}`;
+Contact ${clientName}: ${phone} | ${email}`;
     }
 }
 

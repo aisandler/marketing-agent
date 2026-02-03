@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../brand.schema.json",
+
+  "name": "Catalyst Digital",
+  "tagline": "Growth Through Strategic Marketing",
+
+  "colors": {
+    "primary": "#0f172a",
+    "secondary": "#f59e0b",
+    "accent": "#f8fafc",
+    "_names": {
+      "primary": "slate",
+      "secondary": "amber"
+    }
+  },
+
+  "imageStyleDirective": "sophisticated agency aesthetic, slate (#0f172a) and amber (#f59e0b) color palette, modern office environments, strategic planning visuals, data dashboards, creative workspace, no faces visible, professional and polished",
+
+  "contentPillars": [
+    "Strategic Growth",
+    "Data-Driven Marketing",
+    "Brand Development"
+  ],
+
+  "focusAreas": [
+    "B2B lead generation",
+    "Brand strategy consulting"
+  ],
+
+  "industry": "Marketing Agency",
+  "location": "Austin, TX"
+}

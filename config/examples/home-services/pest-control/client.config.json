@@ -1,0 +1,209 @@
+{
+  "client": {
+    "name": "Pest Control Consultants",
+    "industry": "pest_control",
+    "businessType": "local_service_business",
+    "serviceArea": {
+      "primary": "Dixon, IL",
+      "secondary": ["Sycamore", "DeKalb", "Rockford", "Aurora"],
+      "state": "Illinois",
+      "region": "Northern Illinois"
+    },
+    "website": "https://pestcontrolconsultants.com",
+    "phone": "(815) 284-4101",
+    "email": "info@pestcontrolconsultants.com"
+  },
+  "airtable": {
+    "webhookUrl": "{{N8N_WEBHOOK_URL}}",
+    "baseId": "{{AIRTABLE_BASE_ID}}",
+    "tableId": "{{AIRTABLE_TABLE_ID}}",
+    "apiUrl": "https://api.airtable.com/v0"
+  },
+  "fields": {
+    "contentId": "Content ID",
+    "description": "Description",
+    "contentType": "Content Type",
+    "priority": "Priority",
+    "targetLocation": "Target Location",
+    "serviceCategory": "Pest Type",
+    "contentFormat": "Content Format",
+    "seasonalRelevance": "Seasonal Relevance",
+    "primaryKeyword": "Primary Keyword",
+    "searchVolume": "Search Volume",
+    "keywordDifficulty": "Keyword Difficulty",
+    "notes": "Notes",
+    "text": "Text",
+    "status": "Status",
+    "title": "Title",
+    "publishDate": "Publish Date",
+    "targetPublishDate": "Target Publish Date"
+  },
+  "brand": {
+    "guidelines": [
+      "docs/brand-guidelines/brand-guide.md",
+      "docs/brand-guidelines/core-messaging-template.md"
+    ],
+    "voiceGuide": "docs/brand-guidelines/brand-guide.md",
+    "personas": null,
+    "styleGuide": null,
+    "assetsDir": "content/client-documents/brand-guides",
+    "knowledge": []
+  },
+  "templates": {
+    "blogOutline": null,
+    "blogDraft": null,
+    "socialPost": null,
+    "locationPage": null
+  },
+  "labels": {
+    "entitySubtypeLabel": "Pest Type"
+  },
+  "drive": {
+    "folders": {
+      "blog": "{{DRIVE_BLOG_FOLDER_ID}}",
+      "social": "{{DRIVE_SOCIAL_FOLDER_ID}}",
+      "location": "{{DRIVE_LOCATION_FOLDER_ID}}",
+      "email": "{{DRIVE_EMAIL_FOLDER_ID}}",
+      "library": "{{DRIVE_LIBRARY_FOLDER_ID}}"
+    }
+  },
+  "branding": {
+    "primaryMessage": "Protect what matters most. Family-safe pest solutions.",
+    "tagline": "Your Trusted Pest Protection Partner",
+    "tone": "empathetic, competent, neighborly",
+    "personality": ["trustworthy", "knowledgeable", "family-oriented"],
+    "experience": "30+ years",
+    "differentiators": [
+      "Eco-friendly, family-safe treatments",
+      "Same-day emergency service",
+      "Local expertise across Northern Illinois",
+      "Pests Protection Club membership"
+    ]
+  },
+  "services": {
+    "primary": [
+      "General Pest Control",
+      "Ant Control",
+      "Spider Control"
+    ],
+    "secondary": [
+      "Rodent Control",
+      "Bed Bug Treatment",
+      "Wasp & Hornet Removal"
+    ],
+    "seasonal": {
+      "spring": ["Ant Prevention", "Spider Treatment"],
+      "summer": ["Wasp Removal", "Bed Bug Treatment"],
+      "fall": ["Overwintering Prevention", "Rodent Exclusion"],
+      "winter": ["Indoor Pest Control", "Rodent Control"]
+    }
+  },
+  "serviceCategories": {
+    "categories": [
+      { "name": "General", "aliases": ["general pest", "pest control"], "isDefault": true },
+      { "name": "Ants", "aliases": ["ant", "ant control"] },
+      { "name": "Spiders", "aliases": ["spider", "spider control"] },
+      { "name": "Wasps", "aliases": ["wasp", "hornet", "yellow jacket"] },
+      { "name": "Bed Bugs", "aliases": ["bed bug", "bedbug"] },
+      { "name": "Rodents", "aliases": ["rodent", "mouse", "rat", "mice"] },
+      { "name": "Overwintering", "aliases": ["overwintering", "cluster flies", "boxelder bug"] }
+    ],
+    "detectionPatterns": {
+      "Spiders": ["spider", "arachnid", "web", "black widow", "brown recluse", "wolf spider", "house spider"],
+      "Wasps": ["wasp", "hornet", "yellow jacket", "paper wasp", "mud dauber", "nest", "stinger"],
+      "Bed Bugs": ["bed bug", "bedbug", "mattress", "bite", "infestation", "hitchhiker"],
+      "Ants": ["ant", "colony", "trail", "carpenter ant", "pavement ant", "pharaoh ant", "sugar ant"],
+      "Rodents": ["rodent", "mouse", "rat", "mice", "gnaw", "droppings", "attic"],
+      "Overwintering": ["overwintering", "cluster flies", "boxelder bug", "asian lady beetle", "stink bug"]
+    },
+    "seasonalMapping": {
+      "spring": {
+        "focus": "Emerging pests, colony establishment, prevention preparation",
+        "urgency": "medium",
+        "keyCategories": ["Ants", "Spiders", "General"]
+      },
+      "summer": {
+        "focus": "Peak pest activity, breeding cycles, outdoor control",
+        "urgency": "high",
+        "keyCategories": ["Wasps", "Ants", "Bed Bugs"]
+      },
+      "fall": {
+        "focus": "Overwintering preparation, home invasion, late season aggression",
+        "urgency": "critical",
+        "keyCategories": ["Overwintering", "Wasps", "Spiders"]
+      },
+      "winter": {
+        "focus": "Indoor pest activity, overwintering pests, structural damage prevention",
+        "urgency": "high",
+        "keyCategories": ["Rodents", "Overwintering", "Spiders"]
+      }
+    }
+  },
+  "locations": {
+    "primary": "Illinois",
+    "secondary": ["Iowa", "Wisconsin"],
+    "states": ["Illinois", "Iowa", "Wisconsin"],
+    "detectionPatterns": {
+      "Illinois": ["illinois", "chicago", "rockford", "peoria", "springfield", "dixon", "sycamore", "dekalb", "aurora"],
+      "Iowa": ["iowa", "des moines", "cedar rapids", "davenport"],
+      "Wisconsin": ["wisconsin", "milwaukee", "madison", "green bay", "delavan"]
+    }
+  },
+  "seo": {
+    "primaryKeywords": [
+      "pest control Dixon IL",
+      "exterminator Northern Illinois",
+      "bed bug treatment Rockford"
+    ],
+    "localModifiers": [
+      "Dixon",
+      "Sycamore",
+      "DeKalb",
+      "Rockford"
+    ],
+    "contentTopics": [
+      "Pest prevention",
+      "Family-safe treatments",
+      "Seasonal pest guides"
+    ]
+  },
+  "competition": {
+    "primaryCompetitors": [
+      "Orkin",
+      "Terminix",
+      "ABC Pest Control"
+    ],
+    "competitiveAdvantages": [
+      "Locally owned and operated",
+      "Eco-friendly treatments"
+    ]
+  },
+  "leadGeneration": {
+    "primaryCTA": "Get Your Free Pest Inspection",
+    "leadMagnets": [
+      "Seasonal Pest Prevention Guide",
+      "Home Pest-Proofing Checklist"
+    ],
+    "conversionGoals": [
+      "Free inspection requests",
+      "Pests Protection Club signups"
+    ]
+  },
+  "contentStrategy": {
+    "contentPillars": [
+      "Family Safety",
+      "Seasonal Prevention",
+      "Local Expertise"
+    ],
+    "contentTypes": [
+      "Blog Posts",
+      "Location Pages",
+      "Social Media Posts"
+    ],
+    "publishingFrequency": {
+      "blogPosts": "4-6 per month",
+      "locationPages": "2-3 per month",
+      "servicePages": "Quarterly"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../brand.schema.json",
+
+  "name": "Apex Roofing",
+  "tagline": "Arizona's Most Trusted Roofing Experts",
+
+  "colors": {
+    "primary": "#991b1b",
+    "secondary": "#1e3a8a",
+    "accent": "#ffffff",
+    "_names": {
+      "primary": "brick red",
+      "secondary": "navy blue"
+    }
+  },
+
+  "imageStyleDirective": "professional roofing service aesthetic, brick red (#991b1b) and navy blue (#1e3a8a) color palette, beautiful Arizona homes, roof installations in progress, storm protection, no faces visible, residential and commercial buildings",
+
+  "contentPillars": [
+    "Roof Protection Expertise",
+    "Arizona Weather Challenges",
+    "Homeowner Education"
+  ],
+
+  "focusAreas": [
+    "Storm damage repair",
+    "Energy efficient roofing"
+  ],
+
+  "industry": "Roofing",
+  "location": "Phoenix, AZ"
+}

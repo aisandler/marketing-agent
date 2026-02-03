@@ -22,51 +22,51 @@
 ```
 📋 CONTENT PREVIEW - Ready for Airtable Submission
 ==================================================
-ID   | Description                         | Content Type | Priority | Target Location | Pest Type
+ID   | Description                         | Content Type | Priority | Target Location | Service Category
 ------+-------------------------------------+--------------+----------+-----------------+------------
-1    | October Rodent Proofing Dixon IL    | Blog Post    | HIGH     | Dixon IL        | Rodents
-2    | Winter Spider Control Sycamore      | Blog Post    | HIGH     | Sycamore IL     | Spiders  
-3    | Fall Pest Prevention Tips          | Social Media | MEDIUM   | Multi-State     | General
-4    | November Ant Alert                 | Social Media | MEDIUM   | Multi-State     | Ants
-5    | DeKalb Termite Treatment Guide     | Blog Post    | HIGH     | DeKalb IL       | Termites
+1    | October Service Prep City 1        | Blog Post    | HIGH     | City 1          | Category A
+2    | Winter Maintenance City 2          | Blog Post    | HIGH     | City 2          | Category B
+3    | Fall Prevention Tips               | Social Media | MEDIUM   | Multi-State     | General
+4    | November Service Alert             | Social Media | MEDIUM   | Multi-State     | Category C
+5    | City 3 Service Guide               | Blog Post    | HIGH     | City 3          | Category D
 
 📝 DETAILED VIEW (First 3 Records):
 ===================================
 
 Record #1:
-  Description: October Rodent Proofing Dixon IL
+  Description: October Service Prep City 1
   Content Type: Blog Post
   Priority: HIGH
-  Target Location: Dixon IL
-  Pest Type: Rodents
+  Target Location: City 1
+  Service Category: Category A
   Content Format: WordPress Blog
-  Primary Keyword: rodent proofing Dixon IL
+  Primary Keyword: [service] [city 1]
   Search Volume: 380
   Keyword Difficulty: Medium
   Seasonal Relevance: Fall
   Notes: Office location priority
 
 Record #2:
-  Description: Winter Spider Control Sycamore IL
+  Description: Winter Maintenance City 2
   Content Type: Blog Post
   Priority: HIGH
-  Target Location: Sycamore IL
-  Pest Type: Spiders
+  Target Location: City 2
+  Service Category: Category B
   Content Format: WordPress Blog
-  Primary Keyword: winter spider control Sycamore
+  Primary Keyword: winter [service] [city 2]
   Search Volume: 220
   Keyword Difficulty: Low
   Seasonal Relevance: Winter
-  Notes: Indoor migration focus
+  Notes: Seasonal focus
 
 Record #3:
-  Description: Fall Pest Prevention Tips
+  Description: Fall Prevention Tips
   Content Type: Social Media
   Priority: MEDIUM
   Target Location: Multi-State
-  Pest Type: General
+  Service Category: General
   Content Format: Facebook Post
-  Primary Keyword: fall pest prevention
+  Primary Keyword: fall [service] prevention
   Search Volume: 650
   Keyword Difficulty: Low
   Seasonal Relevance: Fall
@@ -89,11 +89,11 @@ Record #3:
 source /Users/adamsandler/projects/marketing-team-base/automation/preview_and_submit.sh
 
 # Add each planned content piece to preview
-add_to_preview "October Rodent Proofing Dixon IL" "Blog Post" "HIGH" "Dixon IL" "Rodents" "WordPress Blog" "Fall" "rodent proofing Dixon IL" 380 "Medium" "Office location priority"
+add_to_preview "October Service Prep City 1" "Blog Post" "HIGH" "City 1" "Category A" "WordPress Blog" "Fall" "[service] [city 1]" 380 "Medium" "Office location priority"
 
-add_to_preview "Winter Spider Control Sycamore" "Blog Post" "HIGH" "Sycamore IL" "Spiders" "WordPress Blog" "Winter" "winter spider control Sycamore" 220 "Low" "Indoor migration focus"
+add_to_preview "Winter Maintenance City 2" "Blog Post" "HIGH" "City 2" "Category B" "WordPress Blog" "Winter" "winter [service] [city 2]" 220 "Low" "Seasonal focus"
 
-add_to_preview "Fall Pest Prevention Tips" "Social Media" "MEDIUM" "Multi-State" "General" "Facebook Post" "Fall" "fall pest prevention" 650 "Low" "Location-agnostic per {{CLIENT_CONTACT}} rules"
+add_to_preview "Fall Prevention Tips" "Social Media" "MEDIUM" "Multi-State" "General" "Facebook Post" "Fall" "fall [service] prevention" 650 "Low" "Location-agnostic per {{CLIENT_CONTACT}} rules"
 ```
 
 #### Step 2: Show Complete Preview
@@ -118,10 +118,10 @@ fi
 
 ### Conversation Flow:
 
-**You**: "I need 8 pieces of content for November - mix of blog posts and social media focusing on winter pest preparation"
+**You**: "I need 8 pieces of content for November - mix of blog posts and social media focusing on winter service preparation"
 
-**Claude Code**: 
-"Let me plan November winter preparation content. I'll focus on seasonal pest migration, home preparation, and family safety messaging.
+**Claude Code**:
+"Let me plan November winter preparation content. I'll focus on seasonal service needs, home preparation, and customer safety messaging.
 
 Building content preview...
 
@@ -132,28 +132,28 @@ Here's what I've planned:"
 ```
 📋 CONTENT PREVIEW - Ready for Airtable Submission
 ==================================================
-ID   | Description                         | Content Type | Priority | Target Location | Pest Type
+ID   | Description                         | Content Type | Priority | Target Location | Service Category
 ------+-------------------------------------+--------------+----------+-----------------+------------
-1    | November Rodent Home Prep Dixon     | Blog Post    | HIGH     | Dixon IL        | Rodents
-2    | Winter Spider Prevention Sycamore   | Blog Post    | HIGH     | Sycamore IL     | Spiders
-3    | Cold Weather Pest Proofing Rockford | Blog Post    | HIGH     | Rockford IL     | General
-4    | Winter Pest Alert Social           | Social Media | MEDIUM   | Multi-State     | General
-5    | Rodent Season Preparation Social    | Social Media | MEDIUM   | Multi-State     | Rodents
-6    | Home Winterization Pest Tips       | Social Media | MEDIUM   | Multi-State     | General
-7    | Family Safe Winter Treatment       | Social Media | HIGH     | Multi-State     | General
+1    | November Home Prep City 1           | Blog Post    | HIGH     | City 1          | Category A
+2    | Winter Prevention City 2           | Blog Post    | HIGH     | City 2          | Category B
+3    | Cold Weather Service City 3        | Blog Post    | HIGH     | City 3          | General
+4    | Winter Service Alert Social        | Social Media | MEDIUM   | Multi-State     | General
+5    | Season Preparation Social          | Social Media | MEDIUM   | Multi-State     | Category A
+6    | Home Winterization Tips            | Social Media | MEDIUM   | Multi-State     | General
+7    | Safe Winter Service Guide          | Social Media | HIGH     | Multi-State     | General
 8    | Professional Winter Service Alert  | Social Media | MEDIUM   | Multi-State     | General
 
 📝 DETAILED VIEW (First 3 Records):
 ===================================
 
 Record #1:
-  Description: November Rodent Home Prep Dixon IL
+  Description: November Home Prep City 1
   Content Type: Blog Post
   Priority: HIGH
-  Target Location: Dixon IL
-  Pest Type: Rodents
+  Target Location: City 1
+  Service Category: Category A
   Content Format: WordPress Blog
-  Primary Keyword: november rodent prevention Dixon IL
+  Primary Keyword: november [service] prevention [city 1]
   Search Volume: 290
   Keyword Difficulty: Low
   Seasonal Relevance: Fall
@@ -173,10 +173,10 @@ Record #1:
 🚀 Submitting to Airtable...
 
 Submitting Record #1...
-✅ Submitted: November Rodent Home Prep Dixon IL
+✅ Submitted: November Home Prep City 1
 
 Submitting Record #2...
-✅ Submitted: Winter Spider Prevention Sycamore
+✅ Submitted: Winter Prevention City 2
 
 [...]
 
@@ -230,7 +230,7 @@ save_preview_markdown november_content_plan.md
 ### Custom Columns:
 ```bash
 # Configure which columns to show
-set_preview_columns "Description,Priority,Target Location,Pest Type,Search Volume"
+set_preview_columns "Description,Priority,Target Location,Service Category,Search Volume"
 
 # Group by specific fields
 group_preview_by "Content Type"
@@ -284,7 +284,7 @@ Claude: [Executes 15 submissions]
 
 ### Monthly Campaigns:
 ```
-You: "December holiday pest prevention campaign"
+You: "December holiday prevention campaign"
 Claude: [Shows large campaign preview with grouping]
 You: "Looks comprehensive, submit everything"
 Claude: [Batch submits entire campaign]
@@ -294,4 +294,4 @@ Claude: [Batch submits entire campaign]
 
 **Ready to Use**: The preview system is configured and ready. Your next planning conversation will automatically show formatted tables before any Airtable submissions.
 
-**Test It**: Try saying "I need 2 blog posts about winter rodent control" and see the preview system in action!
+**Test It**: Try saying "I need 2 blog posts about winter service preparation" and see the preview system in action!

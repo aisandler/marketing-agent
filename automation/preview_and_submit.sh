@@ -14,7 +14,7 @@ show_preview_table() {
     
     # Header
     printf "%-4s | %-35s | %-12s | %-8s | %-15s | %-10s\n" \
-           "ID" "Description" "Content Type" "Priority" "Target Location" "Pest Type"
+           "ID" "Description" "Content Type" "Priority" "Target Location" "Service Category"
     echo "------+-------------------------------------+--------------+----------+-----------------+------------"
     
     # Read and display each record
@@ -25,7 +25,7 @@ show_preview_table() {
         content_type=$(echo "$line" | jq -r '.fields["Content Type"] // "N/A"')
         priority=$(echo "$line" | jq -r '.fields.Priority // "N/A"')
         target_location=$(echo "$line" | jq -r '.fields["Target Location"] // "N/A"')
-        pest_type=$(echo "$line" | jq -r '.fields["Pest Type"] // "N/A"')
+        service_category=$(echo "$line" | jq -r '.fields["Service Category"] // "N/A"')
         
         # Truncate long descriptions
         if [ ${#description} -gt 33 ]; then
@@ -36,7 +36,7 @@ show_preview_table() {
         fi
         
         printf "%-4d | %-35s | %-12s | %-8s | %-15s | %-10s\n" \
-               "$counter" "$description" "$content_type" "$priority" "$target_location" "$pest_type"
+               "$counter" "$description" "$content_type" "$priority" "$target_location" "$service_category"
         
         ((counter++))
     done < "$TEMP_FILE"
@@ -55,7 +55,7 @@ show_preview_table() {
         echo "  Content Type: $(echo "$line" | jq -r '.fields["Content Type"]')"
         echo "  Priority: $(echo "$line" | jq -r '.fields.Priority')"
         echo "  Target Location: $(echo "$line" | jq -r '.fields["Target Location"]')"
-        echo "  Pest Type: $(echo "$line" | jq -r '.fields["Pest Type"]')"
+        echo "  Service Category: $(echo "$line" | jq -r '.fields["Service Category"]')"
         echo "  Content Format: $(echo "$line" | jq -r '.fields["Content Format"]')"
         echo "  Primary Keyword: $(echo "$line" | jq -r '.fields["Primary Keyword"]')"
         echo "  Search Volume: $(echo "$line" | jq -r '.fields["Search Volume"]')"
@@ -78,7 +78,7 @@ add_to_preview() {
     local content_type="$2"
     local priority="$3"
     local target_location="$4"
-    local pest_type="$5"
+    local service_category="$5"
     local content_format="$6"
     local seasonal_relevance="$7"
     local primary_keyword="$8"
@@ -92,14 +92,14 @@ add_to_preview() {
   "body": {
     "operation": "airtable",
     "subOperation": 4,
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblCR8yF9HHQlDij1",
+    "baseId": "${AIRTABLE_BASE_ID}",
+    "tableId": "${AIRTABLE_CONTENT_TABLE_ID}",
     "fields": {
       "Description": "$description",
       "Content Type": "$content_type",
       "Priority": "$priority",
       "Target Location": "$target_location",
-      "Pest Type": "$pest_type",
+      "Service Category": "$service_category",
       "Content Format": "$content_format",
       "Seasonal Relevance": "$seasonal_relevance",
       "Primary Keyword": "$primary_keyword",

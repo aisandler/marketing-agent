@@ -1,0 +1,2603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factory Floor - Factorio Style</title>
+    <style>
+        /* Factorio's Titillium Web font */
+        @font-face {
+            font-family: 'Titillium Web';
+            src: url('../factory-visualizer-portable/assets/fonts/TitilliumWeb-Regular.ttf') format('truetype');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'Titillium Web';
+            src: url('../factory-visualizer-portable/assets/fonts/TitilliumWeb-SemiBold.ttf') format('truetype');
+            font-weight: 600;
+        }
+        @font-face {
+            font-family: 'Titillium Web';
+            src: url('../factory-visualizer-portable/assets/fonts/TitilliumWeb-Bold.ttf') format('truetype');
+            font-weight: 700;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Titillium Web', 'Consolas', 'Monaco', sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+        #game-canvas {
+            display: block;
+        }
+        #header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 36px;
+            background: linear-gradient(180deg, #3d3d3d 0%, #2a2a2a 100%);
+            border-bottom: 2px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            z-index: 100;
+        }
+        #header h1 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ff9900;
+            text-shadow: 1px 1px 0 #000;
+            letter-spacing: 0.5px;
+        }
+        .header-controls { display: flex; gap: 6px; align-items: center; }
+        .btn {
+            padding: 4px 10px;
+            border: 1px solid #555;
+            background: linear-gradient(180deg, #4a4a4a 0%, #3a3a3a 100%);
+            color: #ccc;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .btn:hover { background: linear-gradient(180deg, #5a5a5a 0%, #4a4a4a 100%); }
+        .btn:active { background: #333; }
+        .btn-orange { border-color: #ff9900; color: #ff9900; }
+        #file-input { display: none; }
+
+        #stats-panel {
+            position: fixed;
+            top: 46px; left: 8px;
+            background: rgba(30,30,30,0.95);
+            border: 1px solid #444;
+            padding: 6px 10px;
+            font-size: 10px;
+            z-index: 90;
+        }
+        .stat-row { display: flex; justify-content: space-between; gap: 16px; padding: 1px 0; }
+        .stat-label { color: #888; }
+        .stat-value { color: #ff9900; }
+
+        #timeline {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30,30,30,0.95);
+            border: 1px solid #444;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+        #timeline.hidden { display: none; }
+        .timeline-btn {
+            width: 24px; height: 24px;
+            border: 1px solid #555;
+            background: #3a3a3a;
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timeline-btn svg { width: 10px; height: 10px; fill: currentColor; }
+        #timeline-slider {
+            width: 250px; height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #2a2a2a;
+            border: 1px solid #444;
+        }
+        #timeline-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px; height: 16px;
+            background: linear-gradient(180deg, #ff9900, #cc7700);
+            border: 1px solid #ffaa00;
+            cursor: pointer;
+        }
+        .timeline-time { font-size: 10px; color: #888; min-width: 40px; text-align: center; }
+        .speed-select {
+            padding: 2px 6px;
+            border: 1px solid #444;
+            background: #2a2a2a;
+            color: #ccc;
+            font-size: 10px;
+            font-family: inherit;
+        }
+
+        #welcome {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 50;
+            background: rgba(30,30,30,0.98);
+            border: 2px solid #444;
+            padding: 30px 40px;
+        }
+        #welcome h2 { font-size: 20px; color: #ff9900; margin-bottom: 12px; }
+        #welcome p { font-size: 11px; color: #888; margin-bottom: 20px; line-height: 1.5; }
+
+        #info-panel {
+            position: fixed;
+            top: 46px; right: 8px;
+            background: rgba(30,30,30,0.95);
+            border: 1px solid #444;
+            padding: 10px;
+            width: 240px;
+            font-size: 10px;
+            z-index: 100;
+            display: none;
+        }
+        #info-panel.visible { display: block; }
+        .info-header { border-bottom: 1px solid #444; padding-bottom: 6px; margin-bottom: 6px; }
+        .info-title { color: #ff9900; font-size: 12px; }
+        .info-subtitle { color: #666; font-size: 9px; }
+        .info-close {
+            position: absolute; top: 6px; right: 6px;
+            width: 16px; height: 16px;
+            border: 1px solid #444;
+            background: #333;
+            color: #888;
+            cursor: pointer;
+            font-size: 12px;
+            line-height: 14px;
+            text-align: center;
+        }
+        .info-close:hover { background: #c44; color: #fff; }
+        .info-section { margin-bottom: 8px; }
+        .info-section-title { color: #888; text-transform: uppercase; font-size: 9px; margin-bottom: 3px; }
+        .info-stat { display: flex; justify-content: space-between; padding: 2px 0; }
+        .info-stat-label { color: #666; }
+        .info-stat-value { color: #ccc; }
+
+        #legend {
+            position: fixed;
+            bottom: 60px; left: 8px;
+            background: rgba(30,30,30,0.95);
+            border: 1px solid #444;
+            padding: 6px 10px;
+            font-size: 9px;
+            z-index: 90;
+        }
+        .legend-title { color: #ff9900; margin-bottom: 4px; text-transform: uppercase; font-size: 8px; }
+        .legend-item { display: flex; align-items: center; gap: 6px; padding: 1px 0; color: #888; }
+        .legend-color { width: 10px; height: 10px; border: 1px solid #555; }
+    </style>
+</head>
+<body>
+    <canvas id="game-canvas"></canvas>
+
+    <div id="header">
+        <h1>Factory Floor Visualizer</h1>
+        <div class="header-controls">
+            <input type="file" id="file-input" accept=".jsonl" multiple>
+            <button class="btn btn-orange" id="load-btn">Load Transcript</button>
+            <button class="btn" id="watch-btn" style="background:#2a5a2a;margin-left:4px" title="Watch file for live updates">▶ Live</button>
+            <span id="live-indicator" style="display:none;color:#4CAF50;font-size:10px;margin-left:4px">● LIVE</span>
+            <button class="btn" id="clear-btn" title="Clear factory and watch it build fresh">Clear</button>
+            <button class="btn" id="reset-btn" title="Reset camera view">View</button>
+        </div>
+    </div>
+
+    <div id="stats-panel">
+        <div class="stat-row"><span class="stat-label">Machines:</span><span class="stat-value" id="stat-machines">0</span></div>
+        <div class="stat-row"><span class="stat-label">Events:</span><span class="stat-value" id="stat-events">0</span></div>
+        <div class="stat-row"><span class="stat-label">Items/min:</span><span class="stat-value" id="stat-throughput">0</span></div>
+    </div>
+
+    <div id="legend">
+        <div class="legend-title">Machine Types</div>
+        <div class="legend-item"><div class="legend-color" style="background:linear-gradient(135deg,#7a6a4a,#5a4a3a)"></div>Assembler (Write/Edit)</div>
+        <div class="legend-item"><div class="legend-color" style="background:linear-gradient(135deg,#4488cc,#2a4a6a)"></div>Lab (Read/Search)</div>
+        <div class="legend-item"><div class="legend-color" style="background:linear-gradient(135deg,#aa8866,#6a5a4a)"></div>Oil Refinery (Bash)</div>
+        <div class="legend-item"><div class="legend-color" style="background:linear-gradient(135deg,#8a8a6a,#5a5a4a)"></div>Radar (Web/Fetch)</div>
+        <div class="legend-item"><div class="legend-color" style="background:linear-gradient(135deg,#6a7a6a,#4a5a4a)"></div>Roboport (Orchestrator)</div>
+    </div>
+
+    <div id="welcome">
+        <h2>🏭 Factory Floor</h2>
+        <p>Visualize Claude Code agent workflows<br>as a Factorio-style factory with real sprites!</p>
+        <p style="font-size:9px;color:#666;margin-top:8px;">Assemblers • Labs • Refineries • Radars • Roboports</p>
+        <button class="btn btn-orange" id="welcome-load-btn">Load JSONL Transcript</button>
+    </div>
+
+    <div id="timeline" class="hidden">
+        <button class="timeline-btn" id="play-btn">
+            <svg id="play-icon" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            <svg id="pause-icon" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <span class="timeline-time" id="current-time">0:00</span>
+        <input type="range" id="timeline-slider" min="0" max="100" value="0">
+        <span class="timeline-time" id="total-time">0:00</span>
+        <select class="speed-select" id="speed-select">
+            <option value="0.5">0.5x</option>
+            <option value="1" selected>1x</option>
+            <option value="2">2x</option>
+            <option value="5">5x</option>
+            <option value="10">10x</option>
+        </select>
+    </div>
+
+    <div id="info-panel">
+        <button class="info-close" id="info-close">×</button>
+        <div class="info-header">
+            <div class="info-title" id="info-title">Machine</div>
+            <div class="info-subtitle" id="info-subtitle">ID</div>
+        </div>
+        <div id="info-content"></div>
+    </div>
+
+    <script>
+    // ============================================
+    // FACTORIO-STYLE FACTORY VISUALIZATION
+    // Top-down view with REAL Factorio sprites
+    // ============================================
+
+    const TILE_SIZE = 28;  // Larger for better visibility and detail
+    const SPRITE_BASE = '../factory-visualizer-portable/assets';
+
+    // Centralized animation timing constants
+    const ANIMATION = {
+        BELT_SPEED: 0.08,              // Slower than 0.12 for visibility
+        MACHINE_PROGRESS_RATE: 0.005,  // Faster completion
+        INSERTER_ROTATION_SPEED: 0.12, // Smooth arm movement
+        INSERTER_GRAB_FRAMES: 12,
+        INSERTER_DROP_FRAMES: 8,
+        ITEM_BELT_SPEED: 0.004,
+        GLOW_PULSE_SPEED: 0.08,
+    };
+
+    // ============================================
+    // SPRITE LOADER - Preloads all Factorio sprites
+    // ============================================
+    class SpriteLoader {
+        constructor() {
+            this.sprites = {};
+            this.loaded = false;
+            this.loadPromise = null;
+        }
+
+        async load() {
+            if (this.loadPromise) return this.loadPromise;
+
+            this.loadPromise = new Promise(async (resolve) => {
+                const spritesToLoad = {
+                    // Machine icons (64x64 multi-size sprites)
+                    'assembler': `${SPRITE_BASE}/icons/assembling-machine-1.png`,
+                    'assembler2': `${SPRITE_BASE}/icons/assembling-machine-2.png`,
+                    'lab': `${SPRITE_BASE}/icons/lab.png`,
+                    'radar': `${SPRITE_BASE}/icons/radar.png`,
+                    'roboport': `${SPRITE_BASE}/icons/roboport.png`,
+                    'refinery': `${SPRITE_BASE}/icons/oil-refinery.png`,
+                    'chemical-plant': `${SPRITE_BASE}/icons/chemical-plant.png`,
+
+                    // Item icons
+                    'iron-plate': `${SPRITE_BASE}/icons/iron-plate.png`,
+                    'copper-plate': `${SPRITE_BASE}/icons/copper-plate.png`,
+                    'iron-gear': `${SPRITE_BASE}/icons/iron-gear-wheel.png`,
+                    'circuit': `${SPRITE_BASE}/icons/electronic-circuit.png`,
+                    'advanced-circuit': `${SPRITE_BASE}/icons/advanced-circuit.png`,
+                    'steel-plate': `${SPRITE_BASE}/icons/steel-plate.png`,
+
+                    // Belt icon
+                    'belt': `${SPRITE_BASE}/icons/transport-belt.png`,
+                    'fast-belt': `${SPRITE_BASE}/icons/fast-transport-belt.png`,
+
+                    // Inserter icon
+                    'inserter': `${SPRITE_BASE}/icons/inserter.png`,
+                    'fast-inserter': `${SPRITE_BASE}/icons/fast-inserter.png`,
+
+                    // Power pole entity sprite
+                    'power-pole': `${SPRITE_BASE}/entity/medium-electric-pole/medium-electric-pole.png`,
+
+                    // Roboport entity sprites
+                    'roboport-base': `${SPRITE_BASE}/entity/roboport/roboport-base.png`,
+
+                    // Construction robot
+                    'construction-robot': `${SPRITE_BASE}/icons/construction-robot.png`,
+                    'logistic-robot': `${SPRITE_BASE}/icons/logistic-robot.png`,
+
+                    // TERRAIN TEXTURES
+                    'terrain-dirt': `${SPRITE_BASE}/terrain/dirt-1.png`,
+                    'terrain-concrete': `${SPRITE_BASE}/terrain/concrete/concrete.png`,
+                    'terrain-stone': `${SPRITE_BASE}/terrain/stone-path/stone-path-4.png`,
+                    'grass-background': `${SPRITE_BASE}/terrain/grass-background.png`,
+
+
+                    // BELT SPRITE SHEET (for authentic animation)
+                    'belt-sheet': `${SPRITE_BASE}/entity/transport-belt/transport-belt.png`,
+
+                    // Entity sprites for authentic animations
+                    'assembler-entity': `${SPRITE_BASE}/entity/assembling-machine-1/assembling-machine-1.png`,
+                    'lab-entity': `${SPRITE_BASE}/entity/lab/lab.png`,
+                    'belt-entity': `${SPRITE_BASE}/entity/transport-belt/transport-belt.png`,
+                    'inserter-platform': `${SPRITE_BASE}/entity/inserter/inserter-platform.png`,
+                    'inserter-hand-open': `${SPRITE_BASE}/entity/inserter/inserter-hand-open.png`,
+
+                    // DECORATIVE ELEMENTS
+                    'rock-small-1': `${SPRITE_BASE}/decorative/small-rock/small-rock-01.png`,
+                    'rock-small-2': `${SPRITE_BASE}/decorative/small-rock/small-rock-02.png`,
+                    'rock-small-3': `${SPRITE_BASE}/decorative/small-rock/small-rock-03.png`,
+                    'rock-small-4': `${SPRITE_BASE}/decorative/small-rock/small-rock-04.png`,
+                    'rock-small-5': `${SPRITE_BASE}/decorative/small-rock/small-rock-05.png`,
+                    'rock-small-6': `${SPRITE_BASE}/decorative/small-rock/small-rock-06.png`,
+                    'rock-tiny-1': `${SPRITE_BASE}/decorative/tiny-rock/tiny-rock-01.png`,
+                    'rock-tiny-2': `${SPRITE_BASE}/decorative/tiny-rock/tiny-rock-02.png`,
+                    'rock-tiny-3': `${SPRITE_BASE}/decorative/tiny-rock/tiny-rock-03.png`,
+                    'rock-tiny-4': `${SPRITE_BASE}/decorative/tiny-rock/tiny-rock-04.png`,
+                    'fluff-1': `${SPRITE_BASE}/decorative/brown-fluff/brown-fluff-00.png`,
+                    'fluff-2': `${SPRITE_BASE}/decorative/brown-fluff/brown-fluff-01.png`,
+                    'fluff-3': `${SPRITE_BASE}/decorative/brown-fluff/brown-fluff-02.png`,
+                    'grass-1': `${SPRITE_BASE}/decorative/brown-hairy-grass/brown-hairy-grass-00.png`,
+                    'grass-2': `${SPRITE_BASE}/decorative/brown-hairy-grass/brown-hairy-grass-01.png`,
+                    // Green grass decorations
+                    'green-grass-1': `${SPRITE_BASE}/decorative/green-hairy-grass/green-hairy-grass-00.png`,
+                    'green-grass-2': `${SPRITE_BASE}/decorative/green-hairy-grass/green-hairy-grass-01.png`,
+                    'green-grass-3': `${SPRITE_BASE}/decorative/green-hairy-grass/green-hairy-grass-02.png`,
+                    'green-grass-4': `${SPRITE_BASE}/decorative/green-hairy-grass/green-hairy-grass-03.png`,
+                    'green-grass-5': `${SPRITE_BASE}/decorative/green-hairy-grass/green-hairy-grass-04.png`,
+                    'green-grass-6': `${SPRITE_BASE}/decorative/green-small-grass/green-small-grass-00.png`,
+                    'green-grass-7': `${SPRITE_BASE}/decorative/green-small-grass/green-small-grass-01.png`,
+                    'green-grass-8': `${SPRITE_BASE}/decorative/green-small-grass/green-small-grass-02.png`,
+                };
+
+                const loadImage = (src) => {
+                    return new Promise((resolve) => {
+                        const img = new Image();
+                        const timeout = setTimeout(() => {
+                            console.warn(`Timeout loading sprite: ${src}`);
+                            resolve(null);
+                        }, 5000);  // 5 second timeout per sprite
+                        img.onload = () => {
+                            clearTimeout(timeout);
+                            resolve(img);
+                        };
+                        img.onerror = () => {
+                            clearTimeout(timeout);
+                            console.warn(`Failed to load sprite: ${src}`);
+                            resolve(null);
+                        };
+                        img.src = src;
+                    });
+                };
+
+                const loadPromises = Object.entries(spritesToLoad).map(async ([key, src]) => {
+                    const img = await loadImage(src);
+                    if (img) this.sprites[key] = img;
+                });
+
+                await Promise.all(loadPromises);
+                this.loaded = true;
+                console.log(`Loaded ${Object.keys(this.sprites).length} sprites`);
+                resolve();
+            });
+
+            return this.loadPromise;
+        }
+
+        get(name) {
+            return this.sprites[name] || null;
+        }
+
+        // Get specific frame from multi-size icon (largest size is at top-left)
+        // Factorio icons have multiple sizes, we want the 64x64 version
+        drawIcon(ctx, name, x, y, size = 64) {
+            const sprite = this.sprites[name];
+            if (!sprite) return false;
+
+            // Most Factorio icons are 64x64 at top-left, then smaller versions
+            // We'll use the main 64x64 sprite and scale it
+            ctx.drawImage(sprite, 0, 0, 64, 64, x, y, size, size);
+            return true;
+        }
+    }
+
+    const spriteLoader = new SpriteLoader();
+
+    const COLORS = {
+        // Ground
+        dirt: '#8B7355',
+        dirtDark: '#7A6548',
+        dirtLight: '#9C8462',
+        concrete: '#4A4A4A',
+        concreteDark: '#3A3A3A',
+
+        // Belt
+        beltBase: '#5A5A5A',
+        beltDark: '#4A4A4A',
+        beltLight: '#6A6A6A',
+        beltSlat: '#707070',
+
+        // Machines
+        machineGreen: '#4A7A4A',
+        machineGreenDark: '#3A6A3A',
+        machineBlue: '#4A5A7A',
+        machineBlueDark: '#3A4A6A',
+        machineGray: '#5A5A5A',
+        machineGrayDark: '#4A4A4A',
+        machineGrayLight: '#6A6A6A',
+        machineBrown: '#6A5A4A',
+
+        // Items
+        itemRed: '#CC4444',
+        itemGreen: '#44AA44',
+        itemBlue: '#4488CC',
+        itemYellow: '#CCAA44',
+        itemPurple: '#8855AA',
+        itemCyan: '#44AAAA',
+
+        // Other
+        inserter: '#D4A020',
+        inserterArm: '#AA8010',
+        wire: '#FFD700',
+        poleWood: '#8B6914',
+        poleMetal: '#6A6A6A',
+        shadow: 'rgba(0,0,0,0.25)',
+
+        // Status
+        lightGreen: '#44FF44',
+        lightRed: '#FF4444',
+        lightYellow: '#FFCC00',
+        lightOff: '#333333'
+    };
+
+    // ============================================
+    // SPRITE DRAWING - FACTORIO STYLE
+    // Now uses real Factorio sprite images!
+    // ============================================
+    class FactorioSprites {
+        constructor(ctx) {
+            this.ctx = ctx;
+            this.spriteLoader = spriteLoader;
+        }
+
+        // Ground tile with REAL Factorio terrain textures
+        // Default is now 'grass' to match Factorio's grassy aesthetic
+        drawGround(x, y, type = 'grass') {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE;
+            const py = y * TILE_SIZE;
+
+            if (type === 'concrete') {
+                const concreteSprite = this.spriteLoader.get('terrain-concrete');
+                if (concreteSprite) {
+                    // Concrete sprite sheet: tiles are 64x64, we need to pick a tile
+                    // The sheet has multiple variations, pick based on position for variety
+                    const tileIndex = ((x * 7 + y * 13) % 16);
+                    const tilesPerRow = Math.floor(concreteSprite.width / 64);
+                    const srcX = (tileIndex % tilesPerRow) * 64;
+                    const srcY = Math.floor(tileIndex / tilesPerRow) * 64;
+                    ctx.drawImage(concreteSprite, srcX, srcY, 64, 64, px, py, TILE_SIZE, TILE_SIZE);
+                } else {
+                    // Fallback
+                    ctx.fillStyle = (x + y) % 2 === 0 ? COLORS.concrete : COLORS.concreteDark;
+                    ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
+                }
+            } else if (type === 'grass') {
+                // Use real Factorio grass screenshot as tiling background
+                const grassBg = this.spriteLoader.get('grass-background');
+                if (grassBg) {
+                    // Tile the background image - sample based on world position
+                    const srcX = ((x * TILE_SIZE) % grassBg.width + grassBg.width) % grassBg.width;
+                    const srcY = ((y * TILE_SIZE) % grassBg.height + grassBg.height) % grassBg.height;
+
+                    // Handle edge wrapping if tile spans image boundary
+                    const availW = Math.min(TILE_SIZE, grassBg.width - srcX);
+                    const availH = Math.min(TILE_SIZE, grassBg.height - srcY);
+
+                    // Draw main portion
+                    ctx.drawImage(grassBg, srcX, srcY, availW, availH, px, py, availW, availH);
+
+                    // Fill right edge if needed
+                    if (availW < TILE_SIZE) {
+                        ctx.drawImage(grassBg, 0, srcY, TILE_SIZE - availW, availH,
+                                      px + availW, py, TILE_SIZE - availW, availH);
+                    }
+                    // Fill bottom edge if needed
+                    if (availH < TILE_SIZE) {
+                        ctx.drawImage(grassBg, srcX, 0, availW, TILE_SIZE - availH,
+                                      px, py + availH, availW, TILE_SIZE - availH);
+                    }
+                    // Fill corner if needed
+                    if (availW < TILE_SIZE && availH < TILE_SIZE) {
+                        ctx.drawImage(grassBg, 0, 0, TILE_SIZE - availW, TILE_SIZE - availH,
+                                      px + availW, py + availH, TILE_SIZE - availW, TILE_SIZE - availH);
+                    }
+                } else {
+                    // Fallback solid color
+                    ctx.fillStyle = '#3d5a2e';
+                    ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
+                }
+            } else {
+                // Dirt terrain
+                const dirtSprite = this.spriteLoader.get('terrain-dirt');
+                if (dirtSprite) {
+                    const tileIndex = ((x * 11 + y * 7) % 8);
+                    const srcX = 3200 + (tileIndex % 4) * 64;
+                    const srcY = 448 + Math.floor(tileIndex / 4) * 64;
+                    ctx.drawImage(dirtSprite, srcX, srcY, 64, 64, px, py, TILE_SIZE, TILE_SIZE);
+                } else {
+                    // Fallback dirt
+                    const baseColor = (x * 7 + y * 13) % 3 === 0 ? COLORS.dirtDark :
+                                      (x * 11 + y * 5) % 3 === 0 ? COLORS.dirtLight : COLORS.dirt;
+                    ctx.fillStyle = baseColor;
+                    ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
+                }
+            }
+        }
+
+        // Conveyor belt - Authentic Factorio style
+        // Dark rubber with treads, small orange chevrons, metallic edges
+        // Direction: 0=right, 1=down, 2=left, 3=up
+        // Base drawing has belt moving RIGHT, chevrons point RIGHT (>)
+        drawBelt(x, y, direction = 0, frame = 0) {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE;
+            const py = y * TILE_SIZE;
+
+            ctx.save();
+            ctx.translate(px + TILE_SIZE/2, py + TILE_SIZE/2);
+            // Rotate: direction 0=right (no rotation), 1=down (90°), 2=left (180°), 3=up (270°)
+            ctx.rotate(direction * Math.PI / 2);
+            ctx.translate(-TILE_SIZE/2, -TILE_SIZE/2);
+
+            // Outer metallic frame (dark steel)
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+
+            // Belt rubber base - dark gray
+            ctx.fillStyle = '#3d3d3d';
+            ctx.fillRect(0, 2, TILE_SIZE, TILE_SIZE - 4);
+
+            // Vertical tread lines (ribbed rubber texture) - for horizontal belt
+            ctx.fillStyle = '#333333';
+            const treadOffset = (frame * ANIMATION.BELT_SPEED) % 4;
+            for (let tx = -4; tx < TILE_SIZE + 4; tx += 4) {
+                const treadX = tx + treadOffset;
+                if (treadX >= 0 && treadX < TILE_SIZE) {
+                    ctx.fillRect(treadX, 2, 1, TILE_SIZE - 4);
+                }
+            }
+
+            // Slightly lighter center area for each lane
+            ctx.fillStyle = '#454545';
+            ctx.fillRect(0, 4, TILE_SIZE, TILE_SIZE/2 - 6);
+            ctx.fillRect(0, TILE_SIZE/2 + 2, TILE_SIZE, TILE_SIZE/2 - 6);
+
+            // Center divider - dark groove (horizontal line for horizontal belt)
+            ctx.fillStyle = '#2a2a2a';
+            ctx.fillRect(0, TILE_SIZE/2 - 1, TILE_SIZE, 2);
+
+            // Animated orange chevrons pointing RIGHT (>)
+            const chevronOffset = (frame * ANIMATION.BELT_SPEED) % 10;
+            ctx.fillStyle = '#cc8800';  // Orange-yellow
+
+            for (let i = -1; i < Math.ceil(TILE_SIZE / 10) + 2; i++) {
+                const cx = i * 10 + chevronOffset;
+                if (cx >= -5 && cx < TILE_SIZE + 5) {
+                    // Top lane chevron (pointing right >)
+                    ctx.beginPath();
+                    ctx.moveTo(cx, 6);
+                    ctx.lineTo(cx + 5, TILE_SIZE/2 - 3);
+                    ctx.lineTo(cx + 3, TILE_SIZE/2 - 3);
+                    ctx.lineTo(cx, 8);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    // Bottom lane chevron (pointing right >)
+                    ctx.beginPath();
+                    ctx.moveTo(cx, TILE_SIZE - 6);
+                    ctx.lineTo(cx + 5, TILE_SIZE/2 + 3);
+                    ctx.lineTo(cx + 3, TILE_SIZE/2 + 3);
+                    ctx.lineTo(cx, TILE_SIZE - 8);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
+
+            // Metallic edge rails - 3D effect
+            // Top rail highlight
+            ctx.fillStyle = '#4a4a4a';
+            ctx.fillRect(0, 0, TILE_SIZE, 2);
+            ctx.fillStyle = '#2a2a2a';
+            ctx.fillRect(0, 1, TILE_SIZE, 1);
+
+            // Bottom rail shadow
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, TILE_SIZE - 2, TILE_SIZE, 2);
+
+            ctx.restore();
+        }
+
+        // Belt with curve
+        drawBeltCurve(x, y, fromDir, toDir, frame = 0) {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE;
+            const py = y * TILE_SIZE;
+
+            // Determine curve type
+            ctx.save();
+            ctx.translate(px + TILE_SIZE/2, py + TILE_SIZE/2);
+
+            // Base
+            ctx.fillStyle = COLORS.beltDark;
+            ctx.beginPath();
+            ctx.arc(0, 0, TILE_SIZE/2 - 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = COLORS.beltBase;
+            ctx.beginPath();
+            ctx.arc(0, 0, TILE_SIZE/2 - 4, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        // Item on belt - Colorful Factorio-style items
+        drawItem(x, y, type = 'circuit', offsetX = 0, offsetY = 0) {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE + TILE_SIZE/2 + offsetX;
+            const py = y * TILE_SIZE + TILE_SIZE/2 + offsetY;
+
+            // Map item types to sprite names
+            const spriteMap = {
+                circuit: 'circuit',
+                gear: 'iron-gear',
+                plate: 'iron-plate',
+                pipe: 'copper-plate',
+                chip: 'advanced-circuit',
+                data: 'steel-plate'
+            };
+
+            // Bright, saturated colors like Factorio items
+            const fallbackColors = {
+                circuit: '#22dd22',   // Bright green (green circuits)
+                gear: '#888899',      // Steel gray (gears)
+                plate: '#ddaa33',     // Gold/copper (copper plates)
+                pipe: '#3399dd',      // Blue (plastic/blue circuits)
+                chip: '#dd3333',      // Red (red circuits)
+                data: '#aa77cc'       // Purple (science packs)
+            };
+
+            const size = Math.round(TILE_SIZE * 0.9);  // Scale with tile size for visibility
+            const sprite = this.spriteLoader.get(spriteMap[type] || 'circuit');
+
+            // Small shadow for depth
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.beginPath();
+            ctx.ellipse(px + 1, py + 2, size/2.2, size/4, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (sprite) {
+                // Draw the sprite (use top-left 64x64 from icon sheet)
+                ctx.drawImage(sprite, 0, 0, 64, 64, px - size/2, py - size/2, size, size);
+            } else {
+                // Fallback: bright colored items with 3D effect
+                const color = fallbackColors[type] || '#22dd22';
+
+                // Main item body (simple rect for compatibility)
+                ctx.fillStyle = color;
+                ctx.fillRect(px - size/2, py - size/2, size, size);
+
+                // Highlight (top-left shine)
+                ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                ctx.fillRect(px - size/2, py - size/2, size * 0.6, size * 0.4);
+
+                // Dark edge (bottom-right shadow)
+                ctx.fillStyle = 'rgba(0,0,0,0.3)';
+                ctx.fillRect(px, py + size/4, size/2 - 1, size/4);
+                ctx.fillRect(px + size/4, py, size/4, size/2 - 1);
+            }
+        }
+
+        // Inserter arm - Enhanced with sprite icon for base
+        drawInserter(x, y, rotation = 0, holding = null) {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE + TILE_SIZE/2;
+            const py = y * TILE_SIZE + TILE_SIZE/2;
+
+            // Shadow
+            ctx.fillStyle = COLORS.shadow;
+            ctx.beginPath();
+            ctx.ellipse(px + 2, py + 3, 8, 4, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.save();
+            ctx.translate(px, py);
+
+            // Try to draw inserter icon as base
+            const inserterSprite = this.spriteLoader.get('inserter');
+            if (inserterSprite) {
+                // Draw inserter icon as base (small, 20x20)
+                ctx.drawImage(inserterSprite, 0, 0, 64, 64, -10, -10, 20, 20);
+            } else {
+                // Fallback base platform
+                ctx.fillStyle = COLORS.inserterArm;
+                ctx.beginPath();
+                ctx.arc(0, 0, 7, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = COLORS.inserter;
+                ctx.beginPath();
+                ctx.arc(0, 0, 5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Rotating arm
+            ctx.rotate(rotation);
+
+            // Arm shadow
+            ctx.fillStyle = COLORS.shadow;
+            ctx.fillRect(-1 + 1, -22 + 1, 3, 20);
+
+            // Arm body
+            ctx.fillStyle = COLORS.inserter;
+            ctx.fillRect(-2, -22, 4, 20);
+
+            // Arm highlight
+            ctx.fillStyle = '#E8B830';
+            ctx.fillRect(-2, -22, 1, 20);
+
+            // Hand/grabber
+            ctx.fillStyle = COLORS.inserterArm;
+            ctx.fillRect(-5, -26, 10, 4);
+            ctx.fillRect(-6, -26, 2, 7);
+            ctx.fillRect(4, -26, 2, 7);
+
+            ctx.restore();
+
+            // Held item (draw after restore so it's in world space)
+            if (holding) {
+                const itemX = px + Math.sin(rotation) * 24;
+                const itemY = py - Math.cos(rotation) * 24;
+                this.drawItem(Math.floor(itemX / TILE_SIZE), Math.floor(itemY / TILE_SIZE), holding,
+                             (itemX % TILE_SIZE) - TILE_SIZE/2, (itemY % TILE_SIZE) - TILE_SIZE/2);
+            }
+        }
+
+        // Assembling Machine (3x3) - Uses real Factorio sprite
+        drawAssembler(x, y, working = false, progress = 0, frame = 0) {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE;
+            const py = y * TILE_SIZE;
+            const size = TILE_SIZE * 3;
+
+            // Shadow
+            ctx.fillStyle = COLORS.shadow;
+            ctx.fillRect(px + 6, py + 6, size, size);
+
+            // Try to draw sprite, fall back to canvas if not loaded
+            const sprite = this.spriteLoader.get('assembler');
+            if (sprite) {
+                // Draw the 64x64 icon scaled to 3x3 tiles
+                ctx.drawImage(sprite, 0, 0, 64, 64, px, py, size, size);
+
+                // Working glow effect
+                if (working) {
+                    ctx.save();
+                    ctx.globalAlpha = 0.3 + Math.sin(frame * 0.1) * 0.1;
+                    ctx.fillStyle = '#44FF44';
+                    ctx.fillRect(px, py, size, size);
+                    ctx.restore();
+                }
+            } else {
+                // Fallback: Green base plate
+                ctx.fillStyle = working ? '#5A8A5A' : COLORS.machineGreen;
+                ctx.fillRect(px, py, size, size);
+
+                ctx.fillStyle = COLORS.machineGreenDark;
+                ctx.fillRect(px, py, size, 4);
+                ctx.fillRect(px, py + size - 4, size, 4);
+                ctx.fillRect(px, py, 4, size);
+                ctx.fillRect(px + size - 4, py, 4, size);
+
+                // Center gear
+                const cx = px + size/2;
+                const cy = py + size/2;
+                ctx.save();
+                ctx.translate(cx, cy);
+                if (working) ctx.rotate(frame * 0.1);
+                ctx.fillStyle = COLORS.machineGrayDark;
+                ctx.beginPath();
+                ctx.arc(0, 0, 20, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // Status light overlay
+            ctx.fillStyle = working ? COLORS.lightGreen : COLORS.lightOff;
+            ctx.fillRect(px + size - 14, py + 10, 8, 8);
+
+            // Progress bar overlay
+            if (progress > 0) {
+                ctx.fillStyle = 'rgba(0,0,0,0.6)';
+                ctx.fillRect(px + 8, py + size - 14, size - 16, 8);
+                ctx.fillStyle = COLORS.lightGreen;
+                ctx.fillRect(px + 9, py + size - 13, (size - 18) * progress, 6);
+            }
+        }
+
+        // Lab (3x3) - for reading/research - Uses real Factorio sprite
+        drawLab(x, y, working = false, frame = 0) {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE;
+            const py = y * TILE_SIZE;
+            const size = TILE_SIZE * 3;
+
+            // Shadow
+            ctx.fillStyle = COLORS.shadow;
+            ctx.fillRect(px + 6, py + 6, size, size);
+
+            // Try to draw sprite
+            const sprite = this.spriteLoader.get('lab');
+            if (sprite) {
+                ctx.drawImage(sprite, 0, 0, 64, 64, px, py, size, size);
+
+                // Working glow effect - blue for lab
+                if (working) {
+                    ctx.save();
+                    ctx.globalAlpha = 0.2 + Math.sin(frame * 0.08) * 0.1;
+                    ctx.fillStyle = '#4488FF';
+                    ctx.fillRect(px, py, size, size);
+                    ctx.restore();
+
+                    // Spinning science pack indicators
+                    const cx = px + size/2;
+                    const cy = py + size/2;
+                    ctx.save();
+                    ctx.translate(cx, cy);
+                    ctx.rotate(frame * 0.05);
+                    const packColors = ['#FF4444', '#44FF44', '#4488FF'];
+                    for (let i = 0; i < 3; i++) {
+                        ctx.fillStyle = packColors[i];
+                        ctx.globalAlpha = 0.7;
+                        ctx.save();
+                        ctx.rotate(i * Math.PI * 2 / 3);
+                        ctx.fillRect(-3, -22, 6, 6);
+                        ctx.restore();
+                    }
+                    ctx.restore();
+                }
+            } else {
+                // Fallback: Blue base
+                ctx.fillStyle = working ? '#5A6A8A' : COLORS.machineBlue;
+                ctx.fillRect(px, py, size, size);
+
+                const cx = px + size/2;
+                const cy = py + size/2;
+                ctx.fillStyle = 'rgba(100,150,200,0.4)';
+                ctx.beginPath();
+                ctx.arc(cx, cy, 28, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Status light overlay
+            ctx.fillStyle = working ? COLORS.lightGreen : COLORS.lightOff;
+            ctx.fillRect(px + size - 14, py + 10, 8, 8);
+        }
+
+        // Chemical Plant / Refinery (3x3) - for Bash - Uses real Factorio sprite
+        drawRefinery(x, y, working = false, frame = 0) {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE;
+            const py = y * TILE_SIZE;
+            const size = TILE_SIZE * 3;
+
+            // Shadow
+            ctx.fillStyle = COLORS.shadow;
+            ctx.fillRect(px + 6, py + 6, size, size);
+
+            // Try to draw sprite (chemical-plant icon)
+            const sprite = this.spriteLoader.get('refinery');
+            if (sprite) {
+                ctx.drawImage(sprite, 0, 0, 64, 64, px, py, size, size);
+
+                // Working glow - orange/amber for refinery
+                if (working) {
+                    ctx.save();
+                    ctx.globalAlpha = 0.2 + Math.sin(frame * 0.12) * 0.1;
+                    ctx.fillStyle = '#FFAA44';
+                    ctx.fillRect(px, py, size, size);
+                    ctx.restore();
+
+                    // Smoke particles when working
+                    ctx.fillStyle = 'rgba(180,180,180,0.5)';
+                    for (let i = 0; i < 3; i++) {
+                        const smokeY = ((frame + i * 10) % 40);
+                        const smokeX = px + size - 20 + Math.sin(frame * 0.1 + i) * 4;
+                        ctx.beginPath();
+                        ctx.arc(smokeX, py - smokeY * 0.6, 4 + smokeY * 0.15, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+            } else {
+                // Fallback: Brown/industrial base
+                ctx.fillStyle = working ? '#7A6A5A' : COLORS.machineBrown;
+                ctx.fillRect(px, py, size, size);
+
+                ctx.fillStyle = '#6A7A6A';
+                ctx.beginPath();
+                ctx.ellipse(px + 30, py + 50, 18, 24, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.ellipse(px + 66, py + 50, 18, 24, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#666';
+                ctx.fillRect(px + size - 24, py + 8, 12, 40);
+            }
+
+            // Status light overlay
+            ctx.fillStyle = working ? COLORS.lightGreen : COLORS.lightOff;
+            ctx.fillRect(px + 10, py + 10, 8, 8);
+        }
+
+        // Radar (2x2) - for web operations - Uses real Factorio sprite
+        drawRadar(x, y, working = false, rotation = 0) {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE;
+            const py = y * TILE_SIZE;
+            const size = TILE_SIZE * 2;
+
+            // Shadow
+            ctx.fillStyle = COLORS.shadow;
+            ctx.fillRect(px + 4, py + 4, size, size);
+
+            // Try to draw sprite
+            const sprite = this.spriteLoader.get('radar');
+            if (sprite) {
+                ctx.drawImage(sprite, 0, 0, 64, 64, px, py, size, size);
+
+                // Working effect - signal waves
+                if (working) {
+                    ctx.save();
+                    ctx.globalAlpha = 0.15 + Math.sin(rotation * 3) * 0.1;
+                    ctx.fillStyle = '#44FF88';
+                    ctx.fillRect(px, py, size, size);
+                    ctx.restore();
+
+                    // Animated signal waves
+                    ctx.strokeStyle = 'rgba(100,255,150,0.4)';
+                    ctx.lineWidth = 2;
+                    for (let i = 1; i <= 3; i++) {
+                        const waveRadius = 12 + i * 12 + (rotation * 20) % 12;
+                        ctx.globalAlpha = 0.5 - i * 0.15;
+                        ctx.beginPath();
+                        ctx.arc(px + size/2, py + size/2, waveRadius, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    ctx.globalAlpha = 1;
+                }
+            } else {
+                // Fallback
+                ctx.fillStyle = '#5A5A6A';
+                ctx.fillRect(px, py, size, size);
+
+                ctx.save();
+                ctx.translate(px + size/2, py + size/2);
+                ctx.rotate(rotation);
+                ctx.fillStyle = '#AAA';
+                ctx.beginPath();
+                ctx.ellipse(0, -12, 20, 6, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // Roboport (4x4) - Main orchestrator - Uses real Factorio sprite
+        drawRoboport(x, y, working = false, botCount = 0, frame = 0) {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE;
+            const py = y * TILE_SIZE;
+            const size = TILE_SIZE * 4;
+
+            // Shadow
+            ctx.fillStyle = COLORS.shadow;
+            ctx.fillRect(px + 8, py + 8, size, size);
+
+            // Try to draw sprite
+            const sprite = this.spriteLoader.get('roboport');
+            if (sprite) {
+                ctx.drawImage(sprite, 0, 0, 64, 64, px, py, size, size);
+
+                // Working glow
+                if (working) {
+                    ctx.save();
+                    ctx.globalAlpha = 0.15 + Math.sin(frame * 0.06) * 0.08;
+                    ctx.fillStyle = '#FFCC00';
+                    ctx.fillRect(px, py, size, size);
+                    ctx.restore();
+                }
+            } else {
+                // Fallback: Base platform
+                ctx.fillStyle = '#5A6A5A';
+                ctx.fillRect(px, py, size, size);
+
+                ctx.fillStyle = COLORS.lightYellow;
+                ctx.fillRect(px + size/2 - 30, py + size/2 - 2, 60, 4);
+                ctx.fillRect(px + size/2 - 2, py + size/2 - 30, 4, 60);
+
+                ctx.fillStyle = '#4A4A5A';
+                ctx.fillRect(px + size/2 - 24, py + size/2 - 24, 48, 48);
+            }
+
+            // Flying bots when working - draw with real robot sprites
+            if (working && botCount > 0) {
+                const robotSprite = this.spriteLoader.get('construction-robot');
+                for (let i = 0; i < Math.min(botCount, 4); i++) {
+                    const angle = frame * 0.03 + i * Math.PI / 2;
+                    const radius = 55 + Math.sin(frame * 0.05 + i) * 12;
+                    const bx = px + size/2 + Math.cos(angle) * radius;
+                    const by = py + size/2 + Math.sin(angle) * radius * 0.6;
+
+                    // Bot shadow
+                    ctx.fillStyle = COLORS.shadow;
+                    ctx.beginPath();
+                    ctx.ellipse(bx + 2, by + 12, 6, 3, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    if (robotSprite) {
+                        // Draw robot sprite (16x16 from icon)
+                        ctx.drawImage(robotSprite, 0, 0, 64, 64, bx - 8, by - 8, 16, 16);
+                    } else {
+                        // Fallback bot body
+                        ctx.fillStyle = '#FFAA00';
+                        ctx.fillRect(bx - 5, by - 5, 10, 10);
+                        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                        ctx.beginPath();
+                        ctx.ellipse(bx, by - 5, 7, 2, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+            }
+
+            // Status indicators (antenna light)
+            ctx.fillStyle = working ? COLORS.lightGreen : COLORS.lightRed;
+            ctx.beginPath();
+            ctx.arc(px + size/2, py + 8, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Bot count indicators
+            for (let i = 0; i < 4; i++) {
+                ctx.fillStyle = i < botCount ? '#44AAFF' : COLORS.lightOff;
+                ctx.fillRect(px + size - 14, py + 14 + i * 12, 8, 8);
+            }
+        }
+
+        // Power pole with wires - Uses real Factorio sprite
+        drawPowerPole(x, y) {
+            const ctx = this.ctx;
+            const px = x * TILE_SIZE + TILE_SIZE/2;
+            const py = y * TILE_SIZE + TILE_SIZE/2;
+
+            const sprite = this.spriteLoader.get('power-pole');
+
+            // Shadow
+            ctx.fillStyle = COLORS.shadow;
+            ctx.beginPath();
+            ctx.ellipse(px + 3, py + 8, 8, 4, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (sprite) {
+                // The power pole sprite has 4 frames (rotations)
+                // Each frame is roughly 44x77 pixels in the sprite sheet
+                // We'll use the first frame and draw it centered
+                const frameWidth = 44;
+                const frameHeight = 77;
+                const drawWidth = 28;
+                const drawHeight = 50;
+                ctx.drawImage(sprite, 0, 0, frameWidth, frameHeight,
+                              px - drawWidth/2, py - drawHeight + 8, drawWidth, drawHeight);
+            } else {
+                // Fallback: drawn pole
+                ctx.fillStyle = COLORS.poleWood;
+                ctx.fillRect(px - 3, py - 20, 6, 24);
+
+                ctx.fillStyle = COLORS.poleMetal;
+                ctx.fillRect(px - 12, py - 18, 24, 3);
+
+                ctx.fillStyle = '#888';
+                ctx.fillRect(px - 11, py - 22, 5, 5);
+                ctx.fillRect(px + 6, py - 22, 5, 5);
+            }
+        }
+
+        // Wire between two points - supports multiple wire colors like Factorio
+        drawWire(x1, y1, x2, y2, wireType = 'copper') {
+            const ctx = this.ctx;
+            const px1 = x1 * TILE_SIZE + TILE_SIZE/2;
+            const py1 = y1 * TILE_SIZE + TILE_SIZE/2 - 16;
+            const px2 = x2 * TILE_SIZE + TILE_SIZE/2;
+            const py2 = y2 * TILE_SIZE + TILE_SIZE/2 - 16;
+
+            // Wire colors (Factorio has copper, red circuit, green circuit)
+            const wireColors = {
+                copper: '#B87333',    // Copper wire (power)
+                red: '#CC3333',       // Red circuit wire
+                green: '#33AA33'      // Green circuit wire
+            };
+
+            // Catenary curve (wire sag)
+            ctx.strokeStyle = wireColors[wireType] || wireColors.copper;
+            ctx.lineWidth = wireType === 'copper' ? 1.5 : 1;
+            ctx.beginPath();
+            ctx.moveTo(px1, py1);
+
+            const dist = Math.sqrt(Math.pow(px2-px1, 2) + Math.pow(py2-py1, 2));
+            const sag = Math.min(12, dist * 0.1);  // Sag proportional to distance
+            const midX = (px1 + px2) / 2;
+            const midY = (py1 + py2) / 2 + sag;
+            ctx.quadraticCurveTo(midX, midY, px2, py2);
+            ctx.stroke();
+        }
+
+        // Draw multiple parallel wires (power + circuit wires)
+        drawWireBundle(x1, y1, x2, y2) {
+            // Main copper power wire
+            this.drawWire(x1, y1, x2, y2, 'copper');
+            // Offset red/green circuit wires slightly
+            this.drawWire(x1 + 0.1, y1, x2 + 0.1, y2, 'red');
+            this.drawWire(x1 - 0.1, y1, x2 - 0.1, y2, 'green');
+        }
+
+        // Draw environmental decoration (rock, grass, fluff)
+        drawDecoration(x, y, type, scale = 1) {
+            const ctx = this.ctx;
+            const sprite = this.spriteLoader.get(type);
+
+            if (sprite) {
+                const px = x * TILE_SIZE;
+                const py = y * TILE_SIZE;
+                const width = sprite.width * scale;
+                const height = sprite.height * scale;
+
+                // Center the decoration on its position
+                ctx.drawImage(sprite, px - width/2, py - height/2, width, height);
+            }
+        }
+    }
+
+    // ============================================
+    // FACTORY STATE
+    // ============================================
+    class FactoryState {
+        constructor() {
+            this.machines = new Map();
+            this.belts = [];
+            this.inserters = [];
+            this.items = [];
+            this.beltItems = [];  // Static items on belt tiles
+            this.poles = [];
+            this.decorations = [];  // Environmental decorations
+            this.bounds = { minX: -15, maxX: 15, minY: -15, maxY: 15 };  // Larger initial field
+        }
+
+        clear() {
+            this.machines.clear();
+            this.belts = [];
+            this.inserters = [];
+            this.items = [];
+            this.beltItems = [];  // Static items sitting on belt tiles
+            this.poles = [];
+            this.decorations = [];
+        }
+
+        // Populate belts with items using wave pattern for consistent visual flow
+        // Items every 2 belt tiles on left lane, alternate right lane every 4 tiles
+        populateBeltsWithItems() {
+            this.beltItems = [];
+            const itemTypes = ['circuit', 'gear', 'plate', 'pipe', 'chip', 'data'];
+
+            for (let i = 0; i < this.belts.length; i++) {
+                const belt = this.belts[i];
+
+                // Wave pattern: left lane items every 2 tiles
+                if (i % 2 === 0) {
+                    this.beltItems.push({
+                        x: belt.x,
+                        y: belt.y,
+                        lane: -6,  // Left lane offset
+                        type: itemTypes[i % itemTypes.length],  // Deterministic type based on position
+                        offset: (i % 3) * 0.15  // Staggered offset
+                    });
+                }
+
+                // Right lane items every 4 tiles, offset from left
+                if ((i + 2) % 4 === 0) {
+                    this.beltItems.push({
+                        x: belt.x,
+                        y: belt.y,
+                        lane: 6,   // Right lane offset
+                        type: itemTypes[(i + 3) % itemTypes.length],
+                        offset: ((i + 1) % 3) * 0.15
+                    });
+                }
+            }
+        }
+
+        // Generate decorations using Poisson disk sampling for natural-looking distribution
+        // Ensures minimum spacing between decorations and avoids structures
+        generateDecorations() {
+            this.decorations = [];
+
+            const rockTypes = [
+                'rock-small-1', 'rock-small-2', 'rock-small-3', 'rock-small-4', 'rock-small-5',
+                'rock-tiny-1', 'rock-tiny-2', 'rock-tiny-3', 'rock-tiny-4'
+            ];
+            const fluffTypes = ['fluff-1', 'fluff-2', 'fluff-3', 'grass-1', 'grass-2'];
+
+            // Poisson disk sampling parameters
+            const minSpacing = 1.5;  // Minimum 1.5 tiles between decorations
+            const maxAttempts = 30;  // Attempts per point
+            const targetCount = 150; // Target decoration count
+
+            // Simple Poisson disk sampling via rejection
+            const placed = [];
+            let attempts = 0;
+            const maxTotalAttempts = targetCount * maxAttempts * 2;
+
+            while (placed.length < targetCount && attempts < maxTotalAttempts) {
+                attempts++;
+                const x = this.bounds.minX + Math.random() * (this.bounds.maxX - this.bounds.minX);
+                const y = this.bounds.minY + Math.random() * (this.bounds.maxY - this.bounds.minY);
+
+                // Check minimum distance from all placed decorations
+                let tooClose = false;
+                for (const p of placed) {
+                    const dist = Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2));
+                    if (dist < minSpacing) {
+                        tooClose = true;
+                        break;
+                    }
+                }
+
+                // Check if point is clear of machines and belts
+                let onStructure = false;
+                for (const m of this.machines.values()) {
+                    if (x >= m.gridX - 1.5 && x <= m.gridX + m.size + 0.5 &&
+                        y >= m.gridY - 1.5 && y <= m.gridY + m.size + 0.5) {
+                        onStructure = true;
+                        break;
+                    }
+                }
+                for (const belt of this.belts) {
+                    if (Math.abs(x - belt.x) < 0.8 && Math.abs(y - belt.y) < 0.8) {
+                        onStructure = true;
+                        break;
+                    }
+                }
+
+                if (!tooClose && !onStructure) {
+                    // Place decoration
+                    const rand = Math.random();
+                    let type, scale;
+                    if (rand < 0.6) {
+                        type = rockTypes[Math.floor(Math.random() * rockTypes.length)];
+                        scale = 0.12 + Math.random() * 0.15;
+                    } else {
+                        type = fluffTypes[Math.floor(Math.random() * fluffTypes.length)];
+                        scale = 0.08 + Math.random() * 0.12;
+                    }
+                    placed.push({ x, y, type, scale });
+                }
+            }
+
+            this.decorations = placed;
+        }
+
+        addMachine(id, type, gridX, gridY) {
+            const sizes = {
+                roboport: 4,
+                assembler: 3,
+                lab: 3,
+                refinery: 3,
+                radar: 2
+            };
+            const machine = {
+                id, type, gridX, gridY,
+                size: sizes[type] || 3,
+                status: 'idle',
+                progress: 0,
+                frame: 0,
+                data: { toolsUsed: [], tokensIn: 0, tokensOut: 0 }
+            };
+            this.machines.set(id, machine);
+            this.expandBounds(gridX, gridY, machine.size);
+            return machine;
+        }
+
+        expandBounds(x, y, size = 1) {
+            // Expand bounds with generous padding for a larger field
+            this.bounds.minX = Math.min(this.bounds.minX, x - 6);
+            this.bounds.maxX = Math.max(this.bounds.maxX, x + size + 6);
+            this.bounds.minY = Math.min(this.bounds.minY, y - 6);
+            this.bounds.maxY = Math.max(this.bounds.maxY, y + size + 6);
+        }
+
+        addBeltLine(fromX, fromY, toX, toY) {
+            const dx = Math.sign(toX - fromX);
+            const dy = Math.sign(toY - fromY);
+            let x = fromX, y = fromY;
+            const dir = dx !== 0 ? (dx > 0 ? 0 : 2) : (dy > 0 ? 1 : 3);
+
+            while (x !== toX || y !== toY) {
+                this.belts.push({ x, y, dir });
+                if (x !== toX) x += dx;
+                else if (y !== toY) y += dy;
+            }
+            this.belts.push({ x: toX, y: toY, dir });
+        }
+
+        addInserter(x, y, machineId = null) {
+            this.inserters.push({
+                x, y,
+                rotation: 0,
+                targetRot: 0,
+                holding: null,
+                state: 'idle',  // idle, reaching, grabbing, delivering, dropping
+                stateFrame: 0,
+                machineId: machineId,  // Associated machine to watch
+                linkedMachine: null    // Will be set when machine is spawned
+            });
+        }
+
+        addPole(x, y) {
+            this.poles.push({ x, y });
+        }
+
+        spawnItem(startX, startY, endX, endY, type) {
+            // Create item that will flow along belts from start to end
+            this.items.push({
+                x: startX,
+                y: startY,
+                targetX: endX,
+                targetY: endY,
+                type,
+                progress: 0,  // 0 to 1 along the path
+                lane: Math.random() > 0.5 ? -5 : 5,  // Left or right lane
+                speed: 0.008 + Math.random() * 0.004  // Slight speed variation
+            });
+        }
+
+        // Get belt path from start to end (L-shaped)
+        getBeltPath(startX, startY, endX, endY) {
+            const path = [];
+            let x = startX, y = startY;
+
+            // Go horizontal first
+            while (x !== endX) {
+                path.push({ x, y });
+                x += Math.sign(endX - startX);
+            }
+            // Then vertical
+            while (y !== endY) {
+                path.push({ x, y });
+                y += Math.sign(endY - startY);
+            }
+            path.push({ x: endX, y: endY });
+            return path;
+        }
+    }
+
+    // ============================================
+    // MAIN GAME
+    // ============================================
+    class FactoryGame {
+        constructor(canvas) {
+            this.canvas = canvas;
+            this.ctx = canvas.getContext('2d');
+            this.sprites = new FactorioSprites(this.ctx);
+            this.state = new FactoryState();
+
+            this.camera = { x: 0, y: 0, zoom: 2.5 };
+            this.dragging = false;
+            this.lastMouse = { x: 0, y: 0 };
+            this.frame = 0;
+            this.selectedMachine = null;
+
+            this.resize();
+            this.setupEvents();
+            this.loop();
+        }
+
+        resize() {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        }
+
+        setupEvents() {
+            window.addEventListener('resize', () => this.resize());
+
+            this.canvas.addEventListener('mousedown', e => {
+                this.dragging = true;
+                this.lastMouse = { x: e.clientX, y: e.clientY };
+            });
+
+            this.canvas.addEventListener('mousemove', e => {
+                if (this.dragging) {
+                    this.camera.x += e.clientX - this.lastMouse.x;
+                    this.camera.y += e.clientY - this.lastMouse.y;
+                    this.lastMouse = { x: e.clientX, y: e.clientY };
+                }
+            });
+
+            this.canvas.addEventListener('mouseup', () => this.dragging = false);
+            this.canvas.addEventListener('mouseleave', () => this.dragging = false);
+
+            this.canvas.addEventListener('wheel', e => {
+                e.preventDefault();
+                const factor = e.deltaY > 0 ? 0.9 : 1.1;
+                this.camera.zoom = Math.max(0.3, Math.min(3, this.camera.zoom * factor));
+            });
+
+            this.canvas.addEventListener('click', e => this.handleClick(e));
+            this.canvas.addEventListener('contextmenu', e => e.preventDefault());
+        }
+
+        handleClick(e) {
+            const worldX = (e.clientX - this.canvas.width/2 - this.camera.x) / this.camera.zoom / TILE_SIZE;
+            const worldY = (e.clientY - this.canvas.height/2 - this.camera.y) / this.camera.zoom / TILE_SIZE;
+
+            for (const [id, m] of this.state.machines) {
+                if (worldX >= m.gridX && worldX < m.gridX + m.size &&
+                    worldY >= m.gridY && worldY < m.gridY + m.size) {
+                    this.showInfo(m);
+                    return;
+                }
+            }
+        }
+
+        showInfo(machine) {
+            this.selectedMachine = machine;
+            document.getElementById('info-panel').classList.add('visible');
+
+            // Machine type names
+            const typeNames = {
+                roboport: 'Roboport (Orchestrator)',
+                assembler: 'Assembler (Write/Edit)',
+                lab: 'Lab (Read/Search)',
+                refinery: 'Refinery (Bash/Shell)',
+                radar: 'Radar (Web/Fetch)'
+            };
+
+            // Status colors
+            const statusColors = {
+                idle: '#888',
+                working: '#4CAF50',
+                complete: '#2196F3',
+                error: '#f44336'
+            };
+
+            document.getElementById('info-title').textContent = typeNames[machine.type] || 'Machine';
+            document.getElementById('info-subtitle').textContent = machine.toolName || machine.id;
+
+            const statusColor = statusColors[machine.status] || '#888';
+            const toolsList = machine.data.toolsUsed.length > 0
+                ? machine.data.toolsUsed.slice(0, 5).join(', ') + (machine.data.toolsUsed.length > 5 ? '...' : '')
+                : 'None';
+
+            document.getElementById('info-content').innerHTML = `
+                <div class="info-section">
+                    <div class="info-section-title">Status</div>
+                    <div class="info-stat">
+                        <span class="info-stat-label">State</span>
+                        <span class="info-stat-value" style="color:${statusColor}">${machine.status.toUpperCase()}</span>
+                    </div>
+                    <div class="info-stat"><span class="info-stat-label">Progress</span><span class="info-stat-value">${Math.round(machine.progress * 100)}%</span></div>
+                </div>
+                <div class="info-section">
+                    <div class="info-section-title">Identity</div>
+                    <div class="info-stat"><span class="info-stat-label">Tool</span><span class="info-stat-value">${machine.toolName || 'N/A'}</span></div>
+                    <div class="info-stat"><span class="info-stat-label">Agent</span><span class="info-stat-value">${machine.agentId || 'main'}</span></div>
+                    <div class="info-stat"><span class="info-stat-label">Machine ID</span><span class="info-stat-value" style="font-size:9px">${machine.id}</span></div>
+                </div>
+                <div class="info-section">
+                    <div class="info-section-title">Activity</div>
+                    <div class="info-stat"><span class="info-stat-label">Tokens In</span><span class="info-stat-value">${machine.data.tokensIn.toLocaleString()}</span></div>
+                    <div class="info-stat"><span class="info-stat-label">Tokens Out</span><span class="info-stat-value">${machine.data.tokensOut.toLocaleString()}</span></div>
+                    <div class="info-stat"><span class="info-stat-label">Call Count</span><span class="info-stat-value">${machine.callCount || 1}</span></div>
+                </div>
+                <div class="info-section">
+                    <div class="info-section-title">Tools Used</div>
+                    <div style="font-size:10px;color:#aaa;word-break:break-all">${toolsList}</div>
+                </div>
+            `;
+        }
+
+        loop() {
+            this.update();
+            this.render();
+            requestAnimationFrame(() => this.loop());
+        }
+
+        update() {
+            this.frame++;
+
+            for (const m of this.state.machines.values()) {
+                if (m.status === 'working') {
+                    m.frame++;
+                    m.progress = Math.min(1, m.progress + ANIMATION.MACHINE_PROGRESS_RATE);
+                }
+            }
+
+            // Inserter state machine - purposeful movement based on machine activity
+            for (const ins of this.state.inserters) {
+                const diff = ins.targetRot - ins.rotation;
+                ins.rotation += diff * ANIMATION.INSERTER_ROTATION_SPEED;
+                ins.stateFrame++;
+
+                // Find linked machine if not set
+                if (!ins.linkedMachine && ins.machineId) {
+                    ins.linkedMachine = this.state.machines.get(ins.machineId);
+                }
+
+                // Check if nearby machine is working
+                let machineWorking = false;
+                if (ins.linkedMachine) {
+                    machineWorking = ins.linkedMachine.status === 'working';
+                } else {
+                    // Check any nearby machine
+                    for (const m of this.state.machines.values()) {
+                        const mx = m.gridX + m.size / 2;
+                        const my = m.gridY + m.size / 2;
+                        if (Math.abs(mx - ins.x) < 3 && Math.abs(my - ins.y) < 3) {
+                            if (m.status === 'working') {
+                                machineWorking = true;
+                                ins.linkedMachine = m;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // State machine transitions
+                switch (ins.state) {
+                    case 'idle':
+                        ins.targetRot = 0;  // Point away from machine
+                        if (machineWorking && ins.stateFrame > 30) {
+                            ins.state = 'reaching';
+                            ins.stateFrame = 0;
+                        }
+                        break;
+
+                    case 'reaching':
+                        ins.targetRot = Math.PI;  // Reach toward belt
+                        if (ins.stateFrame >= ANIMATION.INSERTER_GRAB_FRAMES && Math.abs(diff) < 0.15) {
+                            ins.state = 'grabbing';
+                            ins.stateFrame = 0;
+                            ins.holding = ['circuit', 'gear', 'plate', 'chip'][Math.floor(Math.random() * 4)];
+                        }
+                        break;
+
+                    case 'grabbing':
+                        if (ins.stateFrame >= 6) {
+                            ins.state = 'delivering';
+                            ins.stateFrame = 0;
+                        }
+                        break;
+
+                    case 'delivering':
+                        ins.targetRot = 0;  // Swing toward machine
+                        if (ins.stateFrame >= ANIMATION.INSERTER_DROP_FRAMES && Math.abs(diff) < 0.15) {
+                            ins.state = 'dropping';
+                            ins.stateFrame = 0;
+                        }
+                        break;
+
+                    case 'dropping':
+                        if (ins.stateFrame >= 6) {
+                            ins.holding = null;
+                            ins.state = machineWorking ? 'reaching' : 'idle';
+                            ins.stateFrame = 0;
+                        }
+                        break;
+                }
+            }
+
+            // Event-driven item spawning: Only spawn items to WORKING machines
+            // This creates purposeful item flow rather than random chaos
+            if (this.frame % 45 === 0 && this.state.items.length < 60) {
+                const workingMachines = Array.from(this.state.machines.values())
+                    .filter(m => m.id !== 'main' && m.status === 'working');
+
+                // Only spawn if there are actively working machines
+                for (const machine of workingMachines) {
+                    // 50% chance to spawn an item flow to this working machine
+                    if (Math.random() < 0.5) {
+                        const targetX = machine.gridX + Math.floor(machine.size / 2);
+                        const targetY = machine.gridY + Math.floor(machine.size / 2);
+                        const itemTypes = ['circuit', 'gear', 'plate', 'chip', 'data'];
+                        this.state.items.push({
+                            x: 0, y: targetY,  // Start from main bus at machine's row
+                            targetX, targetY,
+                            currentX: 0, currentY: targetY,
+                            type: itemTypes[Math.floor(Math.random() * itemTypes.length)],
+                            progress: 0,
+                            lane: Math.random() > 0.5 ? -5 : 5,
+                            speed: ANIMATION.ITEM_BELT_SPEED
+                        });
+                    }
+                }
+            }
+
+            // Move items along belt paths
+            for (let i = this.state.items.length - 1; i >= 0; i--) {
+                const item = this.state.items[i];
+                item.progress += item.speed;
+
+                // Calculate position along path
+                const dx = item.targetX - item.x;
+                const dy = item.targetY - item.y;
+
+                // Simple linear interpolation for now
+                // First half: move horizontally, second half: move vertically
+                if (item.progress < 0.5) {
+                    // Horizontal movement
+                    const hProgress = item.progress * 2;
+                    item.currentX = item.x + dx * hProgress;
+                    item.currentY = item.y;
+                } else {
+                    // Vertical movement
+                    const vProgress = (item.progress - 0.5) * 2;
+                    item.currentX = item.x + dx;
+                    item.currentY = item.y + dy * vProgress;
+                }
+
+                // Remove items that reached their destination
+                if (item.progress >= 1) {
+                    this.state.items.splice(i, 1);
+                }
+            }
+        }
+
+        render() {
+            const ctx = this.ctx;
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+            ctx.save();
+            ctx.translate(this.canvas.width/2 + this.camera.x, this.canvas.height/2 + this.camera.y);
+            ctx.scale(this.camera.zoom, this.camera.zoom);
+
+            const b = this.state.bounds;
+
+            // Ground - grassy terrain (drawn at 1:1 scale to match sprite proportions)
+            const grassBg = this.sprites.spriteLoader.get('grass-background');
+
+            if (grassBg) {
+                // Draw at native image size, centered at origin
+                const bgLeft = -grassBg.width / 2;
+                const bgTop = -grassBg.height / 2;
+                ctx.drawImage(grassBg, bgLeft, bgTop);
+            } else {
+                ctx.fillStyle = '#3d5a2e';
+                ctx.fillRect(-1200, -800, 2400, 1600);
+            }
+
+            // Environmental decorations (rocks, grass, fluff) - drawn on dirt before concrete
+            for (const deco of this.state.decorations) {
+                // Only draw if not under a machine's concrete pad
+                let underMachine = false;
+                for (const m of this.state.machines.values()) {
+                    if (deco.x >= m.gridX - 1 && deco.x <= m.gridX + m.size &&
+                        deco.y >= m.gridY - 1 && deco.y <= m.gridY + m.size) {
+                        underMachine = true;
+                        break;
+                    }
+                }
+                // Also skip if on a belt
+                const onBelt = this.state.belts.some(belt =>
+                    Math.floor(deco.x) === belt.x && Math.floor(deco.y) === belt.y
+                );
+
+                if (!underMachine && !onBelt) {
+                    this.sprites.drawDecoration(deco.x, deco.y, deco.type, deco.scale);
+                }
+            }
+
+            // Concrete under machines
+            for (const m of this.state.machines.values()) {
+                for (let dy = -1; dy <= m.size; dy++) {
+                    for (let dx = -1; dx <= m.size; dx++) {
+                        this.sprites.drawGround(m.gridX + dx, m.gridY + dy, 'concrete');
+                    }
+                }
+            }
+
+            // Belts
+            for (const belt of this.state.belts) {
+                this.sprites.drawBelt(belt.x, belt.y, belt.dir, this.frame);
+            }
+
+            // Static items on belt tiles (dense Factorio packing)
+            const beltItemOffset = (this.frame * 0.1) % TILE_SIZE;
+            for (const item of this.state.beltItems) {
+                // Items move with belt animation
+                const belt = this.state.belts.find(b => b.x === item.x && b.y === item.y);
+                let offsetY = 0;
+                if (belt) {
+                    // Move items along belt direction
+                    const moveOffset = beltItemOffset * 0.3;
+                    if (belt.dir === 0) offsetY = 0;  // Already handled by lane
+                    else if (belt.dir === 1) offsetY = moveOffset;
+                    else if (belt.dir === 3) offsetY = -moveOffset;
+                }
+                this.sprites.drawItem(item.x, item.y, item.type, item.lane, offsetY + item.offset * 4);
+            }
+
+            // Flowing items (moving between machines)
+            for (const item of this.state.items) {
+                const drawX = item.currentX !== undefined ? item.currentX : item.x;
+                const drawY = item.currentY !== undefined ? item.currentY : item.y;
+                this.sprites.drawItem(Math.floor(drawX), Math.floor(drawY), item.type,
+                    item.lane + (drawX % 1) * TILE_SIZE * 0.3,
+                    (drawY % 1) * TILE_SIZE * 0.3);
+            }
+
+            // Wires between poles - connect ALL nearby poles for dense wire network
+            const poles = this.state.poles;
+            const maxWireDistance = 14;  // Max distance for wire connection
+            const drawnWires = new Set();
+
+            for (let i = 0; i < poles.length; i++) {
+                for (let j = i + 1; j < poles.length; j++) {
+                    const p1 = poles[i];
+                    const p2 = poles[j];
+                    const dist = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+
+                    // Connect poles within range
+                    if (dist <= maxWireDistance) {
+                        const wireKey = `${Math.min(i,j)}-${Math.max(i,j)}`;
+                        if (!drawnWires.has(wireKey)) {
+                            drawnWires.add(wireKey);
+                            // Main bus poles get wire bundles, others get single copper
+                            if (Math.abs(p1.x - p2.x) < 2 || Math.abs(p1.y - p2.y) < 2) {
+                                this.sprites.drawWireBundle(p1.x, p1.y, p2.x, p2.y);
+                            } else {
+                                this.sprites.drawWire(p1.x, p1.y, p2.x, p2.y, 'copper');
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Draw wires from poles to nearby machines (for that busy Factorio look)
+            for (const pole of poles) {
+                for (const m of this.state.machines.values()) {
+                    const mx = m.gridX + m.size / 2;
+                    const my = m.gridY + m.size / 2;
+                    const dist = Math.sqrt(Math.pow(mx - pole.x, 2) + Math.pow(my - pole.y, 2));
+                    if (dist <= 10) {
+                        // Alternate wire colors for visual interest
+                        const wireType = m.type === 'lab' ? 'green' : m.type === 'assembler' ? 'red' : 'copper';
+                        this.sprites.drawWire(pole.x, pole.y, mx, my - 1, wireType);
+                    }
+                }
+            }
+
+            // Connect machines in the same row with circuit wires
+            const machinesByType = {};
+            for (const m of this.state.machines.values()) {
+                if (!machinesByType[m.type]) machinesByType[m.type] = [];
+                machinesByType[m.type].push(m);
+            }
+            for (const type in machinesByType) {
+                const machines = machinesByType[type].sort((a, b) => a.gridX - b.gridX);
+                for (let i = 0; i < machines.length - 1; i++) {
+                    const m1 = machines[i];
+                    const m2 = machines[i + 1];
+                    const mx1 = m1.gridX + m1.size / 2;
+                    const my1 = m1.gridY + m1.size / 2;
+                    const mx2 = m2.gridX + m2.size / 2;
+                    const my2 = m2.gridY + m2.size / 2;
+                    const wireType = type === 'lab' ? 'green' : type === 'assembler' ? 'red' : 'copper';
+                    this.sprites.drawWire(mx1, my1 - 1, mx2, my2 - 1, wireType);
+                }
+            }
+
+            // Machines (sorted by Y for proper overlap)
+            const sorted = Array.from(this.state.machines.values()).sort((a, b) => a.gridY - b.gridY);
+            for (const m of sorted) {
+                const working = m.status === 'working';
+                switch (m.type) {
+                    case 'roboport':
+                        this.sprites.drawRoboport(m.gridX, m.gridY, working, working ? 4 : 1, m.frame);
+                        break;
+                    case 'assembler':
+                        this.sprites.drawAssembler(m.gridX, m.gridY, working, m.progress, m.frame);
+                        break;
+                    case 'lab':
+                        this.sprites.drawLab(m.gridX, m.gridY, working, m.frame);
+                        break;
+                    case 'refinery':
+                        this.sprites.drawRefinery(m.gridX, m.gridY, working, m.frame);
+                        break;
+                    case 'radar':
+                        this.sprites.drawRadar(m.gridX, m.gridY, working, this.frame * 0.02);
+                        break;
+                }
+            }
+
+            // Inserters (on top)
+            for (const ins of this.state.inserters) {
+                this.sprites.drawInserter(ins.x, ins.y, ins.rotation, ins.holding);
+            }
+
+            // Power poles (on top)
+            for (const pole of this.state.poles) {
+                this.sprites.drawPowerPole(pole.x, pole.y);
+            }
+
+            ctx.restore();
+        }
+
+        buildFromData(agents) {
+            this.state.clear();
+
+            // ============================================
+            // START MINIMAL - Factory grows dynamically!
+            // Only create the main roboport at start
+            // Row-based layout: machines organized by type
+            // ============================================
+
+            // Main roboport at center
+            this.state.addMachine('main', 'roboport', -2, -2);
+
+            // Track spawned machines to avoid duplicates
+            this.spawnedTools = new Set(['main']);
+            this.machineCount = 0;
+            this.rowCounts = { assembler: 0, lab: 0, refinery: 0, radar: 0 };
+
+            // Central vertical bus (main item transport spine)
+            this.state.addBeltLine(0, -15, 0, 15);
+
+            // Structured power pole grid - poles every 8 tiles along main spine
+            // Row Y positions match machine rows for horizontal branches
+            const poleSpacing = 8;
+            const polePositions = [-16, -8, 0, 8, 16];  // Main spine positions
+            for (const y of polePositions) {
+                this.state.addPole(2, y);  // Main spine pole
+            }
+            // Horizontal branch poles at machine row heights
+            const machineRowYs = [-12, -4, 6, 14];  // lab, assembler, refinery, radar
+            for (const rowY of machineRowYs) {
+                this.state.addPole(2, rowY);  // Connector to spine
+            }
+
+            // Generate environmental decorations (grass tufts, etc.)
+            this.state.generateDecorations();
+        }
+
+        // Spawn a new machine for tool activity
+        // Now uses ROW-BASED layout by machine type (like Factorio factories)
+        spawnMachine(toolName, agentId, forceNew = false) {
+            // Create a unique key for this tool
+            const key = `${agentId}-${toolName}`;
+
+            // Check if we should reuse existing machine
+            if (!forceNew && this.spawnedTools.has(key)) {
+                // 30% chance to spawn a NEW machine anyway for visual variety
+                if (Math.random() > 0.3) {
+                    return this.state.machines.get(key);
+                }
+            }
+
+            this.machineCount++;
+            const machineKey = forceNew || this.spawnedTools.has(key)
+                ? `${key}-${this.machineCount}`
+                : key;
+            this.spawnedTools.add(key);
+
+            const type = this.inferType(toolName);
+
+            // ROW-BASED LAYOUT: Each machine type gets its own row
+            // This creates the organized factory look from Factorio
+            if (!this.rowCounts) {
+                this.rowCounts = { assembler: 0, lab: 0, refinery: 0, radar: 0 };
+            }
+
+            // Row Y positions for each type (stacked rows)
+            const rowYBase = {
+                lab: -12,       // Top row: Labs (Read/Search)
+                assembler: -4,  // Second row: Assemblers (Write/Edit)
+                refinery: 6,    // Third row: Refineries (Bash)
+                radar: 14       // Bottom row: Radars (Web)
+            };
+
+            // Get position in this type's row
+            const rowIndex = this.rowCounts[type] || 0;
+            this.rowCounts[type] = rowIndex + 1;
+
+            // Machines spread horizontally in their row
+            // Start from center and alternate left/right for organic feel
+            const spacing = 5;  // Space between machines in a row
+            const xOffset = rowIndex % 2 === 0
+                ? Math.floor(rowIndex / 2) * spacing
+                : -Math.floor((rowIndex + 1) / 2) * spacing;
+
+            // Deterministic jitter based on rowIndex - predictable pattern
+            // Creates slight variation without randomness for reproducible layouts
+            const jitterX = (rowIndex % 3 - 1) * 0.3;
+            const jitterY = ((rowIndex * 7) % 5 - 2) * 0.2;
+
+            const gridX = Math.round(xOffset + jitterX);
+            const gridY = Math.round(rowYBase[type] + jitterY);
+
+            const m = this.state.addMachine(machineKey, type, gridX, gridY);
+
+            // Store tool info for detail panel
+            m.toolName = toolName;
+            m.agentId = agentId;
+            m.spawnTime = new Date().toISOString();
+            m.callCount = 1;
+
+            // Belt from center to machine
+            const mx = gridX + Math.floor(m.size / 2);
+            const my = gridY + Math.floor(m.size / 2);
+
+            // Main vertical bus runs through center
+            // Horizontal spur connects to each machine
+            const busX = 0;
+            this.state.addBeltLine(busX, my, mx, my);
+
+            // Inserter next to machine - linked to this specific machine
+            this.state.addInserter(gridX - 1, gridY + 1, machineKey);
+
+            // Power pole grid - place poles at fixed intervals near machine row
+            // Grid-aligned: round to nearest 8-tile grid position
+            const gridSpacing = 8;
+            const poleX = Math.round((gridX + m.size + 2) / gridSpacing) * gridSpacing;
+            const poleY = Math.round(gridY / gridSpacing) * gridSpacing;
+
+            // Check if pole already exists at this position
+            const poleExists = this.state.poles.some(p =>
+                Math.abs(p.x - poleX) < 2 && Math.abs(p.y - poleY) < 2
+            );
+            if (!poleExists) {
+                this.state.addPole(poleX, poleY);
+            }
+
+            // Also add a pole directly adjacent to machine for horizontal branch
+            const branchPoleX = gridX + m.size + 1;
+            const branchPoleY = rowYBase[type];
+            const branchExists = this.state.poles.some(p =>
+                Math.abs(p.x - branchPoleX) < 2 && Math.abs(p.y - branchPoleY) < 2
+            );
+            if (!branchExists && rowIndex === 0) {
+                this.state.addPole(branchPoleX, branchPoleY);
+            }
+
+            // Add items on the new belt section
+            this.state.populateBeltsWithItems();
+
+            // Spawn some items flowing to this machine
+            for (let i = 0; i < 3; i++) {
+                this.state.items.push({
+                    x: busX, y: my,
+                    targetX: mx, targetY: my,
+                    currentX: busX, currentY: my,
+                    type: ['circuit', 'gear', 'plate', 'chip', 'data'][Math.floor(Math.random() * 5)],
+                    progress: Math.random() * 0.3,
+                    lane: Math.random() > 0.5 ? -5 : 5,
+                    speed: 0.004 + Math.random() * 0.002
+                });
+            }
+
+            return m;
+        }
+
+        inferType(id) {
+            const lower = id.toLowerCase();
+            if (lower.includes('write') || lower.includes('edit')) return 'assembler';
+            if (lower.includes('read') || lower.includes('glob') || lower.includes('grep')) return 'lab';
+            if (lower.includes('bash')) return 'refinery';
+            if (lower.includes('web') || lower.includes('fetch')) return 'radar';
+            return 'assembler';
+        }
+
+        processEvent(event) {
+            // DYNAMIC FACTORY GROWTH: Spawn new machine if this is a new tool
+            let machine = this.state.machines.get(`${event.agentId}-${event.toolName}`);
+
+            if (!machine && event.type === 'tool_start' && event.toolName) {
+                // New tool! Spawn a machine for it
+                machine = this.spawnMachine(event.toolName, event.agentId);
+            }
+
+            // Fallback to main roboport if no specific machine
+            if (!machine) {
+                machine = this.state.machines.get('main');
+            }
+            if (!machine) return;
+
+            switch (event.type) {
+                case 'tool_start':
+                    machine.status = 'working';
+                    machine.progress = 0;
+                    machine.frame = 0;
+                    if (!machine.data.toolsUsed.includes(event.toolName)) {
+                        machine.data.toolsUsed.push(event.toolName);
+                    }
+                    // Spawn 3-4 input items flowing TO this machine (event-driven)
+                    const targetX = machine.gridX + Math.floor(machine.size / 2);
+                    const targetY = machine.gridY + Math.floor(machine.size / 2);
+                    const itemTypes = ['circuit', 'gear', 'plate', 'chip', 'data'];
+                    const inputCount = 3 + Math.floor(Math.random() * 2);  // 3-4 items
+                    for (let i = 0; i < inputCount; i++) {
+                        this.state.items.push({
+                            x: 0, y: targetY,  // Start from main bus at machine row
+                            targetX, targetY,
+                            currentX: 0, currentY: targetY,
+                            type: itemTypes[Math.floor(Math.random() * itemTypes.length)],
+                            progress: i * 0.12,  // Stagger them
+                            lane: i % 2 === 0 ? -5 : 5,
+                            speed: ANIMATION.ITEM_BELT_SPEED * 1.5
+                        });
+                    }
+                    break;
+                case 'tool_end':
+                    machine.status = event.isError ? 'error' : 'complete';
+                    machine.progress = 1;
+                    if (!event.isError) {
+                        // Spawn 2 output items flowing FROM machine back toward center
+                        const fromX = machine.gridX + Math.floor(machine.size / 2);
+                        const fromY = machine.gridY + Math.floor(machine.size / 2);
+                        const outputTypes = ['data', 'chip'];  // Processed outputs
+                        for (let i = 0; i < 2; i++) {
+                            this.state.items.push({
+                                x: fromX, y: fromY,
+                                targetX: 0, targetY: fromY,  // Flow back to main bus
+                                currentX: fromX, currentY: fromY,
+                                type: outputTypes[i % outputTypes.length],
+                                progress: i * 0.1,
+                                lane: i === 0 ? -5 : 5,
+                                speed: ANIMATION.ITEM_BELT_SPEED * 2
+                            });
+                        }
+
+                        setTimeout(() => {
+                            if (machine.status === 'complete') {
+                                machine.status = 'idle';
+                                machine.progress = 0;
+                            }
+                        }, 1000);
+                    }
+                    break;
+                case 'tokens':
+                    machine.data.tokensIn += event.inputTokens || 0;
+                    machine.data.tokensOut += event.outputTokens || 0;
+                    break;
+            }
+        }
+
+        resetMachines() {
+            // Reset to minimal factory state for timeline seeking
+            this.state.clear();
+
+            // Rebuild minimal factory
+            this.state.addMachine('main', 'roboport', -2, -2);
+            this.spawnedTools = new Set(['main']);
+            this.machineCount = 0;
+            this.rowCounts = { assembler: 0, lab: 0, refinery: 0, radar: 0 };
+
+            // Central vertical bus belts
+            this.state.addBeltLine(0, -15, 0, 15);
+
+            // Structured power pole grid - poles every 8 tiles along main spine
+            const polePositions = [-16, -8, 0, 8, 16];
+            for (const y of polePositions) {
+                this.state.addPole(2, y);
+            }
+            const machineRowYs = [-12, -4, 6, 14];
+            for (const rowY of machineRowYs) {
+                this.state.addPole(2, rowY);
+            }
+
+            this.state.generateDecorations();
+        }
+    }
+
+    // ============================================
+    // PARSER & TIMELINE
+    // ============================================
+    class TranscriptParser {
+        constructor() {
+            this.events = [];
+            this.agents = new Map();
+            this.totalTokens = { input: 0, output: 0 };
+        }
+
+        async loadFiles(files) {
+            this.events = [];
+            this.agents.clear();
+            this.totalTokens = { input: 0, output: 0 };
+
+            for (const file of files) {
+                const content = await file.text();
+                for (const line of content.trim().split('\n')) {
+                    if (!line.trim()) continue;
+                    try {
+                        const entry = JSON.parse(line);
+                        this.parseEntry(entry);
+                    } catch (e) {}
+                }
+            }
+
+            this.events.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+            return { events: this.events, agents: this.agents, totalTokens: this.totalTokens };
+        }
+
+        parseEntry(entry) {
+            const { timestamp, message, agentId, sessionId } = entry;
+            const id = agentId || sessionId || 'main';
+            const parsedEvents = [];  // Return events for live mode
+
+            if (!this.agents.has(id)) {
+                this.agents.set(id, { id, type: 'general' });
+            }
+
+            if (message?.content && Array.isArray(message.content)) {
+                for (const block of message.content) {
+                    if (block.type === 'tool_use') {
+                        const event = {
+                            type: 'tool_start',
+                            timestamp: timestamp || new Date().toISOString(),
+                            agentId: id,
+                            toolName: block.name,
+                            toolUseId: block.id
+                        };
+                        this.events.push(event);
+                        parsedEvents.push(event);
+                    }
+                    if (block.type === 'tool_result') {
+                        const event = {
+                            type: 'tool_end',
+                            timestamp: timestamp || new Date().toISOString(),
+                            agentId: id,
+                            toolUseId: block.tool_use_id,
+                            isError: block.is_error
+                        };
+                        this.events.push(event);
+                        parsedEvents.push(event);
+                    }
+                }
+            }
+
+            // Also parse token usage
+            if (message?.usage) {
+                this.totalTokens.input += message.usage.input_tokens || 0;
+                this.totalTokens.output += message.usage.output_tokens || 0;
+                const event = {
+                    type: 'tokens',
+                    timestamp: timestamp || new Date().toISOString(),
+                    agentId: id,
+                    inputTokens: message.usage.input_tokens || 0,
+                    outputTokens: message.usage.output_tokens || 0
+                };
+                this.events.push(event);
+                parsedEvents.push(event);
+            }
+
+            return parsedEvents;  // Return for live mode processing
+        }
+    }
+
+    class TimelineController {
+        constructor(game) {
+            this.game = game;
+            this.events = [];
+            this.index = 0;
+            this.playing = false;
+            this.speed = 1;
+            this.lastTick = 0;
+
+            this.slider = document.getElementById('timeline-slider');
+            this.playBtn = document.getElementById('play-btn');
+            this.playIcon = document.getElementById('play-icon');
+            this.pauseIcon = document.getElementById('pause-icon');
+            this.currentTimeEl = document.getElementById('current-time');
+            this.totalTimeEl = document.getElementById('total-time');
+            this.speedSelect = document.getElementById('speed-select');
+
+            this.playBtn.onclick = () => this.toggle();
+            this.slider.oninput = () => this.seek(parseInt(this.slider.value));
+            this.speedSelect.onchange = () => this.speed = parseFloat(this.speedSelect.value);
+        }
+
+        setEvents(events) {
+            this.events = events;
+            this.index = 0;
+            this.slider.max = Math.max(events.length - 1, 0);
+            this.slider.value = 0;
+            this.updateDisplay();
+            document.getElementById('timeline').classList.remove('hidden');
+        }
+
+        toggle() {
+            this.playing = !this.playing;
+            this.playIcon.style.display = this.playing ? 'none' : 'block';
+            this.pauseIcon.style.display = this.playing ? 'block' : 'none';
+            if (this.playing) {
+                this.lastTick = performance.now();
+                this.play();
+            }
+        }
+
+        play() {
+            if (!this.playing) return;
+            const now = performance.now();
+            if (now - this.lastTick >= 400 / this.speed) {
+                this.lastTick = now;
+                if (this.index < this.events.length - 1) {
+                    this.index++;
+                    this.slider.value = this.index;
+                    this.updateDisplay();
+                    this.game.processEvent(this.events[this.index]);
+                } else {
+                    this.playing = false;
+                    this.playIcon.style.display = 'block';
+                    this.pauseIcon.style.display = 'none';
+                }
+            }
+            requestAnimationFrame(() => this.play());
+        }
+
+        seek(idx) {
+            this.game.resetMachines();
+            for (let i = 0; i <= idx && i < this.events.length; i++) {
+                this.game.processEvent(this.events[i]);
+            }
+            this.index = idx;
+            this.updateDisplay();
+        }
+
+        updateDisplay() {
+            const fmt = n => `${Math.floor(n/60)}:${(n%60).toString().padStart(2,'0')}`;
+            this.currentTimeEl.textContent = fmt(this.index);
+            this.totalTimeEl.textContent = fmt(this.events.length);
+        }
+    }
+
+    // ============================================
+    // APP INIT
+    // ============================================
+    const canvas = document.getElementById('game-canvas');
+
+    // Load sprites first, then initialize game
+    let game, parser, timeline;
+
+    async function initializeApp() {
+        try {
+            // Show loading state
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ff9900';
+            ctx.font = '14px Consolas, Monaco, monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('Loading Factorio sprites...', canvas.width/2, canvas.height/2);
+
+            // Load all sprites
+            await spriteLoader.load();
+
+            // Initialize game after sprites are loaded
+            game = new FactoryGame(canvas);
+            parser = new TranscriptParser();
+            timeline = new TimelineController(game);
+
+            // Setup event listeners
+            setupEventListeners();
+
+            console.log('Factory Floor Visualizer initialized with Factorio sprites');
+        } catch (error) {
+            console.error('Initialization error:', error);
+            // Still try to setup event listeners even if sprites fail
+            try {
+                game = new FactoryGame(canvas);
+                parser = new TranscriptParser();
+                timeline = new TimelineController(game);
+                setupEventListeners();
+            } catch (e) {
+                console.error('Critical initialization error:', e);
+            }
+        }
+    }
+
+    function setupEventListeners() {
+        console.log('Setting up event listeners...');
+
+        const loadBtn = document.getElementById('load-btn');
+        const welcomeLoadBtn = document.getElementById('welcome-load-btn');
+        const fileInput = document.getElementById('file-input');
+
+        if (loadBtn) {
+            loadBtn.addEventListener('click', () => {
+                console.log('Load button clicked');
+                fileInput.click();
+            });
+        }
+
+        if (welcomeLoadBtn) {
+            welcomeLoadBtn.addEventListener('click', () => {
+                console.log('Welcome load button clicked');
+                fileInput.click();
+            });
+        }
+
+        fileInput.addEventListener('change', async (e) => {
+            console.log('File selected:', e.target.files);
+            if (!e.target.files.length) return;
+            document.getElementById('welcome').style.display = 'none';
+
+            const data = await parser.loadFiles(e.target.files);
+            game.buildFromData(data.agents);
+            timeline.setEvents(data.events);
+
+            // DON'T process all events at once - let timeline handle progressive growth
+            // Start with minimal factory, events will spawn machines as they're played
+            game.resetMachines();
+
+            document.getElementById('stat-machines').textContent = data.agents.size;
+            document.getElementById('stat-events').textContent = data.events.length;
+            document.getElementById('stat-throughput').textContent = Math.round(
+                data.events.filter(e => e.type === 'tool_end').length / Math.max(1, data.events.length / 60)
+            );
+        });
+
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            game.camera = { x: 0, y: 0, zoom: 2.5 };
+        });
+
+        // Clear factory - start fresh and watch it build from new events
+        document.getElementById('clear-btn').addEventListener('click', () => {
+            game.resetMachines();
+            game.spawnedTools = new Set(['main']);
+            game.machineCount = 0;
+            game.rowCounts = { assembler: 0, lab: 0, refinery: 0, radar: 0 };
+            lastLineCount = 0;
+            document.getElementById('stat-events').textContent = '0';
+            document.getElementById('stat-machines').textContent = '1';
+
+            // If currently in live mode, reconnect with fresh=true to skip history
+            if (watchMode && serverAvailable) {
+                stopServerLive();
+                freshMode = true;
+                const watchAll = activeSessions > 1;
+                startServerLive(watchAll, true);
+                console.log('Factory cleared - reconnected in fresh mode');
+            } else {
+                freshMode = true;  // Next connect will be fresh
+                console.log('Factory cleared - next Live connect will skip history');
+            }
+        });
+
+        document.getElementById('info-close').addEventListener('click', () => {
+            document.getElementById('info-panel').classList.remove('visible');
+        });
+
+        // ============================================
+        // LIVE WATCH MODE - Server SSE or File Polling
+        // ============================================
+        let watchMode = false;
+        let watchHandle = null;
+        let eventSource = null;
+        let lastFileSize = 0;
+        let lastLineCount = 0;
+        let serverAvailable = false;
+
+        let sessionCount = 1;
+        let activeSessions = 0;
+        let freshMode = false;  // Skip history on next connect
+
+        // Check if running via server with auto-detected transcript
+        async function checkServerMode() {
+            try {
+                const response = await fetch('/api/transcript-info');
+                const info = await response.json();
+                if (info.found) {
+                    serverAvailable = true;
+                    sessionCount = info.sessions?.length || 1;
+                    activeSessions = info.sessions?.filter(s => s.active).length || 0;
+
+                    // Show session count if multiple
+                    const btn = document.getElementById('watch-btn');
+                    if (activeSessions > 1) {
+                        btn.textContent = `▶ Live (${activeSessions})`;
+                        btn.title = `${activeSessions} active sessions - will watch all`;
+                    } else {
+                        btn.textContent = '▶ Auto Live';
+                        btn.title = 'Auto-detected: ' + info.path;
+                    }
+                    console.log(`Server mode: ${sessionCount} transcript(s), ${activeSessions} active`);
+                }
+            } catch (e) {
+                // Not running via server, use manual file picker mode
+                console.log('Manual mode: use file picker for Live');
+            }
+        }
+
+        // Start SSE-based live mode (server mode)
+        // watchAll=true watches all parallel sessions
+        // useFresh=true skips history and only shows new events
+        function startServerLive(watchAll = false, useFresh = false) {
+            let url = '/api/transcript-stream';
+            const params = [];
+            if (watchAll) params.push('all=true');
+            if (useFresh) params.push('fresh=true');
+            if (params.length) url += '?' + params.join('&');
+            eventSource = new EventSource(url);
+
+            eventSource.onmessage = (event) => {
+                try {
+                    const msg = JSON.parse(event.data);
+                    if (msg.type === 'init') {
+                        console.log('SSE connected, watching:', msg.paths?.length || 1, 'file(s)');
+                        game.resetMachines();
+                    } else if (msg.type === 'entry') {
+                        const entry = JSON.parse(msg.data);
+                        const events = parser.parseEntry(entry);
+                        if (events && events.length > 0) {
+                            for (const evt of events) {
+                                game.processEvent(evt);
+                            }
+                        }
+                        lastLineCount++;
+                        document.getElementById('stat-events').textContent = lastLineCount;
+                        document.getElementById('stat-machines').textContent = game.state.machines.size;
+                    } else if (msg.type === 'new_session') {
+                        console.log('New parallel session detected!');
+                    } else if (msg.type === 'heartbeat') {
+                        // Connection still alive
+                    }
+                } catch (e) {}
+            };
+
+            eventSource.onerror = () => {
+                console.log('SSE connection error - will retry');
+            };
+        }
+
+        function stopServerLive() {
+            if (eventSource) {
+                eventSource.close();
+                eventSource = null;
+            }
+        }
+
+        document.getElementById('watch-btn').addEventListener('click', async () => {
+            if (watchMode) {
+                // Stop watching
+                watchMode = false;
+                document.getElementById('watch-btn').textContent = serverAvailable ? '▶ Auto Live' : '▶ Live';
+                document.getElementById('watch-btn').style.background = '#2a5a2a';
+                document.getElementById('live-indicator').style.display = 'none';
+                stopServerLive();
+                console.log('Live mode stopped');
+                return;
+            }
+
+            // Server mode: use SSE for auto-detected transcript
+            // Watch all sessions if multiple are active (parallel agents)
+            if (serverAvailable) {
+                watchMode = true;
+                const watchAll = activeSessions > 1;
+                lastLineCount = 0;
+                document.getElementById('watch-btn').textContent = '⏹ Stop';
+                document.getElementById('watch-btn').style.background = '#5a2a2a';
+                document.getElementById('live-indicator').style.display = 'inline';
+                document.getElementById('welcome').style.display = 'none';
+                startServerLive(watchAll, freshMode);
+                console.log(`Live mode started via SSE (${freshMode ? 'fresh, ' : ''}watching ${watchAll ? 'all sessions' : 'latest session'})`);
+                freshMode = false;  // Reset for next time
+                return;
+            }
+
+            // Manual mode: use FileSystem Access API
+            if ('showOpenFilePicker' in window) {
+                try {
+                    const [handle] = await window.showOpenFilePicker({
+                        types: [{ description: 'JSONL files', accept: { 'application/jsonl': ['.jsonl'] } }]
+                    });
+                    watchHandle = handle;
+                    watchMode = true;
+                    lastFileSize = 0;
+                    lastLineCount = 0;
+
+                    document.getElementById('watch-btn').textContent = '⏹ Stop';
+                    document.getElementById('watch-btn').style.background = '#5a2a2a';
+                    document.getElementById('live-indicator').style.display = 'inline';
+                    document.getElementById('welcome').style.display = 'none';
+
+                    game.resetMachines();
+                    await pollFile();
+                    pollLoop();
+                    console.log('Live mode started - watching file');
+                } catch (err) {
+                    console.log('File picker cancelled or not supported');
+                }
+            } else {
+                alert('Live mode requires Chrome/Edge, or run via: node server.js');
+            }
+        });
+
+        async function pollFile() {
+            if (!watchHandle || !watchMode) return;
+
+            try {
+                const file = await watchHandle.getFile();
+
+                if (file.size > lastFileSize) {
+                    const content = await file.text();
+                    const lines = content.trim().split('\n');
+                    const newLines = lines.slice(lastLineCount);
+
+                    for (const line of newLines) {
+                        if (!line.trim()) continue;
+                        try {
+                            const entry = JSON.parse(line);
+                            const events = parser.parseEntry(entry);
+                            if (events && events.length > 0) {
+                                for (const event of events) {
+                                    game.processEvent(event);
+                                }
+                            }
+                        } catch (e) {}
+                    }
+
+                    lastFileSize = file.size;
+                    lastLineCount = lines.length;
+                    document.getElementById('stat-events').textContent = lastLineCount;
+                    document.getElementById('stat-machines').textContent = game.state.machines.size;
+                }
+            } catch (err) {
+                console.error('Error reading file:', err);
+            }
+        }
+
+        function pollLoop() {
+            if (!watchMode) return;
+            pollFile().then(() => setTimeout(pollLoop, 500));
+        }
+
+        // Check for server mode on startup
+        checkServerMode();
+
+        console.log('Event listeners setup complete');
+    }
+
+    // Start the app when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    } else {
+        initializeApp();
+    }
+    </script>
+</body>
+</html>

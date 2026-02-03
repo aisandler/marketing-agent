@@ -72,6 +72,22 @@ const DEFAULTS = {
     // Used for non-Airtable display (e.g., Markdown summary)
     entitySubtypeLabel: 'Service Category'
   },
+  serviceCategories: {
+    categories: [{ name: 'General', aliases: [], isDefault: true }],
+    detectionPatterns: {},
+    seasonalMapping: {
+      spring: { focus: 'Spring service priorities', urgency: 'medium', keyCategories: ['General'] },
+      summer: { focus: 'Summer service priorities', urgency: 'medium', keyCategories: ['General'] },
+      fall: { focus: 'Fall service priorities', urgency: 'medium', keyCategories: ['General'] },
+      winter: { focus: 'Winter service priorities', urgency: 'medium', keyCategories: ['General'] }
+    }
+  },
+  locations: {
+    primary: '',
+    secondary: [],
+    states: [],
+    detectionPatterns: {}
+  },
   drive: {
     folders: {
       blog: process.env.DRIVE_BLOG_FOLDER_ID || null,

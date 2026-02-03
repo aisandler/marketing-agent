@@ -1,0 +1,186 @@
+{
+  "client": {
+    "name": "Catalyst Digital",
+    "industry": "marketing_agency",
+    "businessType": "professional_services",
+    "serviceArea": {
+      "primary": "Austin, TX",
+      "secondary": ["Dallas", "Houston", "San Antonio"],
+      "state": "Texas",
+      "region": "Southwest"
+    },
+    "website": "https://catalystdigital.co",
+    "phone": "(512) 555-GROW",
+    "email": "hello@catalystdigital.co"
+  },
+  "airtable": {
+    "webhookUrl": "{{N8N_WEBHOOK_URL}}",
+    "baseId": "{{AIRTABLE_BASE_ID}}",
+    "tableId": "{{AIRTABLE_TABLE_ID}}",
+    "apiUrl": "https://api.airtable.com/v0"
+  },
+  "fields": {
+    "contentId": "Content ID",
+    "description": "Description",
+    "contentType": "Content Type",
+    "priority": "Priority",
+    "targetLocation": "Target Industry",
+    "serviceCategory": "Service Line",
+    "contentFormat": "Content Format",
+    "seasonalRelevance": "Campaign Phase",
+    "primaryKeyword": "Primary Keyword",
+    "searchVolume": "Search Volume",
+    "keywordDifficulty": "Keyword Difficulty",
+    "notes": "Notes",
+    "text": "Text",
+    "status": "Status",
+    "title": "Title",
+    "publishDate": "Publish Date",
+    "targetPublishDate": "Target Publish Date"
+  },
+  "brand": {
+    "guidelines": [
+      "docs/brand-guidelines/brand-guide.md",
+      "docs/brand-guidelines/core-messaging-template.md"
+    ],
+    "voiceGuide": "docs/brand-guidelines/brand-guide.md",
+    "personas": null,
+    "styleGuide": null,
+    "assetsDir": "content/client-documents/brand-guides",
+    "knowledge": []
+  },
+  "templates": {
+    "blogOutline": null,
+    "blogDraft": null,
+    "socialPost": null,
+    "locationPage": null
+  },
+  "labels": {
+    "entitySubtypeLabel": "Service Line"
+  },
+  "drive": {
+    "folders": {
+      "blog": "{{DRIVE_BLOG_FOLDER_ID}}",
+      "social": "{{DRIVE_SOCIAL_FOLDER_ID}}",
+      "location": "{{DRIVE_LOCATION_FOLDER_ID}}",
+      "email": "{{DRIVE_EMAIL_FOLDER_ID}}",
+      "library": "{{DRIVE_LIBRARY_FOLDER_ID}}"
+    }
+  },
+  "branding": {
+    "primaryMessage": "Transform Your Marketing Into a Growth Engine",
+    "tagline": "Growth Through Strategic Marketing",
+    "tone": "strategic, insightful, results-oriented",
+    "personality": ["expert", "innovative", "collaborative"],
+    "experience": "50+ brands scaled",
+    "differentiators": [
+      "Full-Funnel Strategy",
+      "Data-Driven Decisions",
+      "Dedicated Account Teams",
+      "Transparent Reporting"
+    ]
+  },
+  "services": {
+    "primary": [
+      "Brand Strategy",
+      "Digital Marketing",
+      "Content Marketing"
+    ],
+    "secondary": [
+      "SEO Services",
+      "Paid Media Management"
+    ],
+    "seasonal": {
+      "spring": ["Q2 Campaign Planning", "Brand Refresh"],
+      "summer": ["Mid-Year Reviews", "Content Strategy"],
+      "fall": ["Budget Planning", "Annual Strategy"],
+      "winter": ["Year-End Analysis", "Planning Sessions"]
+    }
+  },
+  "serviceCategories": {
+    "categories": [
+      { "name": "General", "aliases": ["marketing", "general"], "isDefault": true },
+      { "name": "Brand Strategy", "aliases": ["branding", "positioning", "identity"] },
+      { "name": "Digital Marketing", "aliases": ["digital", "online", "ppc", "social"] },
+      { "name": "Content Marketing", "aliases": ["content", "blog", "editorial"] },
+      { "name": "SEO", "aliases": ["search", "organic", "keywords"] }
+    ],
+    "detectionPatterns": {
+      "Brand Strategy": ["brand", "positioning", "identity", "messaging", "rebrand"],
+      "Digital Marketing": ["digital", "ppc", "paid media", "social media", "advertising"],
+      "Content Marketing": ["content", "blog", "editorial", "copywriting", "storytelling"],
+      "SEO": ["seo", "search engine", "organic", "keyword", "backlink", "ranking"]
+    },
+    "seasonalMapping": {
+      "spring": { "focus": "Q2 campaign planning, brand refresh", "urgency": "medium", "keyCategories": ["Brand Strategy", "Content Marketing"] },
+      "summer": { "focus": "Mid-year reviews, content strategy", "urgency": "medium", "keyCategories": ["Content Marketing", "Digital Marketing"] },
+      "fall": { "focus": "Budget planning, annual strategy", "urgency": "high", "keyCategories": ["General", "Brand Strategy"] },
+      "winter": { "focus": "Year-end analysis, planning sessions", "urgency": "high", "keyCategories": ["General", "Digital Marketing"] }
+    }
+  },
+  "locations": {
+    "primary": "Texas",
+    "secondary": [],
+    "states": ["Texas"],
+    "detectionPatterns": {
+      "Texas": ["texas", "austin", "dallas", "houston", "san antonio"]
+    }
+  },
+  "seo": {
+    "primaryKeywords": [
+      "marketing agency Austin",
+      "B2B marketing agency",
+      "digital marketing services"
+    ],
+    "localModifiers": [
+      "Austin",
+      "Texas",
+      "near me"
+    ],
+    "contentTopics": [
+      "B2B marketing strategy",
+      "Lead generation tactics",
+      "Brand development"
+    ]
+  },
+  "competition": {
+    "primaryCompetitors": [
+      "Austin Brand Co",
+      "Lone Star Marketing",
+      "Growth Partners TX"
+    ],
+    "competitiveAdvantages": [
+      "Full-service capabilities",
+      "Proven B2B expertise"
+    ]
+  },
+  "leadGeneration": {
+    "primaryCTA": "Schedule Your Strategy Session",
+    "leadMagnets": [
+      "Marketing Audit Checklist",
+      "B2B Growth Playbook"
+    ],
+    "conversionGoals": [
+      "Strategy session bookings",
+      "Marketing audit requests"
+    ]
+  },
+  "contentStrategy": {
+    "contentPillars": [
+      "Strategic Growth",
+      "Data-Driven Marketing",
+      "Brand Development"
+    ],
+    "contentTypes": [
+      "Blog Posts",
+      "Case Studies",
+      "Industry Reports",
+      "Thought Leadership"
+    ],
+    "publishingFrequency": {
+      "blogPosts": "2 per week",
+      "caseStudies": "1 per month",
+      "industryReports": "Quarterly"
+    }
+  }
+}

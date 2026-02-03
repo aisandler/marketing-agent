@@ -1,7 +1,7 @@
 # Workflow Reference
 
 **Version**: 2.0 (Consolidated)
-**Last Updated**: 2025-10-20
+**Last Updated**: 2026-02-03
 **Purpose**: Essential workflows and agent coordination patterns
 
 ---
@@ -11,8 +11,10 @@
 ### Primary Workflows
 1. **Content Planning** → Use `/cmo` with strategic pathway selection
 2. **Content Generation** → LOCAL (immediate) or SYSTEMATIC (workflow)
-3. **Performance Analysis** → Use `/analyst` for intelligence and optimization
-4. **Brand Setup** → Use `/onboard` for business configuration
+3. **Image Generation** → Use `/images` for AI image creation and management
+4. **Social Intelligence** → Use `/intel` for competitive and industry insights
+5. **Performance Analysis** → Use `/analyst` for intelligence and optimization
+6. **Brand Setup** → Use `/onboard` for business configuration
 
 ### Key Automation Scripts
 ```bash
@@ -26,6 +28,15 @@
 
 # Brand Export
 ./automation/brand-synthesis.sh [summary|detailed|guide]
+
+# Image Generation
+npx tsx automation/image-generation/generate-images.ts [--status|--dry-run|--limit N|--costs]
+
+# Social Intelligence
+npx tsx automation/intel/linkedin-collector.ts [--competitor key] [--dry-run]
+npx tsx automation/intel/twitter-collector.ts [--category key] [--dry-run]
+npx tsx automation/intel/visual-analyzer.ts [--dry-run]
+npx tsx automation/intel/synthesize.ts [--dry-run] [--verbose]
 ```
 
 ---
@@ -245,6 +256,43 @@ Strategic recommendations for brand differentiation
 3. Campaign records created for email platform
 4. Review and scheduling in email system
 
+### Image Generation Workflow
+
+**Command**: `/images`
+**Skill**: `.claude/skills/images/SKILL.md`
+
+**Process**:
+1. Check queue: `/images status` to see records needing images
+2. Preview: `/images generate --dry-run` to see cost estimate
+3. Generate: `/images generate --limit 5` for controlled batches
+4. Review: Partner portal displays images for approval/rejection
+5. Feedback loop: Rejections inform future prompt improvements
+
+**Key Integrations**:
+- Airtable: Records with Image Brief but no Image are queued
+- Partner Portal: Image approval/rejection feedback
+- Social Intelligence: `/intel` synthesis feeds into generation prompts
+
+### Social Intelligence Workflow
+
+**Command**: `/intel`
+**Skill**: `.claude/skills/social-intel/SKILL.md`
+
+**Recommended Cadence**: Weekly (Monday morning)
+
+**Process**:
+1. Collect: `/intel collect --all` (LinkedIn + Twitter)
+2. Analyze: `/intel analyze` (visual pattern analysis)
+3. Sync: `/intel sync` (generate synthesis for image gen)
+4. Verify: `/intel status` (confirm freshness)
+
+**Data Flow**:
+```
+LinkedIn/Twitter Collection → Visual Analysis → Synthesis → image-generation-intel.json → rules.ts → Generated Images
+```
+
+**Output Directory**: `docs/intelligence/`
+
 ---
 
 ## Quality Assurance Workflows
@@ -367,7 +415,12 @@ Strategic recommendations for brand differentiation
 
 ## Workflow Evolution
 
-### Recent Changes (2025-10-20)
+### Recent Changes (2026-02-03)
+- Added Image Generation workflow (`/images` skill)
+- Added Social Intelligence workflow (`/intel` skill)
+- Added automation scripts for intel collection and synthesis
+
+### Previous Changes (2025-10-20)
 - Consolidated workflow documentation from 8+ detailed process files
 - Streamlined to essential coordination patterns and workflows
 - Optimized for Claude Skills integration
@@ -385,4 +438,4 @@ Detailed process documentation archived in:
 **Workflow Owner**: Marketing Operations
 **Maintained By**: System Team
 **Review Schedule**: Monthly workflow optimization review
-**Last Major Update**: 2025-10-20 (Consolidation and Claude Skills optimization)
+**Last Major Update**: 2026-02-03 (Added /images and /intel workflows)

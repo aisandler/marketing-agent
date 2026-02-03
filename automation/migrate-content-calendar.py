@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CPL Content Calendar Migration Script
+Content Calendar Migration Script
 
 This script migrates existing records to the new schema:
 1. Populates "Posting Account" from "Who to Post" (maps person -> account)
@@ -24,7 +24,7 @@ load_dotenv(project_root / '.env', override=True)
 
 AIRTABLE_API_KEY = os.getenv('AIRTABLE_API_KEY')
 AIRTABLE_BASE_ID = os.getenv('AIRTABLE_BASE_ID')
-TABLE_ID = 'tblasltP6iiMKW7Mg'  # CPL Content Calendar
+TABLE_ID = os.getenv('AIRTABLE_CONTENT_TABLE_ID', 'YOUR_CONTENT_TABLE_ID')
 
 BASE_URL = f"https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{TABLE_ID}"
 
@@ -34,13 +34,10 @@ HEADERS = {
 }
 
 # Mapping from "Who to Post" values to "Posting Account" values
+# Customize for your brand's partners and posting accounts
 WHO_TO_ACCOUNT_MAP = {
-    "Andrew": "Andrew LinkedIn",
-    "Alan": "Alan LinkedIn",
-    "Michael Carlos": "Michael Carlos LinkedIn",
-    "Alex": "Alan LinkedIn",  # Alex maps to Alan's approval workflow for now
-    "Lisa Gabler": "Lisa LinkedIn",
-    "CPL": "CPL LinkedIn",
+    # "PartnerName": "PartnerName LinkedIn",
+    # "Company": "Company LinkedIn",
 }
 
 # Platform mapping (handles case variations)
@@ -82,14 +79,14 @@ def get_all_records():
 def determine_posting_account(who_to_post):
     """Map 'Who to Post' value(s) to 'Posting Account'."""
     if not who_to_post:
-        return "CPL LinkedIn"  # Default
+        return "Company LinkedIn"  # Default
 
     # who_to_post is a list (multiselect)
     if isinstance(who_to_post, list) and len(who_to_post) > 0:
         first_person = who_to_post[0]
-        return WHO_TO_ACCOUNT_MAP.get(first_person, "CPL LinkedIn")
+        return WHO_TO_ACCOUNT_MAP.get(first_person, "Company LinkedIn")
 
-    return "CPL LinkedIn"
+    return "Company LinkedIn"
 
 
 def determine_platform(channels):
@@ -162,19 +159,19 @@ def migrate_record(record, dry_run=False):
 
 
 def create_repost_records(records, dry_run=False):
-    """Create repost records for posts where Who to Post has CPL and another person."""
+    """Create repost records for posts where Who to Post has Company and another person."""
     reposts_to_create = []
 
     for record in records:
         fields = record.get("fields", {})
         who_to_post = fields.get("Who to Post", [])
 
-        # Check if this record has both a partner and CPL
+        # Check if this record has both a partner and Company
         if isinstance(who_to_post, list) and len(who_to_post) > 1:
-            has_cpl = "CPL" in who_to_post
-            partners = [p for p in who_to_post if p != "CPL"]
+            has_company = "Company" in who_to_post
+            partners = [p for p in who_to_post if p != "Company"]
 
-            if has_cpl and partners:
+            if has_company and partners:
                 # This record needs a repost created
                 date = fields.get("Date")
                 if date:
@@ -186,7 +183,7 @@ def create_repost_records(records, dry_run=False):
                     repost = {
                         "Date": repost_date.strftime("%Y-%m-%d"),
                         "Post Topic": fields.get("Post Topic", ""),
-                        "Posting Account": "CPL LinkedIn",
+                        "Posting Account": "Company LinkedIn",
                         "Platform": "LinkedIn",
                         "Post Type": "Repost",
                         "Copy": "NATIVE SHARE",
@@ -229,7 +226,7 @@ def main():
     if dry_run:
         print("=== DRY RUN MODE - No changes will be made ===\n")
 
-    print("Fetching all records from CPL Content Calendar...")
+    print("Fetching all records from Content Calendar...")
     records = get_all_records()
     print(f"Found {len(records)} records\n")
 

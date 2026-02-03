@@ -189,21 +189,21 @@ def final_classification(primary_result, secondary_result, override_factors):
 
 ### **LOCAL Classification Examples**
 
-**✅ Comprehensive Blog Post - "Complete Guide to Spring Pest Prevention"**
+**Comprehensive Blog Post - "Complete Guide to Spring Seasonal Preparation"**
 - Content Type: Blog Post
 - Word Count: ~1500 words
 - Format: Long-form educational content
 - Visual Requirements: Minimal (text-focused)
 - **CLASSIFICATION: LOCAL**
 
-**✅ Location Page - Detailed Service Description**
+**Location Page - Detailed Service Description**
 - Content Type: Location Page
 - Content: Text-heavy service descriptions
 - Complexity: Standard template with extensive content
 - Visual Requirements: Standard layout
 - **CLASSIFICATION: LOCAL**
 
-**✅ Educational Guide - "Seasonal Pest Patterns in Illinois"**
+**Educational Guide - "Seasonal Service Patterns in {{SERVICE_AREA}}"**
 - Content Type: Blog Post
 - Word Count: ~2000 words
 - Format: Research-intensive, informational
@@ -212,20 +212,20 @@ def final_classification(primary_result, secondary_result, override_factors):
 
 ### **SYSTEMATIC Classification Examples**
 
-**📋 Instagram Post - Spring Termite Prevention**
+**Instagram Post - Spring Service Promotion**
 - Content Type: Social Media Post → Automatic SYSTEMATIC
 - Platform: Instagram (requires optimized formatting + images)
 - Visual Requirements: Custom graphics, branded styling
 - **CLASSIFICATION: SYSTEMATIC**
 
-**📋 Facebook Campaign - Seasonal Pest Prevention**
+**Facebook Campaign - Seasonal Service Promotion**
 - Content Type: Social Media Campaign
 - Platform: Facebook (specific format requirements)
 - Visual Elements: Branded images, call-to-action buttons
 - Coordination: Multi-post series with timing
 - **CLASSIFICATION: SYSTEMATIC**
 
-**📋 LinkedIn Business Post - Commercial Pest Services**
+**LinkedIn Business Post - Commercial Services**
 - Content Type: Social Media Post
 - Platform: LinkedIn (professional formatting)
 - Visual Requirements: Professional imagery, company branding
@@ -234,7 +234,7 @@ def final_classification(primary_result, secondary_result, override_factors):
 
 ### **Context-Dependent Examples**
 
-**🔄 Seasonal Blog Post - "Preparing for Spring Pests"**
+**Seasonal Blog Post - "Preparing for Spring Season"**
 ```
 EVALUATION:
 - Content Type: Blog Post → Continue evaluation

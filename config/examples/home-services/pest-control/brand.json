@@ -1,0 +1,33 @@
+{
+  "$schema": "../../brand.schema.json",
+  "_comment": "Example pest control brand configuration",
+
+  "name": "Pest Control Consultants",
+  "tagline": "Protect What Matters Most",
+
+  "colors": {
+    "primary": "#2d5016",
+    "secondary": "#f59e0b",
+    "accent": "#ffffff",
+    "_names": {
+      "primary": "forest green",
+      "secondary": "amber"
+    }
+  },
+
+  "imageStyleDirective": "professional pest control aesthetic, forest green (#2d5016) and amber (#f59e0b) color palette, clean home protection imagery, family-safe emphasis, no pests shown, warm and trustworthy feel",
+
+  "contentPillars": [
+    "Family Safety",
+    "Seasonal Prevention",
+    "Local Expertise"
+  ],
+
+  "focusAreas": [
+    "Eco-friendly pest solutions",
+    "Northern Illinois community protection"
+  ],
+
+  "industry": "pest_control",
+  "location": "Dixon, IL"
+}

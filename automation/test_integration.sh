@@ -51,8 +51,8 @@ if curl -s -X POST "$WEBHOOK_URL" \
     -d '{
         "operation": "airtable",
         "subOperation": 2,
-        "baseId": "appS6XjjRUrELJRgC", 
-        "tableId": "tblDaJzBBjtR2mrDq"
+        "baseId": "${AIRTABLE_BASE_ID}",
+        "tableId": "${AIRTABLE_INVENTORY_TABLE_ID}"
     }' > /dev/null 2>&1; then
     echo "✅ Airtable webhook responding"
 else

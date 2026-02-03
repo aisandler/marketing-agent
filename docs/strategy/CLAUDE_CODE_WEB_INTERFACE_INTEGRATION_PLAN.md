@@ -81,7 +81,7 @@ Fields:
 - Content_ID
 - Agent_Creator (Which agent developed the content)
 - Strategic_Alignment (CMO objectives, brand positioning)
-- Methodology_Focus (pest control, BANT, Challenger, Consultative)
+- Methodology_Focus (consultative, educational, promotional, seasonal)
 - Target_Persona (Sales managers, individual reps, revenue directors)
 - Content_Type (Blog, LinkedIn, email, video script, case study)
 - Workflow_Stage (Agent_Created, Interface_Managed, Published, Optimized)
@@ -175,8 +175,8 @@ WORKFLOW: Market Research Integration
 Step 1: Market Intelligence Gathering (Claude Code)
 /agents → Market Research Specialist
 "{{COMPANY_NAME}} market analysis:
-- pest control market trends
-- Pest control education technology landscape
+- Industry market trends
+- Service education and technology landscape
 - Buyer behavior analysis
 - Competitive opportunity identification"
 
@@ -246,7 +246,7 @@ WORKFLOW: Content Development Integration
 
 Step 1: Content Strategy Development (Claude Code)
 /agents → Content Marketing Manager
-"pest control content strategy:
+"Content strategy:
 - Editorial calendar strategic framework
 - Content pillar development
 - SEO integration requirements
@@ -310,7 +310,7 @@ WORKFLOW: SEO Integration
 Step 1: SEO Strategy Development (Claude Code)
 /agents → SEO Specialist
 "{{COMPANY_NAME}} SEO optimization:
-- Keyword strategy for pest control education market
+- Keyword strategy for {{INDUSTRY}} market
 - Technical SEO requirements
 - Content optimization framework
 - Link building strategy
@@ -353,13 +353,13 @@ Interface Action: Parse agent deliverable for:
 - Cross-agent dependencies → Establish coordination workflows
 
 Example Automation:
-CMO Agent Output: "Launch pest control campaign targeting sales managers"
+CMO Agent Output: "Launch seasonal campaign targeting sales managers"
 ↓
 Interface Auto-Creation:
 - Market Research task: Validate sales manager persona data
-- Content Marketing task: Create pest control campaign content
+- Content Marketing task: Create seasonal campaign content
 - Social Media task: Develop LinkedIn campaign strategy
-- SEO task: Optimize pest control content for search
+- SEO task: Optimize seasonal content for search
 - Data Analyst task: Set up campaign performance tracking
 ```
 
@@ -377,7 +377,7 @@ Agent Notification: Relevant agents receive performance data for analysis
 
 Automated Agent Consultation:
 Interface automatically requests agent insights:
-"Performance Alert: pest control content conversion dropped 15%
+"Performance Alert: content conversion dropped 15%
 Request strategic analysis and optimization recommendations"
 ↓
 Agent provides strategic response that interface implements
@@ -475,11 +475,11 @@ Step 4: Interface implements agent-recommended optimizations
 Step 5: Performance tracking continues with agent oversight
 
 Example:
-Interface Alert: "pest control content engagement up 45%"
+Interface Alert: "seasonal content engagement up 45%"
 ↓
 Data Analyst: "Trend analysis indicates growing market interest"
-Content Marketing: "Recommend increasing pest control content production"
-CMO: "Allocate additional budget to pest control campaigns"
+Content Marketing: "Recommend increasing seasonal content production"
+CMO: "Allocate additional budget to seasonal campaigns"
 ↓
 Interface: Automatically adjusts content calendar and budget allocation
 ```

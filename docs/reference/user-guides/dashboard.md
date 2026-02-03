@@ -38,7 +38,7 @@ The {{COMPANY_NAME}} Interactive Dashboard has been significantly enhanced with 
 ├─────────────────────────────────────┤  
 │ [Blog Post] [HIGH]                  │ ← Badges (16px padding)
 ├─────────────────────────────────────┤
-│ Location: Dixon IL   | Pest: Ants   │ ← Meta (gray background)  
+│ Location: Market A   | Service: Core │ ← Meta (gray background)  
 │ Volume: 1200        | Keywords...   │
 ├─────────────────────────────────────┤
 │ ✏️ Edit               ⋮⋮           │ ← Actions (gray background)

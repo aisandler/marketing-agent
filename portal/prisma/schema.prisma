@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AirtablePost {
+  id               String   @id @default(cuid())
+  airtableRecordId String   @unique
+  date             DateTime?
+  postTopic        String?
+  postingAccount   String   // Partner or company posting account (e.g., "Partner1 LinkedIn")
+  platform         String?
+  postType         String?  // "Original", "Repost", "Link Share"
+  contentPillar    String?  // Content pillar from brand config
+  focus            String?  // Focus area from brand config
+  copy             String?
+  copyStatus       String   @default("Draft") // "Draft", "Ready for Review", "Approved", "Needs Revision"
+  assetStatus      String?
+  postStatus       String   @default("Drafting") // "Drafting", "Ready for Review", "Approved", "Scheduled", "Posted", "Needs Revision"
+  imageBrief       String?
+  images           String?  // JSON array of image objects: [{url, thumbnail}]
+  imageUrl         String?  // DEPRECATED: First image URL (kept for backwards compat)
+  imageThumbnail   String?  // DEPRECATED: First thumbnail (kept for backwards compat)
+  videoUrl         String?  // URL from Airtable video attachment
+  videoThumbnail   String?  // Video thumbnail for preview
+  notes            String?
+  lastSyncedAt     DateTime @default(now())
+  syncStatus       String   @default("synced") // "synced", "pending_push", "conflict"
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Review tracking
+  lastReviewedAt   DateTime?
+  lastReviewedBy   String?
+
+  // Source post relationship (for reposts)
+  sourcePostAirtableId String?        // Raw Airtable record ID from Source Post field
+  sourcePost           AirtablePost?  @relation("RepostSource", fields: [sourcePostId], references: [id])
+  sourcePostId         String?
+  reposts              AirtablePost[] @relation("RepostSource")
+
+  feedback         PartnerFeedback[]
+}
+
+model PartnerFeedback {
+  id             String       @id @default(cuid())
+  postId         String
+  post           AirtablePost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  partnerAccount String       // Which partner submitted this feedback
+  feedbackType   String       // "approval", "edit", "revision_request", "image_approval", "image_rejection"
+  originalCopy   String?      // Snapshot of copy at time of feedback
+  editedCopy     String?      // Partner's edited version (for edits)
+  revisionNotes  String?      // Partner's notes (for revision requests)
+  status         String       @default("pending") // "pending", "applied", "dismissed"
+  createdAt      DateTime     @default(now())
+  appliedAt      DateTime?
+  appliedBy      String?      // Admin who applied the feedback
+
+  // Image tracking fields
+  originalImages       String?  // JSON array of original image URLs at time of feedback
+  replacementImages    String?  // JSON array of replacement image URLs
+
+  // Resolution chain (for tracking which feedback resolved which)
+  resolvedByFeedbackId String?
+  resolvedBy           PartnerFeedback?  @relation("ResolutionChain", fields: [resolvedByFeedbackId], references: [id])
+  resolves             PartnerFeedback[] @relation("ResolutionChain")
+}
+
+model Partner {
+  id              String   @id // Partner ID from config (e.g., "partner1", "company")
+  name            String   // Full name from config
+  postingAccounts String   // JSON array of posting accounts
+  email           String?
+  createdAt       DateTime @default(now())
+}
+
+model SyncLog {
+  id              String   @id @default(cuid())
+  syncType        String   // "pull", "push"
+  recordsAffected Int
+  status          String   // "success", "error", "partial"
+  details         String?  // JSON with additional info
+  createdAt       DateTime @default(now())
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  name          String
+  role          String    @default("user")  // "user" or "admin"
+  partnerId     String?   // Links to Partner model by ID
+  isActive      Boolean   @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model FeedbackBatch {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  completedAt   DateTime?
+  status        String    @default("in_progress") // "in_progress", "completed", "cancelled"
+  feedbackIds   String[]  // Array of PartnerFeedback IDs in this batch
+  postsAffected String[]  // Array of AirtablePost IDs affected
+  revisionPlan  String?   // Markdown description of revision plan
+  notes         String?   // Additional notes about the batch
+}
+
+model FeedbackLearning {
+  id                 String   @id @default(cuid())
+  category           String   // "copy", "image", "timing", "format", etc.
+  subcategory        String?  // More specific categorization
+  learningType       String   // "preference", "correction", "pattern", "avoidance"
+  subject            String   // Brief description of what was learned
+  guidance           String   // Full guidance text
+  promptFragment     String?  // Snippet to include in prompts
+  sourceType         String   @default("partner_feedback") // "partner_feedback", "manual", "inference"
+  sourceFeedbackIds  String[] // Array of feedback IDs that contributed
+  sourcePartner      String?  // Partner who originated this learning
+  frequency          Int      @default(1) // How many times this pattern has been seen
+  confidence         Float    @default(0.5) // 0-1 confidence score
+  lastSeenAt         DateTime @default(now())
+  appliesToAccounts  String[] // Which posting accounts this applies to
+  appliesToPlatforms String[] // Which platforms this applies to
+  appliesToFocuses   String[] // Which focus areas this applies to
+  status             String   @default("active") // "active", "deprecated", "superseded"
+  supersededById     String?  // If superseded, which learning replaced this
+  appliedCount       Int      @default(0) // How many times this learning has been applied
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}

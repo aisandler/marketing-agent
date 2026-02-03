@@ -3,7 +3,7 @@
 Cleanup Airtable Database and Relink All Records
 
 Steps:
-1. Delete BBG duplicate from Basic Info
+1. Delete duplicate from Basic Info
 2. Clear all detail tables (Services, Workforce, Marketing, etc.)
 3. Keep Basic Info records (10 competitors)
 4. Re-run linked loader to create properly linked detail records
@@ -26,20 +26,21 @@ HEADERS = {
     "Content-Type": "application/json"
 }
 
-# Table IDs
+# Table IDs - configure in .env or environment
+# Set AIRTABLE_TABLE_<NAME> environment variables for each table
 TABLES = {
-    "basic_info": "tbljjpXphemj0Wj5k",
-    "services": "tblVFdRg5vyymo3MN",
-    "workforce": "tbl2RXJHFfkNlhywm",
-    "marketing": "tbl54tXqSbVbHfffp",
-    "positioning": "tblCnF0c1pF2gAQlA",
-    "swot": "tblCSYIa5x1MVbS6J",
-    "ai_search": "tblp7rcpHC0jJBpU2",
-    "messaging": "tblzkr1KYfwyknuzP"
+    "basic_info": os.getenv('AIRTABLE_TABLE_BASIC_INFO', 'YOUR_TABLE_ID'),
+    "services": os.getenv('AIRTABLE_TABLE_SERVICES', 'YOUR_TABLE_ID'),
+    "workforce": os.getenv('AIRTABLE_TABLE_WORKFORCE', 'YOUR_TABLE_ID'),
+    "marketing": os.getenv('AIRTABLE_TABLE_MARKETING', 'YOUR_TABLE_ID'),
+    "positioning": os.getenv('AIRTABLE_TABLE_POSITIONING', 'YOUR_TABLE_ID'),
+    "swot": os.getenv('AIRTABLE_TABLE_SWOT', 'YOUR_TABLE_ID'),
+    "ai_search": os.getenv('AIRTABLE_TABLE_AI_SEARCH', 'YOUR_TABLE_ID'),
+    "messaging": os.getenv('AIRTABLE_TABLE_MESSAGING', 'YOUR_TABLE_ID'),
 }
 
-# BBG duplicate to delete (test record)
-BBG_DUPLICATE_ID = "recvtK4w7573A8vKM"
+# Duplicate record to delete (test record) - set via environment or argument
+BBG_DUPLICATE_ID = os.getenv('AIRTABLE_DUPLICATE_RECORD_ID', '')
 
 
 def delete_record(table_id: str, record_id: str):
@@ -113,11 +114,11 @@ def delete_all_records_from_table(table_name: str, table_id: str):
 
 
 def main():
-    print("🚀 CPL Airtable Cleanup and Relink Script")
+    print("🚀 Airtable Cleanup and Relink Script")
     print("=" * 60)
 
-    # Step 1: Delete BBG duplicate from Basic Info
-    print("\n📋 Step 1: Delete BBG duplicate from Basic Info")
+    # Step 1: Delete duplicate from Basic Info
+    print("\n📋 Step 1: Delete duplicate from Basic Info")
     delete_record(TABLES["basic_info"], BBG_DUPLICATE_ID)
 
     # Verify Basic Info count

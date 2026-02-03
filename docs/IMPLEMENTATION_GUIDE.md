@@ -97,20 +97,20 @@ RESEARCH REQUIREMENTS:
 3. Research seasonal {{INDUSTRY}} challenges and service opportunities
 4. Identify content gaps and opportunities across Blog Posts, Social Media, Location Pages
 
-BRAND GUIDELINES REFERENCE: docs/brand-guidelines/ and docs/client-context/
-- Core message: 'Shield your Home. Protect your Family.'  
-- Focus: Family safety, local expertise, eco-friendly methods
-- Content themes: Family Health Protection, Seasonal Prevention, Local Challenges, Eco-Friendly Methods
-- Company context: docs/client-context/company/ (profiles, service areas)
-- Keywords: docs/client-context/keywords/ (SEO research, search volumes)
-- StoryBrand framework: docs/client-context/branding/
+BRAND GUIDELINES REFERENCE: docs/brand-guidelines/ and client-context/
+- Core message: (from client-context/brand/ voice guide)
+- Focus: (from client-context/brand/ brand architecture)
+- Content themes: (from client-context/brand/ content pillars)
+- Company context: client-context/business/ (profiles, service areas)
+- Keywords: client-context/keywords/ (SEO research, search volumes)
+- StoryBrand framework: client-context/brand/
 
 DELIVERABLE: Present 15-20 specific content record recommendations with:
 - Content type (Blog Post, Social Media Post, Location Page)
 - Target timing and seasonal alignment
 - Keywords and search volume estimates (for Blog/Location content)
 - Priority level (HIGH/MEDIUM/LOW)
-- Target location (Illinois/Iowa/Wisconsin)
+- Target location (from config/brand.json service areas)
 - Robust descriptions (15+ words each)
 
 Format recommendations for user approval before record creation."
@@ -209,7 +209,7 @@ Based on our strategic consultation, here are the recommended content records:
 - **Description**: [15+ word description with value prop and target audience]
 - **Keywords**: [keyword 1 (volume), keyword 2 (volume), keyword 3 (volume), ...]
 - **Priority**: HIGH/MEDIUM/LOW
-- **Target Location**: Illinois/Iowa/Wisconsin
+- **Target Location**: (from config/brand.json service areas)
 - **Classification**: LOCAL (will generate immediately) / SYSTEMATIC (Airtable workflow)
 - **Estimated Timeline**: [timing guidance]
 

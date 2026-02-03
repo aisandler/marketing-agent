@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../brand.schema.json",
+
+  "name": "Comfort Aire HVAC",
+  "tagline": "Your Comfort is Our Promise",
+
+  "colors": {
+    "primary": "#0369a1",
+    "secondary": "#f97316",
+    "accent": "#ffffff",
+    "_names": {
+      "primary": "sky blue",
+      "secondary": "orange"
+    }
+  },
+
+  "imageStyleDirective": "professional HVAC service aesthetic, sky blue (#0369a1) and orange (#f97316) color palette, modern clean homes, comfortable indoor environments, professional technicians at work, no faces visible, residential and commercial settings",
+
+  "contentPillars": [
+    "Energy Efficiency",
+    "Seasonal Comfort",
+    "HVAC Education"
+  ],
+
+  "focusAreas": [
+    "Emergency service response",
+    "Preventive maintenance"
+  ],
+
+  "industry": "HVAC",
+  "location": "Denver, CO"
+}

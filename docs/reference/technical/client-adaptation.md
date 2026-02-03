@@ -15,8 +15,8 @@ You can now adapt client‑specific elements without code changes using a small 
 
 What you can configure per client:
 - Airtable connection: `airtable.webhookUrl`, `airtable.baseId`, `airtable.tableId` (and `AIRTABLE_API_KEY` via env)
-- Airtable field names: `fields.*` (e.g., rename `pestType` → `Service Type`)
-- Display labels (non‑Airtable): `labels.entitySubtypeLabel` (e.g., “Pest Type”, “Service Type”, “Category”)
+- Airtable field names: `fields.*` (e.g., rename `serviceCategory` → `Service Type`)
+- Display labels (non‑Airtable): `labels.entitySubtypeLabel` (e.g., "Service Type", "Category", "Specialty")
 - Drive folders per content type: `drive.folders.*`
 
 Already wired to config:
@@ -86,13 +86,13 @@ To include qualitative brand and product materials inside the system without cod
 const clientConfig = {
   client: {
     name: "{{COMPANY_NAME}}", // → "Client Name"
-    industry: "pest_control", // → "industry_type" 
-    brandName: "Pest Control Consultants of Illinois", // → "Brand Display Name"
+    industry: "home_services", // → "industry_type"
+    brandName: "Your Brand Name Here", // → "Brand Display Name"
     domain: "{{WEBSITE_URL}}" // → "client_domain"
   },
   airtable: {
-    baseId: "appS6XjjRUrELJRgC", // → Client's base ID
-    contentTableId: "tblCR8yF9HHQlDij1", // → Client's content table
+    baseId: "YOUR_BASE_ID", // → Client's base ID
+    contentTableId: "YOUR_CONTENT_TABLE_ID", // → Client's content table
     apiKey: "pataGikJDZvBzgIDE...", // → Client's API key
     embedViews: {
       calendar: "shr9MzUotKm1GFD3C", // → Client's calendar view
@@ -120,8 +120,8 @@ const clientConfig = {
 **Lines to Make Configurable**:
 - Line 6: `<title>{{COMPANY_NAME}} Interactive Content Planning Dashboard</title>`
 - Line 2571: `<h1>🐛 {{COMPANY_NAME}} Content Planning Hub</h1>`
-- Line 2675: Airtable base URL `https://airtable.com/appS6XjjRUrELJRgC/`
-- Line 2691-2716: All embed URLs with base ID `appS6XjjRUrELJRgC`
+- Line 2675: Airtable base URL `https://airtable.com/YOUR_BASE_ID/`
+- Line 2691-2716: All embed URLs with base ID `YOUR_BASE_ID`
 - Line 3041: Hardcoded API key
 - Line 3044: API URL structure
 
@@ -144,14 +144,14 @@ const clientConfig = {
 
 ### 1. Industry-Specific Data
 
-#### {{COMPANY_NAME}} Pest Control Elements
+#### Example Industry-Specific Elements
 ```javascript
-// Current pest control specific data
+// Example industry-specific data (configured via /onboard)
 const clientData = {
-  serviceAreas: ["Illinois", "Iowa", "Wisconsin"],
-  pestTypes: ["Ants", "Termites", "Bed Bugs", "Mice", "Cockroaches"],
+  serviceAreas: ["State 1", "State 2", "State 3"],
+  serviceTypes: ["Service A", "Service B", "Service C", "Service D", "Service E"],
   contentTypes: ["Blog Post", "Service Page", "Location Page", "Social Media"],
-  seasonalFocus: ["Spring Prevention", "Summer Control", "Fall Preparation", "Winter Protection"]
+  seasonalFocus: ["Spring Prevention", "Summer Active Season", "Fall Preparation", "Winter Planning"]
 }
 ```
 
@@ -171,11 +171,11 @@ const industryConfig = {
 ### 2. Brand-Specific Elements
 
 #### Current {{COMPANY_NAME}} Branding
-- Company name: "Pest Control Consultants of Illinois"
-- Tagline: "Shield your Home. Protect your Family."
-- Primary CTA: "Get Your Free Pest Inspection"
-- Color scheme: Green/pest control themed
-- Voice: Family-focused, local expertise, trustworthy
+- Company name: (configured in config/brand.json)
+- Tagline: (configured in client-context/brand/)
+- Primary CTA: (configured in client-context/brand/)
+- Color scheme: (configured in config/brand.json)
+- Voice: (configured in client-context/brand/voice-and-tone-guide.md)
 
 #### Generic Brand Configuration
 ```javascript
@@ -201,8 +201,8 @@ const brandConfig = {
 ### 3. Content Structure Elements
 
 #### Current {{COMPANY_NAME}} Content Fields
-- Location-based content (Illinois/Iowa/Wisconsin)
-- Pest-specific categories
+- Location-based content (from config service areas)
+- Service-specific categories
 - Seasonal timing
 - Commercial vs residential focus
 
@@ -250,8 +250,8 @@ Create an admin interface within the dashboard for:
 ### Priority 2: Template Management
 Create industry-specific content templates:
 
-1. **Pest Control Template** (current {{COMPANY_NAME}} setup)
-2. **Home Services Template** (HVAC, Plumbing, etc.)
+1. **Home Services Template** (HVAC, Plumbing, Lawn Care, etc.)
+2. **Specialty Services Template** (Cleaning, Restoration, etc.)
 3. **Professional Services Template** (Legal, Accounting, etc.)
 4. **E-commerce Template** (Product-based businesses)
 5. **SaaS Template** (Software companies)
@@ -265,9 +265,9 @@ Create industry-specific content templates:
 /config/
   ├── client-config.json       # Master client configuration
   ├── industry-templates/      # Predefined industry setups
-  │   ├── pest-control.json
   │   ├── home-services.json
   │   ├── professional-services.json
+  │   ├── ecommerce.json
   │   └── custom.json
   ├── brand-guidelines/        # Client brand assets
   │   ├── colors.json

@@ -31,7 +31,7 @@ The system uses these key variables that get replaced throughout all files:
 
 ### Client Information
 - `{{COMPANY_NAME}}` - Client company name
-- `{{INDUSTRY}}` - Industry type (pest_control, hvac, roofing, etc.)
+- `{{INDUSTRY}}` - Industry type (home_services, hvac, roofing, landscaping, etc.)
 - `{{BUSINESS_TYPE}}` - Business classification
 - `{{WEBSITE_URL}}` - Client website
 - `{{PHONE_NUMBER}}` - Client phone
@@ -143,7 +143,7 @@ git checkout main
 git commit -m "Improve SEO optimization system"
 
 # 2. Update each client with new improvements
-for client in client-pest-control client-hvac-services client-roofing; do
+for client in client-acme-services client-hvac-services client-roofing; do
   git checkout $client
   git merge main  # This brings your improvements to the client
   git push origin $client
@@ -157,7 +157,7 @@ git checkout main
 
 ```
 main (master template)
-├── client-pest-control-company-il
+├── client-acme-services-il
 ├── client-comfort-aire-hvac
 ├── client-greenscape-landscaping
 ├── client-summit-roofing

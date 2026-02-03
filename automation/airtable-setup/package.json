@@ -1,0 +1,23 @@
+{
+  "name": "airtable-setup",
+  "version": "1.0.0",
+  "description": "Airtable auto-setup using Meta API and browser automation",
+  "type": "module",
+  "scripts": {
+    "setup": "npx tsx setup-base.ts",
+    "setup:dry-run": "npx tsx setup-base.ts --dry-run",
+    "browser": "npx tsx browser-setup.ts",
+    "browser:guided": "npx tsx browser-setup.ts --guided",
+    "manual": "npx tsx browser-setup.ts --manual",
+    "install-playwright": "npx playwright install chromium"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  },
+  "optionalDependencies": {
+    "playwright": "^1.48.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0"
+  }
+}

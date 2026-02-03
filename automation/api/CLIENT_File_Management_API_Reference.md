@@ -33,12 +33,12 @@ The webhook endpoint uses pre-configured credentials for:
 ```
 
 **Optional Parameters** (include all for proper routing):
-- `baseId` (string): Airtable base ID (default: "appS6XjjRUrELJRgC")
-- `tableId` (string): Airtable table ID (default: "tblCR8yF9HHQlDij1")
-  - Content table: "tblCR8yF9HHQlDij1"
-  - **{{COMPANY_NAME}} Inventory table**: "tblDaJzBBjtR2mrDq"
-  - Actions table: "tblGX1h05Nwe9qBQ7"
-  - Variables table: "tblCQkDtP3WsKmnk7"
+- `baseId` (string): Airtable base ID (default: "YOUR_BASE_ID")
+- `tableId` (string): Airtable table ID (default: "YOUR_CONTENT_TABLE_ID")
+  - Content table: "YOUR_CONTENT_TABLE_ID"
+  - **{{COMPANY_NAME}} Inventory table**: "YOUR_INVENTORY_TABLE_ID"
+  - Actions table: "YOUR_ACTIONS_TABLE_ID"
+  - Variables table: "YOUR_VARIABLES_TABLE_ID"
 - `recordId` (string): Airtable record ID
 - `searchQuery` (string): Google Drive search terms
 - `fileId` (string): Google Drive file ID
@@ -68,8 +68,8 @@ The webhook endpoint uses pre-configured credentials for:
     "operation": "googledrive",
     "subOperation": 1,
     "searchQuery": "{{COMPANY_NAME}} marketing content",
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblCR8yF9HHQlDij1",
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_CONTENT_TABLE_ID",
     "recordId": "recExample",
     "fileId": "1ExampleFileId",
     "fileName": "example.pdf",
@@ -135,8 +135,8 @@ The webhook endpoint uses pre-configured credentials for:
   "operation": "googledocs",
   "subOperation": 1,
   "documentId": "1ABC123DocumentId456",
-  "baseId": "appS6XjjRUrELJRgC",
-  "tableId": "tblCR8yF9HHQlDij1",
+  "baseId": "YOUR_BASE_ID",
+  "tableId": "YOUR_CONTENT_TABLE_ID",
   "recordId": "recExample",
   "searchQuery": "search terms",
   "fileId": "1FileId",
@@ -171,15 +171,15 @@ The webhook endpoint uses pre-configured credentials for:
 ### 1. Get Schema
 **Operation**: `"airtable"` | **SubOperation**: `1`
 
-**Required Fields**: `baseId` (optional, defaults to "appS6XjjRUrELJRgC")
+**Required Fields**: `baseId` (optional, defaults to "YOUR_BASE_ID")
 
 **Example**:
 ```json
 {
   "operation": "airtable",
   "subOperation": 1,
-  "baseId": "appS6XjjRUrELJRgC",
-  "tableId": "tblCR8yF9HHQlDij1",
+  "baseId": "YOUR_BASE_ID",
+  "tableId": "YOUR_CONTENT_TABLE_ID",
   "recordId": "recExample",
   "searchQuery": "search terms",
   "fileId": "1FileId",
@@ -204,8 +204,8 @@ The webhook endpoint uses pre-configured credentials for:
 **Optional**: `maxRecords`, search filters
 
 **Note**: Returns all records from the specified table. Commonly used table IDs:
-- Content: "tblCR8yF9HHQlDij1"
-- **{{COMPANY_NAME}} Inventory**: "tblDaJzBBjtR2mrDq"
+- Content: "YOUR_CONTENT_TABLE_ID"
+- **{{COMPANY_NAME}} Inventory**: "YOUR_INVENTORY_TABLE_ID"
 
 ### 3. Get Record
 **Operation**: `"airtable"` | **SubOperation**: `3`
@@ -254,9 +254,9 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
   -d '{
     "operation": "googledrive",
     "subOperation": 1,
-    "searchQuery": "{{COMPANY_NAME}} spring pest prevention",
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblCR8yF9HHQlDij1",
+    "searchQuery": "{{COMPANY_NAME}} spring seasonal content",
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_CONTENT_TABLE_ID",
     "recordId": "",
     "fileId": "",
     "fileName": "",
@@ -280,9 +280,9 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
   -d '{
     "operation": "googledocs",
     "subOperation": 2,
-    "title": "{{COMPANY_NAME}} Spring Pest Prevention Guide 2025",
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblCR8yF9HHQlDij1",
+    "title": "{{COMPANY_NAME}} Spring Seasonal Guide 2025",
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_CONTENT_TABLE_ID",
     "recordId": "",
     "searchQuery": "",
     "fileId": "",
@@ -306,8 +306,8 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
   -d '{
     "operation": "airtable",
     "subOperation": 4,
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblCR8yF9HHQlDij1",
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_CONTENT_TABLE_ID",
     "recordId": "",
     "searchQuery": "",
     "fileId": "",
@@ -339,8 +339,8 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
 - Each service has dedicated credential management
 
 ### Default Configuration
-- **Airtable Base**: "appS6XjjRUrELJRgC" ({{COMPANY_NAME}} Content Management)
-- **Airtable Table**: "tblCR8yF9HHQlDij1" (Content Tracking)
+- **Airtable Base**: "YOUR_BASE_ID" ({{COMPANY_NAME}} Content Management)
+- **Airtable Table**: "YOUR_CONTENT_TABLE_ID" (Content Tracking)
 - **Google Docs Folder**: "1HWvSO621zqESxPSXtJPyczxjs-NtPXXE" ({{COMPANY_NAME}} Documents)
 
 ## Error Handling
@@ -377,8 +377,8 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
   -d '{
     "operation": "airtable",
     "subOperation": 2,
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblDaJzBBjtR2mrDq"
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_INVENTORY_TABLE_ID"
   }'
 ```
 
@@ -389,9 +389,9 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
   -d '{
     "operation": "airtable",
     "subOperation": 3,
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblDaJzBBjtR2mrDq",
-    "recordId": "recpruyizyq1XwfCU"
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_INVENTORY_TABLE_ID",
+    "recordId": "recXXXXXXXXXXXXXXX"
   }'
 ```
 
@@ -402,9 +402,9 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
   -d '{
     "operation": "airtable",
     "subOperation": 4,
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblDaJzBBjtR2mrDq",
-    "recordId": "recpruyizyq1XwfCU",
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_INVENTORY_TABLE_ID",
+    "recordId": "recXXXXXXXXXXXXXXX",
     "fields": {
       "Status": "🔄 In Progress",
       "{{CLIENT_CONTACT}} Notes": "Started content creation"
@@ -419,16 +419,16 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
   -d '{
     "operation": "airtable",
     "subOperation": 3,
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblDaJzBBjtR2mrDq",
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_INVENTORY_TABLE_ID",
     "fields": {
       "Content Title": "New Blog Post Title",
       "Content Type": "Blog Post",
       "Priority Level": "HIGH",
       "Status": "⏳ Planned",
-      "Target Location": "Dixon IL",
-      "Pest Type": "Bed Bugs",
-      "Primary Keyword": "bed bug treatment Dixon IL",
+      "Target Location": "{{SERVICE_AREA}}",
+      "Service Category": "General",
+      "Primary Keyword": "{{INDUSTRY}} services {{SERVICE_AREA}}",
       "Content Format": "WordPress Blog",
       "Seasonal Relevance": "Year-Round"
     }
@@ -436,12 +436,12 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
 ```
 
 ### Common {{COMPANY_NAME}} Inventory Fields
-- **Content Title**: Descriptive title (e.g., "Bed Bug Control Dixon IL")
+- **Content Title**: Descriptive title (e.g., "Service Guide {{SERVICE_AREA}}")
 - **Content Type**: Blog Post, Social Media, Location Page
 - **Priority Level**: HIGH, MEDIUM, LOW
 - **Status**: ⏳ Planned, 🔄 In Progress, 📋 {{CLIENT_CONTACT}} Review, ✅ Complete
-- **Target Location**: Dixon IL, Sycamore IL, Clinton IA, etc.
-- **Pest Type**: Bed Bugs, Ants, Termites, Rodents, General
+- **Target Location**: {{SERVICE_AREA}} (configured per client)
+- **Service Category**: Configured per client industry
 - **Content Format**: WordPress Blog, Facebook Post, Instagram Post, Landing Page
 - **{{CLIENT_CONTACT}} Notes**: Text field for feedback and instructions
 

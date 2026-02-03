@@ -1,0 +1,106 @@
+{
+  "$schema": "./airtable.schema.json",
+  "_comment": "Airtable configuration - field mappings and table schema. Used by airtable-setup and sync tools.",
+
+  "tables": {
+    "contentCalendar": {
+      "name": "Content Calendar",
+      "fields": {
+        "date": {
+          "name": "Date",
+          "type": "date",
+          "required": true
+        },
+        "postTopic": {
+          "name": "Post Topic",
+          "type": "singleLineText",
+          "required": true
+        },
+        "postingAccount": {
+          "name": "Posting Account",
+          "type": "singleSelect",
+          "options": ["{{PARTNER_1}} LinkedIn", "{{COMPANY}} LinkedIn"],
+          "required": true
+        },
+        "platform": {
+          "name": "Platform",
+          "type": "singleSelect",
+          "options": ["LinkedIn", "Instagram", "Facebook", "X/Twitter"],
+          "required": true
+        },
+        "postType": {
+          "name": "Post Type",
+          "type": "singleSelect",
+          "options": ["Original", "Repost", "Link Share"],
+          "default": "Original"
+        },
+        "contentPillar": {
+          "name": "Content Pillar",
+          "type": "singleSelect",
+          "options": ["{{PILLAR_1}}", "{{PILLAR_2}}", "{{PILLAR_3}}"]
+        },
+        "focus": {
+          "name": "Focus",
+          "type": "singleSelect",
+          "options": ["{{FOCUS_1}}", "{{FOCUS_2}}"]
+        },
+        "copy": {
+          "name": "Copy",
+          "type": "multilineText"
+        },
+        "copyStatus": {
+          "name": "Copy Status",
+          "type": "singleSelect",
+          "options": ["Draft", "Ready for Review", "Approved", "Needs Revision"],
+          "default": "Draft"
+        },
+        "imageBrief": {
+          "name": "Image Brief",
+          "type": "multilineText"
+        },
+        "image": {
+          "name": "Image",
+          "type": "multipleAttachments"
+        },
+        "imageSource": {
+          "name": "Image Source",
+          "type": "singleSelect",
+          "options": ["AI Generated", "Stock Photo", "Manual Upload", "Received", "Requires Real Video"]
+        },
+        "postStatus": {
+          "name": "Post Status",
+          "type": "singleSelect",
+          "options": ["Drafting", "Ready for Review", "Approved", "Scheduled", "Posted", "Needs Revision"],
+          "default": "Drafting"
+        },
+        "notes": {
+          "name": "Notes",
+          "type": "multilineText"
+        },
+        "sourcePost": {
+          "name": "Source Post",
+          "type": "recordLink",
+          "linkedTable": "Content Calendar"
+        }
+      }
+    }
+  },
+
+  "fieldMappings": {
+    "_comment": "Maps internal field names to Airtable field names for sync operations",
+    "date": "Date",
+    "postTopic": "Post Topic",
+    "postingAccount": "Posting Account",
+    "platform": "Platform",
+    "postType": "Post Type",
+    "contentPillar": "Content Pillar",
+    "focus": "Focus",
+    "copy": "Copy",
+    "copyStatus": "Copy Status",
+    "imageBrief": "Image Brief",
+    "image": "Image",
+    "imageSource": "Image Source",
+    "postStatus": "Post Status",
+    "notes": "Notes"
+  }
+}

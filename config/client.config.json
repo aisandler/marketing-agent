@@ -95,6 +95,24 @@
       "winter": ["{{WINTER_SERVICE}}"]
     }
   },
+  "serviceCategories": {
+    "categories": [
+      { "name": "General", "aliases": [], "isDefault": true }
+    ],
+    "detectionPatterns": {},
+    "seasonalMapping": {
+      "spring": { "focus": "{{SPRING_FOCUS}}", "urgency": "medium", "keyCategories": ["General"] },
+      "summer": { "focus": "{{SUMMER_FOCUS}}", "urgency": "medium", "keyCategories": ["General"] },
+      "fall": { "focus": "{{FALL_FOCUS}}", "urgency": "medium", "keyCategories": ["General"] },
+      "winter": { "focus": "{{WINTER_FOCUS}}", "urgency": "medium", "keyCategories": ["General"] }
+    }
+  },
+  "locations": {
+    "primary": "{{PRIMARY_STATE}}",
+    "secondary": [],
+    "states": ["{{PRIMARY_STATE}}"],
+    "detectionPatterns": {}
+  },
   "seo": {
     "primaryKeywords": [
       "{{KEYWORD_1}}",

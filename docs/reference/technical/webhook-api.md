@@ -11,8 +11,8 @@
 ### Critical Concept: Content ID = File Organization Key
 **Every Airtable Content ID directly correlates to Google Drive folder structure and file naming:**
 
-- **Airtable Record**: Content ID "C118" 
-- **Google Drive Folder**: `/{{COMPANY_NAME}} Content/C118_September_Ant_Posts/`
+- **Airtable Record**: Content ID "C118"
+- **Google Drive Folder**: `/{{COMPANY_NAME}} Content/C118_September_Seasonal_Posts/`
 - **File Names**: `C118_Instagram_Post.docx`, `C118_Facebook_Version.docx`, `C118_Content_Brief.pdf`
 
 This correlation ensures seamless organization where:
@@ -26,8 +26,8 @@ This correlation ensures seamless organization where:
 ## 📋 AIRTABLE OPERATIONS
 
 ### Base Configuration
-- **Base ID**: `appS6XjjRUrELJRgC`
-- **Table ID**: `tblCR8yF9HHQlDij1` *(Correct table ID as of August 2025)*
+- **Base ID**: `YOUR_BASE_ID`
+- **Table ID**: `YOUR_CONTENT_TABLE_ID` *(Correct table ID as of August 2025)*
 - **Primary Use**: Content planning, status tracking, workflow management
 
 ### Operation 1: List All Records
@@ -38,8 +38,8 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "airtable",
       "subOperation": 2,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblCR8yF9HHQlDij1"
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_CONTENT_TABLE_ID"
     }
   }'
 ```
@@ -52,8 +52,8 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "airtable",
       "subOperation": 3,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblCR8yF9HHQlDij1",
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_CONTENT_TABLE_ID",
       "recordId": "recXXXXXXXXXXXXXXX"
     }
   }'
@@ -67,17 +67,17 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "airtable",
       "subOperation": 4,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblCR8yF9HHQlDij1",
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_CONTENT_TABLE_ID",
       "fields": {
-        "Description": "September Ant Prevention Tips",
+        "Description": "September Seasonal Maintenance Tips",
         "Content Type": "Social Media",
         "Priority": "HIGH",
         "Target Location": "Multi-State",
-        "Pest Type": "Ants",
+        "Service Category": "General",
         "Content Format": "Instagram Post",
         "Seasonal Relevance": "Fall",
-        "Primary Keyword": "fall ant prevention tips",
+        "Primary Keyword": "fall home maintenance tips",
         "Search Volume": 320,
         "Keyword Difficulty": "Low",
         "Notes": "Location-agnostic per {{CLIENT_CONTACT}} rules"
@@ -94,8 +94,8 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "airtable",
       "subOperation": 5,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblCR8yF9HHQlDij1",
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_CONTENT_TABLE_ID",
       "recordId": "recXXXXXXXXXXXXXXX",
       "fields": {
         "Status": "🔄 In Progress",
@@ -113,8 +113,8 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "airtable",
       "subOperation": 6,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblCR8yF9HHQlDij1",
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_CONTENT_TABLE_ID",
       "recordId": "recXXXXXXXXXXXXXXX"
     }
   }'
@@ -128,18 +128,18 @@ curl -X POST {{WEBHOOK_URL}} \
 ```
 /{{COMPANY_NAME}} Content Library/
 ├── Blog Posts/
-│   ├── C001_Dixon_Rodent_Control/
-│   ├── C002_Sycamore_Spider_Prevention/
+│   ├── C001_Springfield_Service_Guide/
+│   ├── C002_Riverside_Prevention_Tips/
 │   └── [Content ID]_[Brief Description]/
 ├── Social Media/
 │   ├── Instagram/
-│   │   ├── C118_September_Ant_Prevention/
+│   │   ├── C118_September_Seasonal_Tips/
 │   │   └── [Content ID]_[Post Theme]/
 │   └── Facebook/
-│       ├── C119_Fall_Pest_Alert/
+│       ├── C119_Fall_Service_Alert/
 │       └── [Content ID]_[Post Theme]/
 ├── Location Pages/
-│   ├── C200_Naperville_Landing/
+│   ├── C200_Lakewood_Landing/
 │   └── [Content ID]_[City]_Landing/
 └── Templates/
     ├── Brand Guidelines/
@@ -180,7 +180,7 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "googledrive",
       "subOperation": 3,
-      "fileName": "C118_Instagram_Ant_Prevention.docx",
+      "fileName": "C118_Instagram_Seasonal_Tips.docx",
       "parentId": "1{{COMPANY_NAME}}_Social_Media_Folder_ID",
       "fileContent": "[Base64 encoded file content]"
     }
@@ -195,7 +195,7 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "googledrive",
       "subOperation": 8,
-      "folderName": "C118_September_Ant_Prevention",
+      "folderName": "C118_September_Seasonal_Tips",
       "parentId": "1{{COMPANY_NAME}}_Instagram_Folder_ID"
     }
   }'
@@ -210,7 +210,7 @@ curl -X POST {{WEBHOOK_URL}} \
       "operation": "googledrive",
       "subOperation": 4,
       "fileId": "1Template_Instagram_Post_ID",
-      "newName": "C118_Instagram_Ant_Prevention.docx",
+      "newName": "C118_Instagram_Seasonal_Tips.docx",
       "parentId": "1{{COMPANY_NAME}}_Content_Working_Folder"
     }
   }'
@@ -244,7 +244,7 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "googledocs",
       "subOperation": 2,
-      "title": "C118_September_Ant_Prevention_Instagram_Post",
+      "title": "C118_September_Seasonal_Tips_Instagram_Post",
       "parentId": "1{{COMPANY_NAME}}_Instagram_Content_Folder"
     }
   }'
@@ -259,7 +259,7 @@ curl -X POST {{WEBHOOK_URL}} \
       "operation": "googledocs",
       "subOperation": 3,
       "documentId": "1C118_Content_Document_ID",
-      "text": "🐜 FALL ANT PREVENTION TIPS\n\nAs temperatures drop, ants start looking for warm places to overwinter. Here are 3 simple steps to keep them out of your home:\n\n1. Seal cracks around windows and doors\n2. Clean up food crumbs immediately\n3. Fix moisture issues in basements\n\nDon't let ants make themselves at home this fall. Our eco-friendly treatments create a barrier that protects your family all season long.\n\n📞 Call (815) 284-4101 for your FREE inspection\n🛡️ Shield your Home. Protect your Family.\n\n#PestControl #AntPrevention #FallPrep #FamilySafety #EcoFriendly",
+      "text": "🍂 FALL HOME MAINTENANCE TIPS\n\nAs temperatures drop, it's time to prepare your home for the season ahead. Here are 3 simple steps to protect your property:\n\n1. Inspect and seal gaps around windows and doors\n2. Schedule your seasonal maintenance check\n3. Address any moisture issues in basements\n\nDon't wait until small problems become big ones. Our professional services keep your home protected all season long.\n\n📞 Call {{PHONE_NUMBER}} for your FREE consultation\n🛡️ {{PRIMARY_TAGLINE}}\n\n#HomeMaintenance #FallPrep #SeasonalService #FamilySafety #ProfessionalService",
       "index": 1
     }
   }'
@@ -280,14 +280,14 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "airtable",
       "subOperation": 4,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblCR8yF9HHQlDij1",
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_CONTENT_TABLE_ID",
       "fields": {
-        "Description": "Winter Rodent Prevention Guide",
+        "Description": "Winter Home Maintenance Prevention Guide",
         "Content Type": "Blog Post",
         "Priority": "HIGH",
-        "Target Location": "Dixon IL",
-        "Pest Type": "Rodents"
+        "Target Location": "Springfield IL",
+        "Service Category": "General"
       }
     }
   }'
@@ -302,7 +302,7 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "googledrive",
       "subOperation": 8,
-      "folderName": "C125_Winter_Rodent_Prevention",
+      "folderName": "C125_Winter_Maintenance_Guide",
       "parentId": "1{{COMPANY_NAME}}_Blog_Posts_Folder_ID"
     }
   }'
@@ -317,7 +317,7 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "googledocs",
       "subOperation": 2,
-      "title": "C125_Winter_Rodent_Prevention_Blog_Post",
+      "title": "C125_Winter_Maintenance_Guide_Blog",
       "parentId": "1C125_Folder_ID_From_Step2"
     }
   }'
@@ -332,12 +332,12 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "airtable",
       "subOperation": 5,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblCR8yF9HHQlDij1",
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_CONTENT_TABLE_ID",
       "recordId": "recC125_Record_ID",
       "fields": {
         "Status": "🔄 In Progress",
-        "Notes": "Google Doc created: C125_Winter_Rodent_Prevention_Blog_Post"
+        "Notes": "Google Doc created: C125_Winter_Maintenance_Guide_Blog"
       }
     }
   }'
@@ -354,8 +354,8 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "airtable",
       "subOperation": 2,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblCR8yF9HHQlDij1",
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_CONTENT_TABLE_ID",
       "filterByFormula": "AND({Content Format} = \"Instagram Post\", {Seasonal Relevance} = \"Fall\")"
     }
   }'
@@ -368,7 +368,7 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "googledrive",
       "subOperation": 8,
-      "folderName": "C118_September_Ant_Prevention",
+      "folderName": "C118_September_Seasonal_Tips",
       "parentId": "1{{COMPANY_NAME}}_Instagram_September_Folder"
     }
   }'
@@ -381,7 +381,7 @@ curl -X POST {{WEBHOOK_URL}} \
       "operation": "googledrive",
       "subOperation": 4,
       "fileId": "1Instagram_Post_Template_ID",
-      "newName": "C118_Instagram_Ant_Prevention_DRAFT.docx",
+      "newName": "C118_Instagram_Seasonal_Tips_DRAFT.docx",
       "parentId": "1C118_Folder_ID"
     }
   }'
@@ -395,26 +395,26 @@ curl -X POST {{WEBHOOK_URL}} \
 **Pattern**: `[Content_ID]_[Content_Type]_[Brief_Description].[extension]`
 
 **Examples**:
-- `C118_Instagram_Ant_Prevention.docx`
-- `C125_Blog_Winter_Rodent_Guide.docx`
-- `C200_Landing_Naperville_Service.html`
-- `C301_Facebook_Fall_Pest_Alert.docx`
+- `C118_Instagram_Seasonal_Tips.docx`
+- `C125_Blog_Winter_Maintenance_Guide.docx`
+- `C200_Landing_Lakewood_Service.html`
+- `C301_Facebook_Fall_Service_Alert.docx`
 
 ### Folder Naming Schema
 **Pattern**: `[Content_ID]_[Brief_Description]/`
 
 **Examples**:
-- `C118_September_Ant_Prevention/`
-- `C125_Winter_Rodent_Guide/`
-- `C200_Naperville_Landing_Page/`
+- `C118_September_Seasonal_Tips/`
+- `C125_Winter_Maintenance_Guide/`
+- `C200_Lakewood_Landing_Page/`
 
 ### Document Title Schema (Google Docs)
 **Pattern**: `[Content_ID]_[Content_Type]_[Target]_[Brief_Description]`
 
 **Examples**:
-- `C118_Instagram_Multi_State_Ant_Prevention`
-- `C125_Blog_Dixon_IL_Winter_Rodent_Guide`
-- `C200_Landing_Naperville_IL_Service_Page`
+- `C118_Instagram_Multi_State_Seasonal_Tips`
+- `C125_Blog_Springfield_IL_Winter_Maintenance_Guide`
+- `C200_Landing_Lakewood_IL_Service_Page`
 
 ---
 
@@ -457,8 +457,8 @@ curl -X POST {{WEBHOOK_URL}} \
     "body": {
       "operation": "airtable",
       "subOperation": 2,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblCR8yF9HHQlDij1",
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_CONTENT_TABLE_ID",
       "filterByFormula": "{Status} = \"✅ Complete\""
     }
   }'
@@ -486,8 +486,8 @@ curl -X POST {{WEBHOOK_URL}} \
   "body": {
     "operation": "[airtable|googledrive|googledocs]",
     "subOperation": "[operation_number]",
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblCR8yF9HHQlDij1",
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_CONTENT_TABLE_ID",
     "recordId": "recXXXXXXXXXXXXXXX",
     "fileId": "1ExampleFileId",
     "fileName": "C###_Content_Name.ext",
@@ -514,8 +514,8 @@ curl -X POST {{WEBHOOK_URL}} \
 ## ✅ WORKFLOW TESTING CHECKLIST
 
 ### Pre-Implementation Validation
-- [ ] Verify correct Airtable Base ID: `appS6XjjRUrELJRgC`
-- [ ] Verify correct Table ID: `tblCR8yF9HHQlDij1`
+- [ ] Verify correct Airtable Base ID: `YOUR_BASE_ID`
+- [ ] Verify correct Table ID: `YOUR_CONTENT_TABLE_ID`
 - [ ] Test webhook endpoint accessibility
 - [ ] Confirm Google Drive folder structure exists
 - [ ] Validate Content ID auto-generation in Airtable

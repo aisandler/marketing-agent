@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../brand.schema.json",
+
+  "name": "GreenScape Landscaping",
+  "tagline": "Where Beauty Meets Sustainability",
+
+  "colors": {
+    "primary": "#166534",
+    "secondary": "#ca8a04",
+    "accent": "#fefce8",
+    "_names": {
+      "primary": "forest green",
+      "secondary": "amber"
+    }
+  },
+
+  "imageStyleDirective": "professional landscaping aesthetic, forest green (#166534) and amber (#ca8a04) color palette, beautiful desert gardens, native plants, sustainable landscapes, outdoor living spaces, no faces visible, Arizona desert setting",
+
+  "contentPillars": [
+    "Sustainable Design",
+    "Desert Beauty",
+    "Water Conservation"
+  ],
+
+  "focusAreas": [
+    "Drought-resistant landscaping",
+    "Native plant design"
+  ],
+
+  "industry": "Landscaping",
+  "location": "Phoenix, AZ"
+}

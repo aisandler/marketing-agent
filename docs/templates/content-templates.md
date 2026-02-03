@@ -36,7 +36,7 @@ Use this calendar to determine which {{INDUSTRY}} services and topics are most r
 - **Long-form Blog Posts** (>1000 words)
 - **Location Page Content** (detailed service descriptions)
 - **Educational Guides** (comprehensive information)
-- **Research-based Articles** (in-depth pest control content)
+- **Research-based Articles** (in-depth {{INDUSTRY}} content)
 
 ### **📋 SYSTEMATIC Generation Templates** 
 *For Airtable workflow processing with platform optimization and visual elements*
@@ -73,60 +73,60 @@ Use this calendar to determine which {{INDUSTRY}} services and topics are most r
 ## Template Structure
 ### 1. SEO-Optimized Title
 **Format:** "[Primary Keyword] in [Location] - [Benefit/Solution]"
-**Example:** "Termite Control in Rockford - Protect Your Family Home"
+**Example:** "{{SERVICE_TYPE}} in {{CITY}} - {{BENEFIT_STATEMENT}}"
 
 ### 2. Meta Description (150-160 characters)
-**Template:** "Professional [pest type] control in [location]. {{COMPANY_NAME}}'s family-safe treatments provide guaranteed results. Free inspection available."
+**Template:** "Professional [service type] in [location]. {{COMPANY_NAME}}'s quality solutions provide guaranteed results. Free consultation available."
 
 ### 3. Opening Hook (200-300 words)
 Focus on family safety concerns and local relevance
-- Start with detailed relatable family scenario
+- Start with detailed relatable customer scenario
 - Establish specific seasonal/weather context
-- Present regional pest patterns with local expertise
+- Present regional service patterns with local expertise
 - Create urgency without fear-mongering
-- First strategic CTA: "Concerned about [pest]? Call (815) 284-4101 for free inspection."
+- First strategic CTA: "Concerned about [service issue]? Call {{PHONE_NUMBER}} for free consultation."
 
 ### 4. Main Content Structure (70% Education / 30% Professional Service)
 
-**H2: Understanding [Pest Type] Behavior in [Location] (600-800 words)**
-- Regional species identification with specific Midwest varieties
+**H2: Understanding [Service Type] in [Location] (600-800 words)**
+- Regional considerations and local factors
 - Seasonal activity patterns and climate influence
-- Why [pest] thrive in [location] conditions
-- Breeding cycles and population dynamics
-- Environmental factors unique to Illinois/Iowa/Wisconsin
-- Second strategic CTA: "Need professional identification? Free inspection: (815) 284-4101"
+- Why [service issue] occurs in [location] conditions
+- Contributing factors and progression
+- Environmental factors unique to {{SERVICE_REGIONS}}
+- Second strategic CTA: "Need professional assessment? Free consultation: {{PHONE_NUMBER}}"
 
-**H2: Comprehensive [Pest Type] Identification Guide (400-600 words)**
-- Visual identification with detailed descriptions
-- Behavior patterns homeowners notice
-- Damage signs and health implications
-- Species-specific traits and habits
+**H2: Comprehensive [Service Type] Guide (400-600 words)**
+- Identification with detailed descriptions
+- Patterns homeowners/business owners notice
+- Warning signs and implications
+- Specific traits and considerations
 - When immediate action is required
 
-**H2: Preventing [Pest Type] in [Location] - Complete Guide (500-700 words)**
+**H2: Preventing [Service Issue] in [Location] - Complete Guide (500-700 words)**
 - Location-specific prevention strategies
 - Seasonal maintenance calendar
 - DIY prevention methods with step-by-step instructions
-- Environmental modifications for long-term control
+- Environmental modifications for long-term results
 - When DIY methods reach their limits
-- Third strategic CTA: "Ready for professional prevention? Call (815) 284-4101"
+- Third strategic CTA: "Ready for professional service? Call {{PHONE_NUMBER}}"
 
-**H2: {{COMPANY_NAME}}'s Professional [Pest Type] Treatment Process (300-400 words)**
-- Comprehensive inspection methodology
-- Treatment process with family safety protocols
+**H2: {{COMPANY_NAME}}'s Professional [Service Type] Process (300-400 words)**
+- Comprehensive assessment methodology
+- Service process with safety protocols
 - Timeline, guarantees, and follow-up procedures
 - Local expertise and community connection
 
-**H2: Protecting Your [Location] Home Year-Round (200-300 words)**
+**H2: Protecting Your [Location] Property Year-Round (200-300 words)**
 - Seasonal maintenance recommendations
-- Pests Protection Club benefits
+- {{MEMBERSHIP_PLAN_NAME}} benefits
 - Long-term prevention strategies
 
 ### 5. Call-to-Action
-**Template:** "Don't let [pest type] threaten your family's safety. Contact {{COMPANY_NAME}} today for your free [location] pest inspection: (815) 284-4101"
+**Template:** "Don't let [service issue] compromise your property. Contact {{COMPANY_NAME}} today for your free [location] consultation: {{PHONE_NUMBER}}"
 
 ## Brand Guidelines Integration
-- Core Message: "Shield your Home. Protect your Family."
+- Core Message: "{{PRIMARY_TAGLINE}}"
 - Tone: Trustworthy, family-focused, locally connected
 - Value Props: Local expertise, eco-friendly methods, guaranteed results
 - Target: Homeowners, property managers, business owners
@@ -135,7 +135,7 @@ Focus on family safety concerns and local relevance
 - Primary keyword in title, first H2, and naturally throughout (5-7 occurrences)
 - Location mentioned in title and 5-7 times per 1,000 words (8-15 total mentions)
 - Seasonal keywords integrated 3-4 times (weather, season, timing)
-- Long-tail location-seasonal combinations: "[Pest] in [Location] [Season]"
+- Long-tail location-seasonal combinations: "[Service] in [Location] [Season]"
 - Internal linking to related services and location pages
 - Schema markup suggestions for LocalBusiness and Article
 ```
@@ -151,21 +151,21 @@ Focus on family safety concerns and local relevance
 ## Airtable Field Integration
 **Required Fields:**
 - Target Location: {{Target Location}}
-- Pest Type: {{Pest Type}}
+- Service Category: {{Service Category}}
 - Primary Keyword: {{Primary Keyword}}
 - Seasonal Relevance: {{Seasonal Relevance}}
 - {{CLIENT_CONTACT}} Notes: {{{{CLIENT_CONTACT}} Notes}}
 
 ## AI Prompt Template for N8N Workflow
-You are a professional pest control content writer creating SEO-optimized blog posts for {{COMPANY_NAME}}.
+You are a professional {{INDUSTRY}} content writer creating SEO-optimized blog posts for {{COMPANY_NAME}}.
 
 BRAND GUIDELINES: [Reference docs/brand-guidelines/ and docs/client-context/]
-- Core message: "Shield your Home. Protect your Family."
-- Family-focused, trustworthy, locally connected tone
+- Core message: "{{PRIMARY_TAGLINE}}"
+- {{BRAND_TONE}}
 
 CONTENT REQUIREMENTS:
 - Target Location: {{$node["Airtable"].json["Target Location"]}}
-- Pest Type: {{$node["Airtable"].json["Pest Type"]}}
+- Service Category: {{$node["Airtable"].json["Service Category"]}}
 - Primary Keyword: {{$node["Airtable"].json["Primary Keyword"]}}
 - Seasonal Relevance: {{$node["Airtable"].json["Seasonal Relevance"]}}
 
@@ -174,11 +174,11 @@ BLOG POST SPECIFICATIONS:
 - Format: WordPress-ready HTML
 - Include H2 headers with local keywords
 - Meta description (150-160 characters)
-- Strong CTA for Free Pest Inspection
-- Phone: (815) 284-4101
+- Strong CTA for {{PRIMARY_CTA}}
+- Phone: {{PHONE_NUMBER}}
 
 ## Visual Elements Required
-- Header image: Professional pest control context
+- Header image: Professional {{INDUSTRY}} context
 - Process infographic: Treatment steps
 - Before/after comparison: Results showcase
 - Family safety imagery: Brand positioning
@@ -201,15 +201,15 @@ BLOG POST SPECIFICATIONS:
 - Tone: Empathetic, competent, neighborly - customer-centered
 - Hashtags: 3-5 relevant tags
 - CTA: Strong action with phone number
-- CRITICAL: NO location-specific references (works across IL, IA, WI)
+- CRITICAL: NO location-specific references (works across {{SERVICE_REGIONS}})
 - **Writing Restrictions:** NO em dashes, emojis, fictional examples, made-up information, specific people/names
 - **Content Mix:** 40% problem/solution, 30% educational, 20% Google reviews, 10% seasonal
 - **Authority Building:** Use real Google reviews, reference 20+ years experience
 
 ## Template Structure
 ### Opening Hook (20-30 words)
-**Question Format:** "Worried about [pest type] threatening your family's safety this [season]?"
-**Alert Format:** "[Season] is [pest type] season - is your home protected?"
+**Question Format:** "Worried about [service type] threatening your family's safety this [season]?"
+**Alert Format:** "[Season] is [service type] season - is your home protected?"
 
 ### Problem/Concern (40-60 words)
 Focus on family safety and peace of mind
@@ -224,7 +224,7 @@ Focus on family safety and peace of mind
 - Guaranteed results
 
 ### Call-to-Action (20-30 words)
-**Template:** "Don't wait until it's too late. Call {{COMPANY_NAME}} today for your free pest inspection: (815) 284-4101 #PestControl #FamilySafety #HomeSafety"
+**Template:** "Don't wait until it's too late. Call {{COMPANY_NAME}} today for your free consultation: {{PHONE_NUMBER}} #{{HASHTAG_1}} #{{HASHTAG_2}} #{{HASHTAG_3}}"
 
 ## Visual Requirements
 - Dimensions: 1200x630px
@@ -248,13 +248,13 @@ Focus on family safety and peace of mind
 - Tone: Empathetic, competent, neighborly - customer-centered
 - Hashtags: 10-15 strategic tags
 - CTA: Clear action with phone number
-- CRITICAL: NO location-specific references (works across IL, IA, WI)
+- CRITICAL: NO location-specific references (works across {{SERVICE_REGIONS}})
 - **Writing Restrictions:** NO em dashes, emojis, fictional examples, made-up information, specific people/names
 
 ## Template Structure
 ### Hook Opening (15-25 words)
-**Question Format:** "Is your family protected from [pest type] this [season]?"
-**Alert Style:** "[Season] pest alert: [Pest type] activity increasing!"
+**Question Format:** "Is your family protected from [service type] this [season]?"
+**Alert Style:** "[Season] service alert: [Service type] demand increasing!"
 **NO EMOJIS OR EM DASHES ALLOWED**
 
 ### Quick Solution/Tip (30-50 words)
@@ -264,13 +264,13 @@ Professional guidance in digestible format
 - Professional recommendation
 
 ### Call-to-Action (25-35 words)
-**Template:** "Keep your family safe. Call {{COMPANY_NAME}} for expert pest protection: (815) 284-4101"
+**Template:** "Keep your family safe. Call {{COMPANY_NAME}} for expert {{INDUSTRY}} service: {{PHONE_NUMBER}}"
 
 ### Hashtag Strategy
-**Primary:** #PestControl #FamilySafety #HomeSafety #EcoFriendly
-**Seasonal:** #SpringPests #SummerProtection #FallPrevention #WinterMaintenance
-**Local:** #Illinois #Iowa #Wisconsin #Midwest
-**Service:** #PestPrevention #ProfessionalPestControl #GuaranteedResults
+**Primary:** #{{HASHTAG_1}} #{{HASHTAG_2}} #{{HASHTAG_3}} #{{HASHTAG_4}}
+**Seasonal:** #{{SEASONAL_HASHTAG_1}} #{{SEASONAL_HASHTAG_2}} #{{SEASONAL_HASHTAG_3}} #{{SEASONAL_HASHTAG_4}}
+**Local:** #{{LOCAL_HASHTAG_1}} #{{LOCAL_HASHTAG_2}} #{{LOCAL_HASHTAG_3}} #{{LOCAL_HASHTAG_4}}
+**Service:** #{{SERVICE_HASHTAG_1}} #{{SERVICE_HASHTAG_2}} #{{SERVICE_HASHTAG_3}}
 
 ## Visual Requirements
 - Dimensions: 1080x1080px (square format)
@@ -300,20 +300,20 @@ Professional guidance in digestible format
 
 ## Template Structure
 ### 1. Local Hero Section
-**H1 Format:** "[Service Type] in [City, State] - Local Pest Control Experts"
-**Subheadline:** "{{COMPANY_NAME}} provides professional pest control services to [City] families and businesses with guaranteed results since [year]."
+**H1 Format:** "[Service Type] in [City, State] - Local {{INDUSTRY}} Experts"
+**Subheadline:** "{{COMPANY_NAME}} provides professional {{INDUSTRY}} services to [City] families and businesses with guaranteed results since [year]."
 
-### 2. City-Specific Pest Challenges (200-300 words)
-**H2:** "Common Pest Problems in [City], [State]"
-- Regional pest species and patterns
-- Local climate impact on pest activity
+### 2. City-Specific Service Challenges (200-300 words)
+**H2:** "Common {{INDUSTRY}} Challenges in [City], [State]"
+- Regional service needs and patterns
+- Local climate impact on service demand
 - Geographic factors (rivers, forests, urban density)
-- Seasonal pest cycles specific to region
+- Seasonal service cycles specific to region
 
 ### 3. Local Service Advantages (200-300 words)
 **H2:** "Why [City] Residents Choose {{COMPANY_NAME}}"
 - Local expertise and community connection
-- Understanding of regional pest patterns
+- Understanding of regional service patterns
 - Proximity and response time benefits
 - Local testimonials and success stories
 
@@ -325,7 +325,7 @@ Professional guidance in digestible format
 - Commercial and residential service distinction
 
 ### 5. Local Contact & Scheduling (100-150 words)
-**H2:** "Schedule Your [City] Pest Inspection"
+**H2:** "Schedule Your [City] {{INDUSTRY}} Consultation"
 - Local scheduling information
 - Emergency service availability
 - Preferred contact methods
@@ -334,7 +334,7 @@ Professional guidance in digestible format
 ## Local SEO Requirements
 - City name in title, all H2 headers, and 8-10 times throughout
 - Mention local landmarks, geographic features, or climate
-- Address regional pest patterns specific to area
+- Address regional service patterns specific to area
 - Include local phone number and service details
 - Internal links to related local content
 ```
@@ -393,7 +393,7 @@ LOCATION PAGE SPECIFICATIONS:
 
 ## Campaign Structure
 ### Phase 1: Awareness (Weeks 1-2)
-**Blog Post:** "[Season] Pest Prevention Guide for [Region]"
+**Blog Post:** "[Season] {{INDUSTRY}} Prevention Guide for [Region]"
 - Educational focus, SEO optimized
 - Classification: LOCAL (comprehensive, research-heavy)
 
@@ -404,7 +404,7 @@ LOCATION PAGE SPECIFICATIONS:
 
 ### Phase 2: Solution (Weeks 3-4)
 **Location Pages:** Seasonal service focus
-- "Professional [Season] Pest Control in [Cities]"
+- "Professional [Season] {{INDUSTRY}} Services in [Cities]"
 - Classification: Context-dependent (LOCAL if text-heavy, SYSTEMATIC if visual)
 
 **Social Media:** Service-focused content
@@ -413,7 +413,7 @@ LOCATION PAGE SPECIFICATIONS:
 - Classification: SYSTEMATIC (branded, visual)
 
 ### Phase 3: Urgency (Weeks 5-6)
-**Blog Post:** "Don't Wait - [Season] Pest Problems Escalate Quickly"
+**Blog Post:** "Don't Wait - [Season] {{INDUSTRY}} Issues Escalate Quickly"
 - Classification: LOCAL (urgent, informational)
 
 **Social Media:** Call-to-action focused
@@ -441,16 +441,16 @@ LOCATION PAGE SPECIFICATIONS:
 **Elements Required:**
 - {{COMPANY_NAME}} branding/logo placement area
 - Family home context
-- Professional pest control elements
+- Professional service elements
 - Seasonal relevance when applicable
 
 **Visual Themes:**
 - Family safety and home protection
-- Professional pest control service
+- Professional service service
 - Clean, trustworthy presentation
 - Seasonal appropriate settings
 
-**Avoid:** Scary pest imagery, fear-inducing elements
+**Avoid:** Negative imagery, fear-inducing elements
 ```
 
 ### **Social Media Images Template**
@@ -470,7 +470,7 @@ LOCATION PAGE SPECIFICATIONS:
 
 **Visual Elements:**
 - Happy family in safe home environment
-- Professional pest control context
+- Professional professional service context
 - Strong call-to-action placement
 - Seasonal relevance when appropriate
 ```

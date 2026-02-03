@@ -39,6 +39,8 @@ You have a complete **AI Marketing Organization** with 12 specialized agents tha
 | `/onboard` | Configure your brand architecture |
 | `/cmo` | Strategic marketing planning |
 | `/analyst` | Marketing intelligence & optimization |
+| `/images` | AI image generation toolkit |
+| `/intel` | Social media intelligence collection |
 | `/discover` | Explore system capabilities |
 
 ## How It Works
@@ -56,13 +58,19 @@ marketing-agent/
 │   ├── agents/          # Specialized marketing agents
 │   ├── commands/        # Slash command definitions
 │   └── skills/          # Workflow skills and templates
+│       ├── images/      # /images - AI image generation toolkit
+│       └── social-intel/# /intel - Social media intelligence
 ├── automation/          # Integration scripts
+│   ├── image-generation/# AI image generation (~$0.14/image)
+│   ├── intel/           # Social intelligence collectors & analysis
+│   └── airtable-setup/  # Airtable auto-configuration
 ├── client-context/      # Brand-specific content (generated)
 ├── content/             # Generated marketing content
-├── dashboard/           # Review interface
 ├── docs/                # Reference documentation
+│   └── intelligence/    # Social media intelligence data
 ├── expansions/          # Template examples
 │   └── partner-voice-template/  # Voice profile template
+├── portal/              # Partner content review portal
 └── onboarding/
     └── intake/          # Place brand materials here
 ```

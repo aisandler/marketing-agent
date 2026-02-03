@@ -1,0 +1,314 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   SOFT UI DESIGN SYSTEM - Light Mode
+   Adapted for Brand Colors (customize in config/brand.json)
+   ============================================ */
+
+:root {
+  /* Brand colors */
+  --soft-primary: #1a365d;
+  --soft-secondary: #0891b2;
+  --soft-accent: #d69e2e;
+
+  /* Surface colors */
+  --soft-surface-50: #ffffff;
+  --soft-surface-100: #f8fafc;
+  --soft-surface-200: #f1f5f9;
+  --soft-surface-300: #e2e8f0;
+
+  /* Text colors */
+  --soft-text-primary: #0f172a;
+  --soft-text-secondary: #475569;
+  --soft-text-muted: #94a3b8;
+}
+
+/* Base body styling */
+body {
+  color: var(--soft-text-primary);
+  background-color: var(--soft-surface-100);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Premium scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--soft-surface-200);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--soft-surface-300);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--soft-surface-300) var(--soft-surface-200);
+}
+
+/* ============================================
+   SOFT UI COMPONENT CLASSES
+   ============================================ */
+
+@layer components {
+  /* Premium Card */
+  .soft-card {
+    @apply bg-white rounded-soft-lg border border-soft-surface-300/60;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  }
+
+  .soft-card-elevated {
+    @apply bg-white rounded-soft-lg border border-soft-surface-300/40;
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  }
+
+  .soft-card-hover {
+    @apply soft-card transition-all duration-200 ease-soft-out;
+  }
+
+  .soft-card-hover:hover {
+    @apply border-soft-surface-300 -translate-y-0.5;
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 8px -4px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Primary gradient button */
+  .soft-btn-primary {
+    @apply relative overflow-hidden inline-flex items-center justify-center gap-2;
+    @apply px-5 py-2.5 font-semibold text-white;
+    @apply rounded-soft;
+    @apply transition-all duration-200 ease-soft-out;
+    background: linear-gradient(135deg, #1a365d 0%, #0891b2 100%);
+    box-shadow: 0 2px 8px -2px rgba(26, 54, 93, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .soft-btn-primary::before {
+    content: '';
+    @apply absolute inset-0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+  }
+
+  .soft-btn-primary:hover {
+    @apply -translate-y-0.5 scale-[1.02];
+    box-shadow: 0 4px 16px -4px rgba(26, 54, 93, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  }
+
+  .soft-btn-primary:active {
+    @apply translate-y-0 scale-[0.98];
+  }
+
+  /* Secondary button */
+  .soft-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply px-4 py-2 font-medium text-soft-primary;
+    @apply bg-white border border-soft-surface-300;
+    @apply rounded-soft;
+    @apply transition-all duration-200 ease-soft-out;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .soft-btn-secondary:hover {
+    @apply bg-soft-surface-100 border-soft-surface-400 -translate-y-0.5;
+    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.1);
+  }
+
+  .soft-btn-secondary:active {
+    @apply translate-y-0 bg-soft-surface-200;
+  }
+
+  /* Ghost button */
+  .soft-btn-ghost {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply px-3 py-2 font-medium text-soft-text-secondary;
+    @apply rounded-soft;
+    @apply transition-all duration-150 ease-soft-out;
+  }
+
+  .soft-btn-ghost:hover {
+    @apply bg-soft-surface-200 text-soft-text-primary;
+  }
+
+  .soft-btn-ghost:active {
+    @apply bg-soft-surface-300;
+  }
+
+  /* Premium input field */
+  .soft-input {
+    @apply w-full px-4 py-2.5;
+    @apply bg-white border border-soft-surface-300;
+    @apply rounded-soft;
+    @apply text-soft-text-primary placeholder:text-soft-text-muted;
+    @apply transition-all duration-200 ease-soft-out;
+    @apply outline-none;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03) inset;
+  }
+
+  .soft-input:hover {
+    @apply border-soft-surface-400;
+  }
+
+  .soft-input:focus {
+    @apply border-soft-primary;
+    box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.03) inset;
+  }
+
+  /* Status badges with glow */
+  .soft-badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+
+  .soft-badge-success {
+    @apply bg-soft-success-muted text-emerald-700;
+  }
+
+  .soft-badge-warning {
+    @apply bg-soft-warning-muted text-amber-700;
+  }
+
+  .soft-badge-error {
+    @apply bg-soft-error-muted text-red-700;
+  }
+
+  .soft-badge-primary {
+    @apply bg-soft-primary-muted text-soft-primary;
+  }
+
+  /* Status indicator dot with pulse */
+  .soft-status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+
+  .soft-status-dot-active {
+    @apply bg-soft-success;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+    animation: soft-pulse 2s ease-in-out infinite;
+  }
+
+  .soft-status-dot-warning {
+    @apply bg-soft-warning;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+    animation: soft-pulse 2s ease-in-out infinite;
+  }
+
+  /* Tab pills */
+  .soft-tabs {
+    @apply inline-flex items-center gap-1 p-1 bg-soft-surface-200 rounded-soft;
+  }
+
+  .soft-tab {
+    @apply px-3 py-1.5 text-sm font-medium text-soft-text-secondary;
+    @apply rounded-soft-sm;
+    @apply transition-all duration-150 ease-soft-out;
+  }
+
+  .soft-tab:hover:not(.soft-tab-active) {
+    @apply text-soft-text-primary bg-soft-surface-100/50;
+  }
+
+  .soft-tab-active {
+    @apply bg-white text-soft-text-primary;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  }
+
+  /* Section header */
+  .soft-section-header {
+    @apply flex items-center gap-3 px-4 py-3;
+    @apply bg-soft-surface-100 border-b border-soft-surface-300/60;
+  }
+
+  /* Gradient text for headings */
+  .soft-gradient-text {
+    background: linear-gradient(135deg, #1a365d 0%, #0891b2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Legacy badge utilities (keeping for backwards compat) */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-draft {
+    @apply bg-gray-100 text-gray-800;
+  }
+
+  .badge-review {
+    @apply bg-amber-100 text-amber-800;
+  }
+
+  .badge-approved {
+    @apply bg-emerald-100 text-emerald-800;
+  }
+
+  .badge-revision {
+    @apply bg-red-100 text-red-800;
+  }
+
+  .badge-scheduled {
+    @apply bg-blue-100 text-blue-800;
+  }
+
+  .badge-posted {
+    @apply bg-purple-100 text-purple-800;
+  }
+}
+
+/* ============================================
+   CALENDAR VIEW ANIMATIONS
+   ============================================ */
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out forwards;
+}
+
+/* ============================================
+   REDUCED MOTION SUPPORT
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

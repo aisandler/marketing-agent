@@ -30,8 +30,8 @@ Based on your existing N8N webhook, these operations are available:
 {
   "operation": "airtable",
   "subOperation": 4,
-  "baseId": "appS6XjjRUrELJRgC",
-  "tableId": "tblDaJzBBjtR2mrDq",
+  "baseId": "YOUR_BASE_ID",
+  "tableId": "YOUR_INVENTORY_TABLE_ID",
   "recordId": "[RECORD_ID]",
   "fields": {
     "Status": "🔄 In Progress",
@@ -52,8 +52,8 @@ Based on your existing N8N webhook, these operations are available:
 {
   "operation": "airtable",
   "subOperation": 4,
-  "baseId": "appS6XjjRUrELJRgC",
-  "tableId": "tblDaJzBBjtR2mrDq", 
+  "baseId": "YOUR_BASE_ID",
+  "tableId": "YOUR_INVENTORY_TABLE_ID", 
   "recordId": "[RECORD_ID]",
   "fields": {
     "Status": "📋 {{CLIENT_CONTACT}} Review",
@@ -78,7 +78,7 @@ Based on your existing N8N webhook, these operations are available:
   "title": "[Content Title] - Brief",
   "text": "[Generated content brief based on Airtable fields]",
   "targetLocation": "[Target Location]",
-  "pestType": "[Pest Type]",
+  "serviceCategory": "[Service Category]",
   "primaryKeyword": "[Primary Keyword]",
   "contentType": "[Content Type]"
 }
@@ -86,8 +86,8 @@ Based on your existing N8N webhook, these operations are available:
 
 **Brief Template Content**:
 - Content title and type
-- Target location and pest type
-- Primary keyword and SEO goals  
+- Target location and service category
+- Primary keyword and SEO goals
 - StoryBrand messaging requirements
 - Brand voice guidelines
 - CTA requirements
@@ -113,8 +113,8 @@ Based on your existing N8N webhook, these operations are available:
 {
   "operation": "airtable",
   "subOperation": 4,
-  "baseId": "appS6XjjRUrELJRgC",
-  "tableId": "tblDaJzBBjtR2mrDq",
+  "baseId": "YOUR_BASE_ID",
+  "tableId": "YOUR_INVENTORY_TABLE_ID",
   "recordId": "[RECORD_ID]",
   "fields": {
     "Status": "✅ Complete",
@@ -128,8 +128,8 @@ Based on your existing N8N webhook, these operations are available:
 {
   "operation": "airtable",
   "subOperation": 2,
-  "baseId": "appS6XjjRUrELJRgC", 
-  "tableId": "tblDaJzBBjtR2mrDq"
+  "baseId": "YOUR_BASE_ID", 
+  "tableId": "YOUR_INVENTORY_TABLE_ID"
 }
 ```
 *Then filter completed items from the last 30 days in the returned data*
@@ -189,7 +189,7 @@ Based on your existing N8N webhook, these operations are available:
 ## 🔄 WORKFLOW EXAMPLES
 
 ### Example 1: New High-Priority Blog Post
-1. **Manual Entry**: Add "Bed Bug Control Springfield IL" as HIGH priority
+1. **Manual Entry**: Add "Home Maintenance Guide Springfield IL" as HIGH priority
 2. **Auto-Assignment**: System assigns to "Week 2 Sep" based on capacity
 3. **Content Brief**: Webhook creates Google Doc with SEO brief
 4. **Agent Assignment**: Content Marketing Strategist gets notification
@@ -197,7 +197,7 @@ Based on your existing N8N webhook, these operations are available:
 6. **Performance Setup**: SEO tracking initiated upon completion
 
 ### Example 2: {{CLIENT_CONTACT}} Priority Change
-1. **{{CLIENT_CONTACT}} Updates**: Changes "Lake Geneva Mosquito" from MEDIUM to HIGH
+1. **{{CLIENT_CONTACT}} Updates**: Changes "Lakewood Seasonal Service" from MEDIUM to HIGH
 2. **Auto-Reschedule**: System moves to current week production
 3. **Creator Notification**: Assigned writer gets priority change alert
 4. **Brief Update**: Content brief document updated with priority flag

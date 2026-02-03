@@ -18,8 +18,8 @@
   "body": {
     "operation": "airtable",
     "subOperation": 2,
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblDaJzBBjtR2mrDq",
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_INVENTORY_TABLE_ID",
     // ... all other parameters
   }
 }
@@ -41,8 +41,8 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
     "body": {
       "operation": "airtable",
       "subOperation": 2,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblDaJzBBjtR2mrDq",
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_INVENTORY_TABLE_ID",
       "recordId": "",
       "searchQuery": "",
       "fileId": "",
@@ -69,7 +69,7 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
     "body": {
       "operation": "airtable",
       "subOperation": 1,
-      "baseId": "appS6XjjRUrELJRgC"
+      "baseId": "YOUR_BASE_ID"
     }
   }'
 ```
@@ -129,7 +129,7 @@ curl -v -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
 
 **Airtable**: Personal access token validation
 - Account: "Y4P1MjOzZCPWJn8W"
-- Base access: "appS6XjjRUrELJRgC"
+- Base access: "YOUR_BASE_ID"
 
 ---
 

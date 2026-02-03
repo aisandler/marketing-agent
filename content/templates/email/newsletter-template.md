@@ -5,7 +5,7 @@
 ### Subject Line
 **Pattern:** [Monthly Tips] + [Seasonal/Service Focus] + [Location if applicable]
 **Examples:**
-- "September Pest Prevention Tips for {{LOCATION}} Homeowners"
+- "September Prevention Tips for {{LOCATION}} Homeowners"
 - "Your Monthly {{INDUSTRY_TYPE}} Update - Fall Preparation Guide"
 - "{{CLIENT_NAME}} Newsletter: Protecting Your Home This Season"
 
@@ -162,7 +162,7 @@ Unsubscribe | Update Preferences | Privacy Policy
 
 ### Spring (March-May)
 - Focus: Prevention and preparation
-- Topics: Spring cleaning, pest emergence, property preparation
+- Topics: Spring cleaning, seasonal service needs, property preparation
 
 ### Summer (June-August)
 - Focus: Peak activity and immediate needs
@@ -170,8 +170,8 @@ Unsubscribe | Update Preferences | Privacy Policy
 
 ### Fall (September-November)
 - Focus: Winter preparation and prevention
-- Topics: Winterization, exclusion work, pre-winter treatments
+- Topics: Winterization, preventive services, pre-winter treatments
 
 ### Winter (December-February)
 - Focus: Indoor comfort and planning
-- Topics: Indoor air quality, planning for spring, maintenance tips
+- Topics: Indoor maintenance, planning for spring, maintenance tips

@@ -1,0 +1,185 @@
+{
+  "client": {
+    "name": "GreenScape Landscaping",
+    "industry": "landscaping",
+    "businessType": "local_service_business",
+    "serviceArea": {
+      "primary": "Phoenix, AZ",
+      "secondary": ["Scottsdale", "Tempe", "Mesa", "Chandler"],
+      "state": "Arizona",
+      "region": "Phoenix Metro"
+    },
+    "website": "https://greenscapephx.com",
+    "phone": "(602) 555-LAWN",
+    "email": "info@greenscapephx.com"
+  },
+  "airtable": {
+    "webhookUrl": "{{N8N_WEBHOOK_URL}}",
+    "baseId": "{{AIRTABLE_BASE_ID}}",
+    "tableId": "{{AIRTABLE_TABLE_ID}}",
+    "apiUrl": "https://api.airtable.com/v0"
+  },
+  "fields": {
+    "contentId": "Content ID",
+    "description": "Description",
+    "contentType": "Content Type",
+    "priority": "Priority",
+    "targetLocation": "Target Location",
+    "serviceCategory": "Landscaping Service Type",
+    "contentFormat": "Content Format",
+    "seasonalRelevance": "Seasonal Relevance",
+    "primaryKeyword": "Primary Keyword",
+    "searchVolume": "Search Volume",
+    "keywordDifficulty": "Keyword Difficulty",
+    "notes": "Notes",
+    "text": "Text",
+    "status": "Status",
+    "title": "Title",
+    "publishDate": "Publish Date",
+    "targetPublishDate": "Target Publish Date"
+  },
+  "brand": {
+    "guidelines": [
+      "docs/brand-guidelines/brand-guide.md",
+      "docs/brand-guidelines/core-messaging-template.md"
+    ],
+    "voiceGuide": "docs/brand-guidelines/brand-guide.md",
+    "personas": null,
+    "styleGuide": null,
+    "assetsDir": "content/client-documents/brand-guides",
+    "knowledge": []
+  },
+  "templates": {
+    "blogOutline": null,
+    "blogDraft": null,
+    "socialPost": null,
+    "locationPage": null
+  },
+  "labels": {
+    "entitySubtypeLabel": "Landscaping Service Type"
+  },
+  "drive": {
+    "folders": {
+      "blog": "{{DRIVE_BLOG_FOLDER_ID}}",
+      "social": "{{DRIVE_SOCIAL_FOLDER_ID}}",
+      "location": "{{DRIVE_LOCATION_FOLDER_ID}}",
+      "email": "{{DRIVE_EMAIL_FOLDER_ID}}",
+      "library": "{{DRIVE_LIBRARY_FOLDER_ID}}"
+    }
+  },
+  "branding": {
+    "primaryMessage": "Transform Your Outdoor Space. Enhance Your Lifestyle.",
+    "tagline": "Where Beauty Meets Sustainability",
+    "tone": "creative, eco-conscious, professional",
+    "personality": ["innovative", "sustainable", "artistic"],
+    "experience": "12+ years",
+    "differentiators": [
+      "Drought-Resistant Designs",
+      "Native Plant Specialists",
+      "Water-Wise Solutions",
+      "Award-Winning Designs"
+    ]
+  },
+  "services": {
+    "primary": [
+      "Landscape Design",
+      "Hardscape Installation",
+      "Irrigation Systems"
+    ],
+    "secondary": [
+      "Tree Services",
+      "Outdoor Lighting"
+    ],
+    "seasonal": {
+      "spring": ["Spring Cleanup", "Planting Season"],
+      "summer": ["Irrigation Maintenance", "Shade Solutions"],
+      "fall": ["Fall Planting", "Winterization"],
+      "winter": ["Design Planning", "Hardscape Projects"]
+    }
+  },
+  "serviceCategories": {
+    "categories": [
+      { "name": "General", "aliases": ["landscaping", "general"], "isDefault": true },
+      { "name": "Design", "aliases": ["landscape design", "planning"] },
+      { "name": "Hardscape", "aliases": ["patio", "walkway", "retaining wall"] },
+      { "name": "Irrigation", "aliases": ["sprinkler", "drip system", "watering"] },
+      { "name": "Maintenance", "aliases": ["mowing", "trimming", "cleanup"] }
+    ],
+    "detectionPatterns": {
+      "Design": ["design", "plan", "blueprint", "consultation", "layout"],
+      "Hardscape": ["patio", "walkway", "retaining wall", "pavers", "stone", "concrete"],
+      "Irrigation": ["irrigation", "sprinkler", "drip", "water", "watering system"],
+      "Maintenance": ["mowing", "trimming", "cleanup", "pruning", "mulch", "weeding"]
+    },
+    "seasonalMapping": {
+      "spring": { "focus": "Spring cleanup, planting season, irrigation startup", "urgency": "high", "keyCategories": ["Maintenance", "Design"] },
+      "summer": { "focus": "Irrigation maintenance, shade solutions, drought care", "urgency": "high", "keyCategories": ["Irrigation", "Maintenance"] },
+      "fall": { "focus": "Fall planting, winterization, leaf removal", "urgency": "medium", "keyCategories": ["Maintenance", "General"] },
+      "winter": { "focus": "Design planning, hardscape projects, dormant pruning", "urgency": "low", "keyCategories": ["Design", "Hardscape"] }
+    }
+  },
+  "locations": {
+    "primary": "Arizona",
+    "secondary": [],
+    "states": ["Arizona"],
+    "detectionPatterns": {
+      "Arizona": ["arizona", "phoenix", "scottsdale", "tempe", "mesa", "chandler"]
+    }
+  },
+  "seo": {
+    "primaryKeywords": [
+      "landscaping Phoenix",
+      "drought resistant landscaping",
+      "desert landscape design"
+    ],
+    "localModifiers": [
+      "Phoenix",
+      "Scottsdale",
+      "Arizona"
+    ],
+    "contentTopics": [
+      "Desert gardening",
+      "Water conservation",
+      "Native plants"
+    ]
+  },
+  "competition": {
+    "primaryCompetitors": [
+      "Desert Landscape Solutions",
+      "Phoenix Garden Design",
+      "Southwest Landscapes"
+    ],
+    "competitiveAdvantages": [
+      "Native plant expertise",
+      "Water conservation focus"
+    ]
+  },
+  "leadGeneration": {
+    "primaryCTA": "Get Your Free Landscape Consultation",
+    "leadMagnets": [
+      "Desert Plant Guide",
+      "Water-Saving Landscape Tips"
+    ],
+    "conversionGoals": [
+      "Design consultations",
+      "Maintenance contracts"
+    ]
+  },
+  "contentStrategy": {
+    "contentPillars": [
+      "Sustainable Design",
+      "Desert Beauty",
+      "Water Conservation"
+    ],
+    "contentTypes": [
+      "Blog Posts",
+      "Location Pages",
+      "Social Media Posts"
+    ],
+    "publishingFrequency": {
+      "blogPosts": "2 per week",
+      "locationPages": "1 per month",
+      "servicePages": "As needed"
+    }
+  }
+}

@@ -52,8 +52,8 @@
   "body": {
     "operation": "airtable",
     "subOperation": 2,
-    "baseId": "appS6XjjRUrELJRgC",
-    "tableId": "tblDaJzBBjtR2mrDq"
+    "baseId": "YOUR_BASE_ID",
+    "tableId": "YOUR_INVENTORY_TABLE_ID"
     // ... all other parameters
   }
 }
@@ -152,8 +152,8 @@ curl -X POST https://sdallc.app.n8n.cloud/webhook/claudecode \
     "body": {
       "operation": "airtable",
       "subOperation": 2,
-      "baseId": "appS6XjjRUrELJRgC",
-      "tableId": "tblDaJzBBjtR2mrDq"
+      "baseId": "YOUR_BASE_ID",
+      "tableId": "YOUR_INVENTORY_TABLE_ID"
     }
   }'
 

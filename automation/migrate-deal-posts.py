@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Migrate CPL Deal Posts to separate Residential Deals and Commercial Deals tables.
+Migrate Deal Posts to separate Residential Deals and Commercial Deals tables.
 
 Mapping:
 - Practice Area = "Residential" → Residential Deals table
 - Practice Area = "Commercial Banking" or "Commercial Leasing" → Commercial Deals table
-- Attorney = "Lisa Gabler" with Deal Type = "Leasing" → Commercial Deals (Commercial Leasing)
+- Attorney with Deal Type = "Leasing" → Commercial Deals (Commercial Leasing)
 
 Run with: python3 migrate-deal-posts.py [--dry-run]
 """
@@ -24,10 +24,10 @@ load_dotenv(project_root / '.env', override=True)
 AIRTABLE_API_KEY = os.getenv('AIRTABLE_API_KEY')
 AIRTABLE_BASE_ID = os.getenv('AIRTABLE_BASE_ID')
 
-# Table IDs
-OLD_TABLE_ID = 'tblrlUEPbkmBbwWd1'  # CPL Deal Posts (original)
-RESIDENTIAL_TABLE_ID = 'tblYzy2Cn1c1ZHae2'  # Residential Deals (new)
-COMMERCIAL_TABLE_ID = 'tbloEDxJjraYgWTHY'  # Commercial Deals (new)
+# Table IDs - configure in .env or environment
+OLD_TABLE_ID = os.getenv('AIRTABLE_DEAL_POSTS_TABLE_ID', 'YOUR_DEAL_POSTS_TABLE_ID')
+RESIDENTIAL_TABLE_ID = os.getenv('AIRTABLE_RESIDENTIAL_TABLE_ID', 'YOUR_RESIDENTIAL_TABLE_ID')
+COMMERCIAL_TABLE_ID = os.getenv('AIRTABLE_COMMERCIAL_TABLE_ID', 'YOUR_COMMERCIAL_TABLE_ID')
 
 BASE_URL = f"https://api.airtable.com/v0/{AIRTABLE_BASE_ID}"
 
@@ -94,10 +94,9 @@ def determine_target_table(record):
         return "residential"
     elif practice_area in ("Commercial Banking", "Commercial Leasing"):
         return "commercial"
-    elif attorney == "Lisa Gabler" and deal_type == "Leasing":
-        return "commercial"  # Infer commercial leasing
-    elif attorney == "Lisa Gabler":
-        return "commercial"  # Lisa is commercial-focused
+    # Add custom attorney-based routing logic here if needed
+    # elif attorney == "SomeName" and deal_type == "Leasing":
+    #     return "commercial"
     else:
         # Default to commercial if unclear (most deals are banking)
         return "commercial"
@@ -198,7 +197,7 @@ def main():
     if dry_run:
         print("=== DRY RUN MODE - No changes will be made ===\n")
 
-    print("Fetching records from CPL Deal Posts...")
+    print("Fetching records from Deal Posts...")
     records = get_all_records(OLD_TABLE_ID)
     print(f"Found {len(records)} records\n")
 

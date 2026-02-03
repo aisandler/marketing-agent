@@ -85,7 +85,7 @@ show_usage() {
     echo "Examples:"
     echo "  $0 3 negative-review 'Multiple 1-star reviews posted on Google'"
     echo "  $0 4 legal-threat 'Customer threatens lawsuit over property damage'"
-    echo "  $0 2 service-failure 'Treatment failed, pests returned within week'"
+    echo "  $0 2 service-failure 'Treatment failed, problem returned within week'"
     echo ""
 }
 

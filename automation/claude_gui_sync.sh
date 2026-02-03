@@ -161,8 +161,8 @@ submit_selected() {
             \"body\": {
               \"operation\": \"airtable\",
               \"subOperation\": 4,
-              \"baseId\": \"appS6XjjRUrELJRgC\",
-              \"tableId\": \"tblCR8yF9HHQlDij1\",
+              \"baseId\": \"${AIRTABLE_BASE_ID}\",
+              \"tableId\": \"${AIRTABLE_CONTENT_TABLE_ID}\",
               \"fields\": {
                 \"Description\": \"$description\",
                 \"Content Type\": \"$content_type\",

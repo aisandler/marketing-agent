@@ -12,12 +12,12 @@
 | Field Name | Field Type | Options/Settings | Purpose |
 |------------|------------|------------------|---------|
 | **Content ID** | Autonumber | Auto-generated | Unique identifier for each piece |
-| **Content Title** | Single line text | - | Descriptive title (e.g., "Bed Bug Control Dixon IL") |
+| **Content Title** | Single line text | - | Descriptive title (e.g., "Service Name Location") |
 | **Content Type** | Single select | Blog Post, Social Media, Location Page, Seasonal Content | Category classification |
 | **Priority Level** | Single select | HIGH, MEDIUM, LOW | {{CLIENT_CONTACT}}'s priority ranking |
 | **Status** | Single select | ⏳ Planned, 🔄 In Progress, 📋 {{CLIENT_CONTACT}} Review, ✅ Complete, 🚫 On Hold, ❌ Cancelled | Current progress |
-| **Target Location** | Single select | Dixon IL, Sycamore IL, DeKalb IL, Clinton IA, Davenport IA, Delavan WI, etc. | Geographic focus |
-| **Pest Type** | Single select | Bed Bugs, Ants, Termites, Rodents, Mosquitoes, Spiders, General | Pest focus |
+| **Target Location** | Single select | {{LOCATIONS}} | Geographic focus |
+| **Service Category** | Single select | {{SERVICE_CATEGORIES}} | Service focus |
 | **Primary Keyword** | Single line text | - | Target SEO keyword |
 | **Target Date** | Date | - | When content should be completed |
 | **Assigned Week** | Single select | Week 1 Aug, Week 2 Aug, etc. | Production scheduling |
@@ -55,7 +55,7 @@
 **Purpose**: Blog-specific planning  
 **Filters**: Content Type = "Blog Post"  
 **Sort**: Priority, then Target Location  
-**Fields Shown**: Content Title, Target Location, Pest Type, Primary Keyword, Status, Search Volume  
+**Fields Shown**: Content Title, Target Location, Service Category, Primary Keyword, Status, Search Volume  
 
 ### View 4: "Social Media Calendar"
 **Purpose**: Social media planning  
@@ -67,7 +67,7 @@
 **Purpose**: Geographic content organization  
 **Filters**: Group by Target Location  
 **Sort**: Priority within each location  
-**Fields Shown**: Content Title, Content Type, Pest Type, Primary Keyword, Status  
+**Fields Shown**: Content Title, Content Type, Service Category, Primary Keyword, Status  
 
 ### View 6: "Performance Tracking"
 **Purpose**: Results analysis  
@@ -98,27 +98,22 @@
 Here's the CSV structure with initial {{COMPANY_NAME}} content priorities:
 
 ```csv
-Content Title,Content Type,Priority Level,Status,Target Location,Pest Type,Primary Keyword,Target Date,Assigned Week,Content Format,Seasonal Relevance,Search Volume,Keyword Difficulty,{{CLIENT_CONTACT}} Notes
-"Bed Bug Control Dixon IL",Blog Post,HIGH,⏳ Planned,Dixon IL,Bed Bugs,"bed bug exterminator Dixon IL",2025-08-20,Week 1 Aug,WordPress Blog,Year-Round,2400,Medium,"High priority - major service area"
-"Ant Control Sycamore IL",Blog Post,HIGH,⏳ Planned,Sycamore IL,Ants,"ant exterminator Sycamore IL",2025-08-20,Week 1 Aug,WordPress Blog,Year-Round,1800,Low,"Office location focus"
-"Dixon Ant Problem Social",Social Media,HIGH,✅ Complete,Dixon IL,Ants,"pest control Dixon IL",2025-08-13,Week 1 Aug,Facebook Post,Year-Round,590,Low,"Test post - successful format"
-"Termite Treatment DeKalb",Blog Post,HIGH,⏳ Planned,DeKalb IL,Termites,"termite treatment DeKalb IL",2025-08-22,Week 1 Aug,WordPress Blog,Spring,3200,High,"High-value service"
-"Rodent Control Rockford",Blog Post,HIGH,⏳ Planned,Rockford IL,Rodents,"rodent control Rockford IL",2025-08-23,Week 1 Aug,WordPress Blog,Fall,2100,Medium,"Large market opportunity"
-"Sycamore Bed Bug Social",Social Media,HIGH,⏳ Planned,Sycamore IL,Bed Bugs,"bed bug treatment Sycamore",2025-08-14,Week 1 Aug,Facebook Post,Year-Round,1900,Medium,""
-"DeKalb Termite Season Social",Social Media,HIGH,⏳ Planned,DeKalb IL,Termites,"termite inspection DeKalb",2025-08-14,Week 1 Aug,Instagram Post,Spring,890,Low,"Seasonal timing"
-"Clinton IA Pest Control",Blog Post,MEDIUM,⏳ Planned,Clinton IA,General,"pest control Clinton IA",2025-08-26,Week 2 Aug,WordPress Blog,Year-Round,320,Low,"Office location"
-"Davenport Bed Bug Treatment",Blog Post,MEDIUM,⏳ Planned,Davenport IA,Bed Bugs,"bed bug exterminator Davenport IA",2025-08-27,Week 2 Aug,WordPress Blog,Year-Round,1100,Medium,"Iowa market expansion"
-"Clinton Rodent Social",Social Media,MEDIUM,⏳ Planned,Clinton IA,Rodents,"rodent control Clinton IA",2025-08-15,Week 2 Aug,Facebook Post,Fall,150,Low,""
-"Davenport Ant Social",Social Media,MEDIUM,⏳ Planned,Davenport IA,Ants,"ant control Davenport",2025-08-15,Week 2 Aug,Facebook Post,Year-Round,240,Low,""
-"Delavan WI Pest Control",Blog Post,MEDIUM,⏳ Planned,Delavan WI,General,"pest control Delavan WI",2025-08-29,Week 3 Aug,WordPress Blog,Year-Round,180,Low,"Wisconsin office"
-"Lake Geneva Mosquito Control",Blog Post,MEDIUM,⏳ Planned,Lake Geneva WI,Mosquitoes,"mosquito control Lake Geneva WI",2025-08-30,Week 3 Aug,WordPress Blog,Summer,210,Low,"Seasonal + tourism area"
-"Fall Pest Prevention IL",Blog Post,MEDIUM,⏳ Planned,Illinois,General,"fall pest control Illinois",2025-09-01,Week 1 Sep,WordPress Blog,Fall,480,Medium,"Seasonal content"
-"Winter Rodent Prep Guide",Blog Post,MEDIUM,⏳ Planned,Multi-State,Rodents,"winter rodent prevention",2025-10-01,Week 1 Oct,WordPress Blog,Fall,760,Low,"Seasonal preparation"
-"Pest ID Guide Illinois",Blog Post,LOW,⏳ Planned,Illinois,General,"common pests Illinois",2025-09-15,Week 3 Sep,WordPress Blog,Year-Round,320,Low,"Evergreen authority content"
-"Commercial Restaurant IL",Blog Post,LOW,⏳ Planned,Illinois,General,"restaurant pest control Illinois",2025-10-15,Week 3 Oct,WordPress Blog,Year-Round,290,Low,"B2B focus"
-"Property Management Guide",Blog Post,LOW,⏳ Planned,Multi-State,General,"property management pest control",2025-10-20,Week 3 Oct,WordPress Blog,Year-Round,110,Low,"Commercial audience"
-"Dixon Location Page Update",Location Page,MEDIUM,⏳ Planned,Dixon IL,General,"pest control Dixon IL",2025-08-25,Week 1 Aug,Landing Page,Year-Round,590,Medium,"Local SEO optimization"
-"Sycamore Location Page",Location Page,MEDIUM,⏳ Planned,Sycamore IL,General,"pest control Sycamore IL",2025-09-01,Week 1 Sep,Landing Page,Year-Round,320,Low,"Office location page"
+Content Title,Content Type,Priority Level,Status,Target Location,Service Category,Primary Keyword,Target Date,Assigned Week,Content Format,Seasonal Relevance,Search Volume,Keyword Difficulty,{{CLIENT_CONTACT}} Notes
+"Service A Guide City 1",Blog Post,HIGH,⏳ Planned,{{CITY_1}},{{SERVICE_CAT_1}},"[service] [city 1]",2025-08-20,Week 1 Aug,WordPress Blog,Year-Round,2400,Medium,"High priority - major service area"
+"Service B Guide City 2",Blog Post,HIGH,⏳ Planned,{{CITY_2}},{{SERVICE_CAT_2}},"[service] [city 2]",2025-08-20,Week 1 Aug,WordPress Blog,Year-Round,1800,Low,"Office location focus"
+"City 1 Service Social",Social Media,HIGH,✅ Complete,{{CITY_1}},{{SERVICE_CAT_2}},"[industry] [city 1]",2025-08-13,Week 1 Aug,Facebook Post,Year-Round,590,Low,"Test post - successful format"
+"Service C City 3",Blog Post,HIGH,⏳ Planned,{{CITY_3}},{{SERVICE_CAT_3}},"[service c] [city 3]",2025-08-22,Week 1 Aug,WordPress Blog,Spring,3200,High,"High-value service"
+"Service D City 4",Blog Post,HIGH,⏳ Planned,{{CITY_4}},{{SERVICE_CAT_4}},"[service d] [city 4]",2025-08-23,Week 1 Aug,WordPress Blog,Fall,2100,Medium,"Large market opportunity"
+"City 2 Service A Social",Social Media,HIGH,⏳ Planned,{{CITY_2}},{{SERVICE_CAT_1}},"[service a] [city 2]",2025-08-14,Week 1 Aug,Facebook Post,Year-Round,1900,Medium,""
+"City 3 Seasonal Social",Social Media,HIGH,⏳ Planned,{{CITY_3}},{{SERVICE_CAT_3}},"[service] [city 3]",2025-08-14,Week 1 Aug,Instagram Post,Spring,890,Low,"Seasonal timing"
+"City 5 Services Guide",Blog Post,MEDIUM,⏳ Planned,{{CITY_5}},General,"[industry] [city 5]",2025-08-26,Week 2 Aug,WordPress Blog,Year-Round,320,Low,"Office location"
+"City 6 Service A Guide",Blog Post,MEDIUM,⏳ Planned,{{CITY_6}},{{SERVICE_CAT_1}},"[service a] [city 6]",2025-08-27,Week 2 Aug,WordPress Blog,Year-Round,1100,Medium,"Market expansion"
+"Fall Service Prevention",Blog Post,MEDIUM,⏳ Planned,{{STATE_1}},General,"fall [industry] [state]",2025-09-01,Week 1 Sep,WordPress Blog,Fall,480,Medium,"Seasonal content"
+"Winter Prep Guide",Blog Post,MEDIUM,⏳ Planned,Multi-State,General,"winter [service] prevention",2025-10-01,Week 1 Oct,WordPress Blog,Fall,760,Low,"Seasonal preparation"
+"Service ID Guide",Blog Post,LOW,⏳ Planned,{{STATE_1}},General,"common [services] [state]",2025-09-15,Week 3 Sep,WordPress Blog,Year-Round,320,Low,"Evergreen authority content"
+"Commercial Guide",Blog Post,LOW,⏳ Planned,Multi-State,General,"commercial [industry]",2025-10-20,Week 3 Oct,WordPress Blog,Year-Round,110,Low,"Commercial audience"
+"City 1 Location Page",Location Page,MEDIUM,⏳ Planned,{{CITY_1}},General,"[industry] [city 1]",2025-08-25,Week 1 Aug,Landing Page,Year-Round,590,Medium,"Local SEO optimization"
+"City 2 Location Page",Location Page,MEDIUM,⏳ Planned,{{CITY_2}},General,"[industry] [city 2]",2025-09-01,Week 1 Sep,Landing Page,Year-Round,320,Low,"Office location page"
 ```
 
 ---

@@ -57,7 +57,7 @@ const fields = {
     'Content Type': record.contentType || 'Blog Post',
     'Priority': record.priority || 'MEDIUM',
     'Target Location': record.targetLocation || 'Multi-State',
-    'Pest Type': record.pestType || 'General',
+    'Service Category': record.serviceCategory || 'General',
     'Content Format': record.contentFormat || 'WordPress Blog',
     'Seasonal Relevance': record.seasonalRelevance || 'Year-Round',
     'Primary Keyword': record.primaryKeyword || '',
@@ -145,7 +145,7 @@ const fields = {
 ./automation/claude_gui_sync.sh streamlined-submit
 
 # 3. Verify trigger configuration
-curl -X GET "https://api.airtable.com/v0/appS6XjjRUrELJRgC/tblCR8yF9HHQlDij1/RECORD_ID" \
+curl -X GET "https://api.airtable.com/v0/YOUR_BASE_ID/YOUR_CONTENT_TABLE_ID/RECORD_ID" \
   -H "Authorization: Bearer API_KEY"
 ```
 
@@ -173,7 +173,7 @@ curl -X GET "https://api.airtable.com/v0/appS6XjjRUrELJRgC/tblCR8yF9HHQlDij1/REC
 **Check Record Fields**:
 ```bash
 # Via Airtable API
-curl -X GET "https://api.airtable.com/v0/appS6XjjRUrELJRgC/tblCR8yF9HHQlDij1/RECORD_ID" \
+curl -X GET "https://api.airtable.com/v0/YOUR_BASE_ID/YOUR_CONTENT_TABLE_ID/RECORD_ID" \
   -H "Authorization: Bearer API_KEY"
 ```
 

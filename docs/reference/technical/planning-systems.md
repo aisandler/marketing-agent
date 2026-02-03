@@ -17,18 +17,18 @@
 **Process**: Dictate monthly content plans → Claude Code processes → Generate CSV
 **Example Voice Input**:
 ```
-"For September, I need 8 blog posts focusing on fall pest preparation. Target our Illinois markets first - Dixon, Sycamore, Rockford. I want content on rodent-proofing, spider prevention, and overwintering pests. Make sure we cover bed bugs for DeKalb and termite content for Aurora. For social media, I need 3 posts per week - mix of general pest tips and seasonal alerts. Priority is HIGH for Illinois content, MEDIUM for Iowa expansion. Also need location pages for Naperville and Wheaton - those are high-value markets."
+"For September, I need 8 blog posts focusing on fall preparation. Target our primary markets first - {{CITY_1}}, {{CITY_2}}, {{CITY_3}}. I want content on seasonal maintenance, prevention tips, and winter preparation. Make sure we cover service highlights for {{CITY_4}} and specialized content for {{CITY_5}}. For social media, I need 3 posts per week - mix of general tips and seasonal alerts. Priority is HIGH for primary market content, MEDIUM for expansion areas. Also need location pages for {{CITY_6}} and {{CITY_7}} - those are high-value markets."
 ```
 
 ### 2. Text Chat Planning
 **Process**: Structured conversation → Extract requirements → Generate CSV
 **Example Text Input**:
 ```
-User: "I need a fall content strategy focusing on prevention. Target 12 blog posts, 36 social media posts, and 6 location pages. Illinois priority, Iowa secondary. Budget conscious approach."
+User: "I need a fall content strategy focusing on prevention. Target 12 blog posts, 36 social media posts, and 6 location pages. Primary market priority, secondary market next. Budget conscious approach."
 
-Claude Code: "I'll create a fall prevention strategy. What specific pest issues should we prioritize for Illinois markets?"
+Claude Code: "I'll create a fall prevention strategy. What specific service areas should we prioritize for the primary markets?"
 
-User: "Rodents, spiders, overwintering insects. Make sure we hit Aurora, Rockford, Naperville - those are high-conversion markets."
+User: "Seasonal maintenance, prevention services, and winter prep. Make sure we hit our top 3 high-conversion markets."
 ```
 
 ### 3. GUI Dashboard (Future Enhancement)
@@ -44,7 +44,7 @@ User: "Rodents, spiders, overwintering insects. Make sure we hit Aurora, Rockfor
 2. **Type** - Blog Post, Social Media Post, Location Page
 3. **Priority** - HIGH, MEDIUM, LOW
 4. **Status** - ⏳ Planned (default)
-5. **Target Location** - Illinois, Iowa, Wisconsin
+5. **Target Location** - Primary Market, Secondary Market, Tertiary Market
 
 ### Column Specifications
 - **Description**: Minimum 15 words including target audience and value proposition
@@ -55,7 +55,7 @@ User: "Rodents, spiders, overwintering insects. Make sure we hit Aurora, Rockfor
   - LOW: Experimental content, future planning, lower-priority markets
 - **Type Validation**: Only accepts Social Media Posts, Blog Posts, Location Pages
 - **Location Focus**: Must specify primary target location for local SEO
-- **Content Brief Requirements**: Include pest type, season, target audience, key benefits
+- **Content Brief Requirements**: Include service category, season, target audience, key benefits
 
 ---
 
@@ -165,11 +165,11 @@ Focus: Local SEO dominance, service area expansion, conversion optimization
 curl -X POST "https://hook.us1.make.com/your-webhook-url" \
   -H "Content-Type: application/json" \
   -d '{
-    "Description": "Fall rodent prevention guide for Illinois homeowners",
-    "Type": "Blog Post", 
+    "Description": "Fall seasonal prevention guide for local homeowners",
+    "Type": "Blog Post",
     "Priority": "HIGH",
-    "Target Location": "Illinois",
-    "Keywords": "rodent prevention, fall pest control, Illinois exterminators"
+    "Target Location": "Primary Market",
+    "Keywords": "fall prevention, seasonal maintenance, local service professionals"
   }'
 ```
 
@@ -199,9 +199,9 @@ curl -X POST "https://hook.us1.make.com/bulk-import-webhook" \
 
 ### Example Planning Conversation:
 ```
-You: "I need a November content strategy focusing on winter pest preparation"
+You: "I need a November content strategy focusing on winter preparation"
 
-Claude Code: "I'll create a comprehensive November strategy. Based on seasonal patterns, I recommend focusing on rodent prevention, spider control, and overwintering insects for your Illinois markets."
+Claude Code: "I'll create a comprehensive November strategy. Based on seasonal patterns, I recommend focusing on winter maintenance, prevention tips, and seasonal service highlights for your primary markets."
 
 [Claude Code automatically executes planning via webhook]
 
@@ -209,7 +209,7 @@ Result: 12 content records created in Airtable, ready for N8N generation
 ```
 
 ### Sample Direct Execution:
-**Your Request**: "Create 5 social media posts about fall ant prevention"
+**Your Request**: "Create 5 social media posts about fall prevention tips"
 
 **Claude Code Action**: 
 1. Generates 5 strategic social media concepts
@@ -223,19 +223,19 @@ Result: 12 content records created in Airtable, ready for N8N generation
 
 ## ⚡ **INSTANT EXECUTION EXAMPLES**
 
-### Scenario 1: "I need 5 Instagram posts for November ant prevention"
+### Scenario 1: "I need 5 Instagram posts for November seasonal tips"
 
-**Claude Code Response**: "Creating 5 Instagram posts for November ant prevention targeting Illinois markets..."
+**Claude Code Response**: "Creating 5 Instagram posts for November seasonal tips targeting primary markets..."
 
 **Automatic Execution**:
 ```bash
 curl -X POST "https://hook.us1.make.com/content-webhook" -d '{
   "batch": [
-    {"Description": "November ant prevention tips for Illinois homeowners", "Type": "Social Media Post", "Priority": "HIGH"},
-    {"Description": "Winter ant-proofing your home before cold weather hits", "Type": "Social Media Post", "Priority": "HIGH"},
-    {"Description": "Common ant species active in Illinois during November", "Type": "Social Media Post", "Priority": "MEDIUM"},
-    {"Description": "DIY ant prevention vs professional treatment comparison", "Type": "Social Media Post", "Priority": "MEDIUM"},
-    {"Description": "Why November is crucial for ant colony elimination", "Type": "Social Media Post", "Priority": "HIGH"}
+    {"Description": "November maintenance tips for local homeowners", "Type": "Social Media Post", "Priority": "HIGH"},
+    {"Description": "Winterizing your home before cold weather hits", "Type": "Social Media Post", "Priority": "HIGH"},
+    {"Description": "Common seasonal issues to watch for in November", "Type": "Social Media Post", "Priority": "MEDIUM"},
+    {"Description": "DIY maintenance vs professional service comparison", "Type": "Social Media Post", "Priority": "MEDIUM"},
+    {"Description": "Why November is crucial for winter preparation", "Type": "Social Media Post", "Priority": "HIGH"}
   ]
 }'
 ```
@@ -261,11 +261,11 @@ curl -X PATCH "https://hook.us1.make.com/status-update-webhook" -d '{
 ## 🎮 **CLAUDE CODE COMMAND SHORTCUTS**
 
 ### Quick Planning Commands You Can Use:
-- "Create 10 blog posts for December winter pest prep"
-- "Generate 3 location pages for Aurora, Rockford, Naperville"  
+- "Create 10 blog posts for December winter preparation"
+- "Generate 3 location pages for our top expansion cities"
 - "Update all October content to complete status"
 - "Plan social media blitz for Thanksgiving week"
-- "Create emergency content for sudden weather pest activity"
+- "Create emergency content for sudden weather-related service demand"
 
 **What Happens**: Claude Code executes immediately, no approvals needed
 
@@ -299,13 +299,13 @@ curl -X PATCH "https://hook.us1.make.com/status-update-webhook" -d '{
 ## 🎯 **YOUR IDEAL WORKFLOW**
 
 ### Morning Planning Session:
-1. "Plan my content for this week focusing on seasonal pest issues"
+1. "Plan my content for this week focusing on seasonal service topics"
 2. Claude Code creates comprehensive plan automatically
 3. Records appear in Airtable instantly
 4. N8N workflows begin content generation
 
 ### Afternoon Adjustments:
-1. "Add 3 urgent posts about weather-related pest activity"
+1. "Add 3 urgent posts about weather-related service demand"
 2. Immediate execution, no delays
 3. Content ready for same-day publishing
 
@@ -338,7 +338,7 @@ curl -X PATCH "https://hook.us1.make.com/status-update-webhook" -d '{
 ```javascript
 // Airtable Webhook Configuration
 const webhook_url = "https://hook.us1.make.com/content-import";
-const content_table = "tblCR8yF9HHQlDij1";
+const content_table = "YOUR_CONTENT_TABLE_ID";
 
 // Automatic CSV Processing
 webhook.onReceive = (csv_data) => {
@@ -372,7 +372,7 @@ webhook.onReceive = (csv_data) => {
 
 ### Seasonal Planning Strategy
 - **Spring**: Prevention and preparation content
-- **Summer**: Active pest management and treatment
+- **Summer**: Active service delivery and engagement
 - **Fall**: Winterization and prevention strategies  
 - **Winter**: Planning and preparation for next season
 

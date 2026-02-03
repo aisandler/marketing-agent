@@ -1,0 +1,186 @@
+{
+  "client": {
+    "name": "TaskFlow",
+    "industry": "saas",
+    "businessType": "b2b_software",
+    "serviceArea": {
+      "primary": "United States",
+      "secondary": ["Canada", "United Kingdom", "Australia"],
+      "state": "California",
+      "region": "Global"
+    },
+    "website": "https://taskflow.io",
+    "phone": "(415) 555-TASK",
+    "email": "hello@taskflow.io"
+  },
+  "airtable": {
+    "webhookUrl": "{{N8N_WEBHOOK_URL}}",
+    "baseId": "{{AIRTABLE_BASE_ID}}",
+    "tableId": "{{AIRTABLE_TABLE_ID}}",
+    "apiUrl": "https://api.airtable.com/v0"
+  },
+  "fields": {
+    "contentId": "Content ID",
+    "description": "Description",
+    "contentType": "Content Type",
+    "priority": "Priority",
+    "targetLocation": "Target Audience",
+    "serviceCategory": "Product Feature",
+    "contentFormat": "Content Format",
+    "seasonalRelevance": "Campaign Phase",
+    "primaryKeyword": "Primary Keyword",
+    "searchVolume": "Search Volume",
+    "keywordDifficulty": "Keyword Difficulty",
+    "notes": "Notes",
+    "text": "Text",
+    "status": "Status",
+    "title": "Title",
+    "publishDate": "Publish Date",
+    "targetPublishDate": "Target Publish Date"
+  },
+  "brand": {
+    "guidelines": [
+      "docs/brand-guidelines/brand-guide.md",
+      "docs/brand-guidelines/core-messaging-template.md"
+    ],
+    "voiceGuide": "docs/brand-guidelines/brand-guide.md",
+    "personas": null,
+    "styleGuide": null,
+    "assetsDir": "content/client-documents/brand-guides",
+    "knowledge": []
+  },
+  "templates": {
+    "blogOutline": null,
+    "blogDraft": null,
+    "socialPost": null,
+    "locationPage": null
+  },
+  "labels": {
+    "entitySubtypeLabel": "Product Feature"
+  },
+  "drive": {
+    "folders": {
+      "blog": "{{DRIVE_BLOG_FOLDER_ID}}",
+      "social": "{{DRIVE_SOCIAL_FOLDER_ID}}",
+      "location": "{{DRIVE_LOCATION_FOLDER_ID}}",
+      "email": "{{DRIVE_EMAIL_FOLDER_ID}}",
+      "library": "{{DRIVE_LIBRARY_FOLDER_ID}}"
+    }
+  },
+  "branding": {
+    "primaryMessage": "Empower Teams to Deliver Their Best Work",
+    "tagline": "Work Smarter, Deliver Faster",
+    "tone": "confident, helpful, forward-thinking",
+    "personality": ["innovative", "approachable", "efficient"],
+    "experience": "Trusted by 10,000+ teams",
+    "differentiators": [
+      "AI-Powered Task Prioritization",
+      "Real-Time Collaboration",
+      "Seamless Integrations",
+      "Enterprise-Grade Security"
+    ]
+  },
+  "services": {
+    "primary": [
+      "Project Management",
+      "Team Collaboration",
+      "Workflow Automation"
+    ],
+    "secondary": [
+      "Time Tracking",
+      "Resource Planning"
+    ],
+    "seasonal": {
+      "spring": ["Q2 Planning Features", "Annual Review Tools"],
+      "summer": ["Remote Work Solutions", "Team Productivity"],
+      "fall": ["Budget Planning", "Q4 Goal Setting"],
+      "winter": ["Year-End Reporting", "New Year Onboarding"]
+    }
+  },
+  "serviceCategories": {
+    "categories": [
+      { "name": "General", "aliases": ["project management", "general"], "isDefault": true },
+      { "name": "Task Management", "aliases": ["tasks", "to-do", "assignments"] },
+      { "name": "Collaboration", "aliases": ["team", "communication", "sharing"] },
+      { "name": "Automation", "aliases": ["workflow", "automate", "rules"] },
+      { "name": "Reporting", "aliases": ["analytics", "dashboard", "metrics"] }
+    ],
+    "detectionPatterns": {
+      "Task Management": ["task", "to-do", "assignment", "priority", "deadline", "kanban"],
+      "Collaboration": ["team", "collaboration", "share", "comment", "real-time", "chat"],
+      "Automation": ["automation", "workflow", "rule", "trigger", "integration", "api"],
+      "Reporting": ["report", "analytics", "dashboard", "metric", "insight", "tracking"]
+    },
+    "seasonalMapping": {
+      "spring": { "focus": "Q2 planning features, annual review tools", "urgency": "medium", "keyCategories": ["Reporting", "General"] },
+      "summer": { "focus": "Remote work solutions, team productivity", "urgency": "medium", "keyCategories": ["Collaboration", "Task Management"] },
+      "fall": { "focus": "Budget planning, Q4 goal setting", "urgency": "high", "keyCategories": ["Reporting", "Automation"] },
+      "winter": { "focus": "Year-end reporting, new year onboarding", "urgency": "high", "keyCategories": ["Reporting", "General"] }
+    }
+  },
+  "locations": {
+    "primary": "United States",
+    "secondary": ["Canada", "United Kingdom", "Australia"],
+    "states": [],
+    "detectionPatterns": {}
+  },
+  "seo": {
+    "primaryKeywords": [
+      "project management software",
+      "team collaboration tools",
+      "workflow automation"
+    ],
+    "localModifiers": [
+      "for remote teams",
+      "for startups",
+      "enterprise"
+    ],
+    "contentTopics": [
+      "Remote team productivity",
+      "Agile methodology",
+      "Project planning best practices"
+    ]
+  },
+  "competition": {
+    "primaryCompetitors": [
+      "Asana",
+      "Monday.com",
+      "ClickUp"
+    ],
+    "competitiveAdvantages": [
+      "AI-powered prioritization",
+      "Faster onboarding",
+      "Better pricing for growing teams"
+    ]
+  },
+  "leadGeneration": {
+    "primaryCTA": "Start Your Free Trial",
+    "leadMagnets": [
+      "Project Management Template Library",
+      "Team Productivity Assessment"
+    ],
+    "conversionGoals": [
+      "Free trial signups",
+      "Demo requests",
+      "Freemium upgrades"
+    ]
+  },
+  "contentStrategy": {
+    "contentPillars": [
+      "Team Productivity",
+      "Project Visibility",
+      "Workflow Automation"
+    ],
+    "contentTypes": [
+      "Blog Posts",
+      "Case Studies",
+      "Product Updates",
+      "Comparison Pages"
+    ],
+    "publishingFrequency": {
+      "blogPosts": "3 per week",
+      "caseStudies": "2 per month",
+      "productUpdates": "Weekly"
+    }
+  }
+}

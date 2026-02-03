@@ -1,0 +1,37 @@
+{
+  "$schema": "../../../partners.schema.json",
+
+  "accounts": {
+    "david": ["David Chen LinkedIn"],
+    "company": ["Apex Roofing LinkedIn", "Apex Roofing Facebook"]
+  },
+
+  "names": {
+    "all": "All Team Members",
+    "david": "David Chen",
+    "company": "Apex Roofing"
+  },
+
+  "initials": {
+    "david": "DC",
+    "company": "AR"
+  },
+
+  "colors": {
+    "david": {
+      "border": "border-l-red-700",
+      "bg": "bg-red-700",
+      "text": "text-red-800"
+    },
+    "company": {
+      "border": "border-l-blue-800",
+      "bg": "bg-blue-800",
+      "text": "text-blue-900"
+    }
+  },
+
+  "emails": {
+    "david": "david@apexroofing.com",
+    "company": "info@apexroofing.com"
+  }
+}

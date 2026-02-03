@@ -59,6 +59,8 @@
 /onboard      # Business setup and brand intelligence configuration
 /cmo          # Strategic marketing planning and campaign orchestration
 /analyst      # Marketing intelligence and performance optimization
+/images       # AI image generation toolkit (queue, costs, generation)
+/intel        # Social media intelligence collection and analysis
 /brand-export # Generate portable brand architecture documents
 /discover     # System capability exploration and feature overview
 /overview     # Current system status and active projects
@@ -96,6 +98,17 @@
 ./automation/content-validation-hook.sh content/file.html blog-post "Title"
 ./automation/brand-synthesis.sh summary  # Generate 1-page brand summary
 ./automation/brand-synthesis.sh detailed # Generate 2-page brand overview
+
+# Image Generation
+npx tsx automation/image-generation/generate-images.ts --status    # Queue status
+npx tsx automation/image-generation/generate-images.ts --dry-run   # Preview
+npx tsx automation/image-generation/generate-images.ts --limit 5   # Generate batch
+
+# Social Intelligence
+npx tsx automation/intel/linkedin-collector.ts      # Collect LinkedIn competitor data
+npx tsx automation/intel/twitter-collector.ts        # Collect Twitter/X themes
+npx tsx automation/intel/visual-analyzer.ts          # Analyze visual patterns
+npx tsx automation/intel/synthesize.ts               # Generate synthesis for prompts
 ```
 
 ---
@@ -272,12 +285,12 @@ client-brand/
 
 ### Content Creation Features
 **Blog Post Generation**
-- **Example**: 2000+ word comprehensive guide on "Complete Pest Prevention for Homeowners"
+- **Example**: 2000+ word comprehensive guide on "Complete Service Guide for Homeowners"
 - **Features**: FAQ sections, local SEO optimization, citation-ready format
 - **Agent**: lead-writer + content-marketing-strategist
 
 **Social Media Strategy**
-- **Example**: Multi-platform campaign for seasonal pest prevention
+- **Example**: Multi-platform campaign for seasonal service promotion
 - **Features**: Platform-specific formatting, engagement optimization, brand consistency
 - **Agent**: social-media-strategist + creative-director
 
@@ -351,7 +364,7 @@ client-brand/
 ### Email Campaign Automation
 **Newsletter Generation**: `./automation/email-campaign-generator.sh newsletter --season fall`
 **Promotional Campaigns**: `./automation/email-campaign-generator.sh promotional --offer "20% off"`
-**Drip Sequences**: `./automation/email-campaign-generator.sh drip-sequence --service "pest control"`
+**Drip Sequences**: `./automation/email-campaign-generator.sh drip-sequence --service "{{SERVICE}}"`
 
 ---
 
@@ -493,8 +506,14 @@ marketing-team-base/
 ├── .claude/
 │   ├── commands/          # Executive command agents (6)
 │   ├── agents/           # Specialist sub-agents (13)
+│   ├── skills/           # Workflow skills
+│   │   ├── images/       # /images - AI image generation toolkit
+│   │   └── social-intel/ # /intel - Social media intelligence
 │   └── settings.local.json
 ├── automation/           # Automation scripts (22+)
+│   ├── image-generation/ # AI image generation (~$0.14/image)
+│   ├── intel/            # Social intelligence collectors & analysis
+│   └── airtable-setup/   # Airtable auto-configuration
 ├── client-brand/        # Brand architecture management
 │   ├── current/         # Living brand guidelines
 │   ├── exports/         # Portable brand documents
@@ -502,6 +521,8 @@ marketing-team-base/
 ├── content/             # Generated content assets
 ├── dashboard/           # Web interface views (7)
 ├── docs/               # Documentation and guides
+│   └── intelligence/    # Social media intelligence data
+├── portal/              # Partner content review portal
 ├── config/             # Client configuration files
 └── CLAUDE.md           # System configuration
 ```

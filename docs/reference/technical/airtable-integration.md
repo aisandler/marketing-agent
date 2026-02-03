@@ -64,7 +64,7 @@ Based on successful API testing, these exact field names must be used:
   "Content Type": "Blog Post|Social Media|Location Page",
   "Priority": "HIGH|MEDIUM|LOW",
   "Target Location": "Multi-State",
-  "Pest Type": "General|Rodents|Insects|[Specific]",
+  "Service Category": "General|[Service Type]|[Specific]",
   "Content Format": "WordPress Blog|Facebook Post|WordPress Page",
   "Seasonal Relevance": "Fall|Winter|Spring|Summer",
   "Primary Keyword": "main SEO keyword",
@@ -89,12 +89,12 @@ Based on successful API testing, these exact field names must be used:
 ### Example 1: Blog Post with Full Metadata
 ```bash
 ./automation/claude_direct_airtable_fixed.sh \
-  --description "Comprehensive fall pest prevention guide covering stink bugs, boxelder bugs, mice, and overwintering pests with regional strategies for Illinois, Iowa, and Wisconsin homeowners" \
+  --description "Comprehensive fall seasonal preparation guide covering common seasonal challenges with regional strategies for homeowners in your service area" \
   --type "Blog Post" \
   --priority "HIGH" \
-  --keywords "fall pest prevention,stink bug control,winter pest proofing" \
+  --keywords "fall seasonal preparation,winter home preparation,seasonal service guide" \
   --search-volume "8200" \
-  --source-file "content/blog-posts/fall-pest-prevention-guide.md"
+  --source-file "content/blog-posts/fall-seasonal-preparation-guide.md"
 ```
 
 **Result**:
@@ -102,9 +102,9 @@ Based on successful API testing, these exact field names must be used:
 🚀 Creating Airtable record...
 Content Type: Blog Post
 Priority: HIGH
-Description: Comprehensive fall pest prevention guide...
+Description: Comprehensive fall seasonal preparation guide...
 ✅ Record created successfully: recABC123
-📄 Adding text content from: content/blog-posts/fall-pest-prevention-guide.md
+📄 Adding text content from: content/blog-posts/fall-seasonal-preparation-guide.md
 ✅ Text content added successfully
 
 🎯 DIRECT SUBMISSION COMPLETE
@@ -115,10 +115,10 @@ AUTO_INITIALIZE triggered - Airtable automation will process
 ### Example 2: Social Media Post
 ```bash
 ./automation/claude_direct_airtable_fixed.sh \
-  --description "Fall pest alert warning homeowners about rodent invasion timing and immediate prevention steps" \
+  --description "Fall seasonal alert warning homeowners about upcoming service needs and immediate preparation steps" \
   --type "Social Media" \
   --priority "MEDIUM" \
-  --source-file "content/social-media/fall-rodent-alert.md"
+  --source-file "content/social-media/fall-seasonal-alert.md"
 ```
 
 **Result**: Creates Facebook Post format record with social media optimization
@@ -126,10 +126,10 @@ AUTO_INITIALIZE triggered - Airtable automation will process
 ### Example 3: Location Page with SEO
 ```bash
 ./automation/claude_direct_airtable_fixed.sh \
-  --description "Aurora Illinois pest control services specializing in residential treatment programs for common household pests including ants, spiders, mice, and seasonal invaders" \
+  --description "Location-specific services page specializing in residential service programs covering common local needs and seasonal services" \
   --type "Location Page" \
   --priority "HIGH" \
-  --keywords "Aurora pest control,Aurora IL exterminator,pest control Aurora Illinois" \
+  --keywords "services [city name],[city] [state] [service type],[service] [city] [state]" \
   --search-volume "1200"
 ```
 
@@ -207,7 +207,7 @@ push_to_airtable() {
 ```
 
 ### API Endpoint Details
-- **Base URL**: `https://api.airtable.com/v0/appS6XjjRUrELJRgC/tblCR8yF9HHQlDij1`
+- **Base URL**: `https://api.airtable.com/v0/YOUR_BASE_ID/YOUR_CONTENT_TABLE_ID`
 - **Authentication**: Bearer token in Authorization header
 - **Method**: POST for creation, PATCH for text content updates
 - **Content-Type**: `application/json`

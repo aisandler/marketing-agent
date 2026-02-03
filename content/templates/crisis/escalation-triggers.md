@@ -68,7 +68,7 @@
 - Customer threats of legal action or regulatory complaints
 - Property damage claims during service delivery
 - Safety incidents or customer injury reports
-- Service failures resulting in pest/problem recurrence
+- Service failures resulting in problem recurrence
 - Multiple customer complaints about same technician or process
 - Local media inquiries about company services
 - Competitor mentions in customer complaints

@@ -40,10 +40,10 @@ Use this contract for all handoffs. The Orchestrator asks sub-agents to respond 
 {
   "type": "brief|outline|draft|seo_review|brand_review|qa_report|localization_plan|distribution_pack",
   "meta": {
-    "service": "ant control",
-    "location": "Peoria, IL",
-    "primaryKeyword": "ant control Peoria",
-    "secondaryKeywords": ["carpenter ant treatment", "ant exterminator near me"],
+    "service": "home maintenance",
+    "location": "Springfield, IL",
+    "primaryKeyword": "home maintenance Springfield",
+    "secondaryKeywords": ["professional home services", "home service near me"],
     "intent": "transactional",
     "persona": "homeowner"
   },
@@ -81,14 +81,14 @@ When you need work from a sub-agent, address them explicitly and restate the cur
 Paste this in a new Claude chat with your agents loaded.
 
 ```markdown
-Goal: Create a service page that converts for “ant control Peoria”.
+Goal: Create a service page that converts for “home maintenance Springfield”.
 Context: {{COMPANY_NAME}} brand and service area per repo docs.
 Constraints: WordPress-ready HTML sections, internal links to 3+ related {{COMPANY_NAME}} pages, JSON-LD FAQ.
 
 @Strategist produce a brief JSON per contract. Inputs:
-- service: ant control
-- location: Peoria, IL
-- primaryKeyword: ant control Peoria
+- service: home maintenance
+- location: Springfield, IL
+- primaryKeyword: home maintenance Springfield
 - persona: homeowner
 Also propose 3 internal links and a CTA.
 ```

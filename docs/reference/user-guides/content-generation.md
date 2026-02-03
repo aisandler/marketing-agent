@@ -71,14 +71,14 @@
 ## 💡 **PRACTICAL EXAMPLES**
 
 ### **LOCAL Examples:**
-- 🎯 **"Create 3 blog outlines for fall pest prevention"** (Strategy + Text-only)
-- 🎯 **"Urgent social post about bed bug alert in Dixon"** (Urgent + Simple)
-- 🎯 **"Research top 10 competitor keywords for termite control"** (Research + Analysis)
+- 🎯 **"Create 3 blog outlines for fall seasonal preparation"** (Strategy + Text-only)
+- 🎯 **"Urgent social post about service alert in {{SERVICE_AREA}}"** (Urgent + Simple)
+- 🎯 **"Research top 10 competitor keywords for our core services"** (Research + Analysis)
 
 ### **SYSTEMATIC Examples:**
-- 🚀 **"20 Instagram posts for October with pest prevention graphics"** (Bulk + Visual)
-- 🚀 **"Blog post: 'Termite Treatment DeKalb IL' with featured image"** (SEO + Visual)
-- 🚀 **"Location landing pages for 5 new Wisconsin cities"** (Standard + Scale)
+- 🚀 **"20 Instagram posts for October with seasonal service graphics"** (Bulk + Visual)
+- 🚀 **"Blog post: 'Service Guide for [City] [State]' with featured image"** (SEO + Visual)
+- 🚀 **"Location landing pages for 5 new expansion cities"** (Standard + Scale)
 
 ## 🎯 **WHEN IN DOUBT**
 
@@ -112,18 +112,18 @@
 
 ### **Use LOCAL for:**
 ```
-✅ "I need 3 blog outlines for fall pest prevention strategy"
-✅ "Create urgent social post about Dixon bed bug alert"  
+✅ "I need 3 blog outlines for fall seasonal service strategy"
+✅ "Create urgent social post about {{SERVICE_AREA}} service alert"
 ✅ "Research our top 10 competitors' pricing strategies"
-✅ "Draft content brief for Wisconsin expansion campaign"
+✅ "Draft content brief for market expansion campaign"
 ✅ "Plan next month's content calendar themes"
 ```
 
 ### **Use SYSTEMATIC for:**
 ```
 ✅ "Create 20 Instagram posts for October with graphics"
-✅ "Blog: 'Termite Treatment DeKalb IL' with featured image"
-✅ "5 location landing pages for new Wisconsin cities"
+✅ "Blog: 'Service Guide [City] [State]' with featured image"
+✅ "5 location landing pages for new expansion cities"
 ✅ "Monthly social media calendar with visual content"
 ✅ "SEO content package for high-volume keywords"
 ```
@@ -191,8 +191,8 @@
 
 ### **Content Specifications:**
 - **Word Count**: 1,500-2,500 words (comprehensive coverage)
-- **Local SEO**: Illinois/Iowa/Wisconsin specific references
-- **Brand Voice**: Professional yet approachable, family-focused
+- **Local SEO**: {{SERVICE_AREA}}-specific references
+- **Brand Voice**: Professional yet approachable, aligned with brand guidelines
 - **CTA Integration**: Natural lead generation opportunities
 - **Image Requirements**: Featured image + 2-3 supporting visuals
 
@@ -216,8 +216,8 @@
 
 ## Strategic Information
 - **Content Type**: Blog Post
-- **Target Audience**: Illinois homeowners preparing for winter
-- **Primary Keyword**: "fall pest prevention Illinois"
+- **Target Audience**: Homeowners preparing for seasonal needs
+- **Primary Keyword**: "fall seasonal services {{SERVICE_AREA}}"
 - **Search Volume**: 450 monthly searches
 - **Competition Level**: Medium
 - **Priority**: HIGH (seasonal urgency)
@@ -235,29 +235,29 @@
 - **Expected ROI**: 3-5 qualified leads (high-value keyword)
 
 ## Content Specifications
-- **Title**: "Complete Fall Pest Prevention Guide: 12-Point Checklist for Illinois Homeowners"
-- **Meta Description**: "Protect your Illinois home this fall with our comprehensive pest prevention checklist. Professional tips to keep pests out before winter."
-- **Key Points**: 
-  1. Exterior home sealing checklist
-  2. Yard maintenance for pest prevention
+- **Title**: "Complete Fall Preparation Guide: 12-Point Checklist for {{SERVICE_AREA}} Homeowners"
+- **Meta Description**: "Prepare your home this fall with our comprehensive seasonal checklist. Professional tips from {{COMPANY_NAME}}."
+- **Key Points**:
+  1. Exterior home maintenance checklist
+  2. Yard maintenance and seasonal preparation
   3. Indoor preparation strategies
   4. When to call professionals
-  5. Common fall pest species in Illinois
-- **CTA Strategy**: "Get Your Free Fall Pest Inspection - Call (815) 284-4101"
-- **Local Angle**: Illinois-specific pest challenges, temperature triggers
+  5. Common seasonal challenges in {{SERVICE_AREA}}
+- **CTA Strategy**: "Get Your Free Consultation - Call {{PHONE_NUMBER}}"
+- **Local Angle**: {{SERVICE_AREA}}-specific challenges, seasonal factors
 
 ## Image Requirements
-- **Featured Image**: Fall home with pest prevention overlay
+- **Featured Image**: Fall home with seasonal preparation overlay
 - **Infographic**: 12-point checklist visual
-- **Before/After**: Sealed vs. unsealed entry points
-- **Pest Gallery**: Common Illinois fall pests
+- **Before/After**: Service comparison imagery
+- **Gallery**: Common seasonal service scenarios
 
 ## N8N Workflow Instructions
 1. Generate blog content using this strategic outline
 2. Create 4 supporting images as specified
-3. Optimize for "fall pest prevention Illinois" keyword cluster
+3. Optimize for target keyword cluster
 4. Format for WordPress with proper H2/H3 structure
-5. Include local Illinois references throughout
+5. Include local {{SERVICE_AREA}} references throughout
 
 **COST TRACKING:**
 - Estimated API Cost: $1.50

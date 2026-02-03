@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../brand.schema.json",
+
+  "name": "TaskFlow",
+  "tagline": "Work Smarter, Deliver Faster",
+
+  "colors": {
+    "primary": "#7c3aed",
+    "secondary": "#06b6d4",
+    "accent": "#f8fafc",
+    "_names": {
+      "primary": "violet",
+      "secondary": "cyan"
+    }
+  },
+
+  "imageStyleDirective": "modern SaaS product aesthetic, violet (#7c3aed) and cyan (#06b6d4) color palette, clean dashboard interfaces, team collaboration visuals, productivity concepts, abstract geometric shapes, no faces visible, tech-forward minimalist style",
+
+  "contentPillars": [
+    "Team Productivity",
+    "Project Visibility",
+    "Workflow Automation"
+  ],
+
+  "focusAreas": [
+    "Remote team collaboration",
+    "Agile project management"
+  ],
+
+  "industry": "SaaS",
+  "location": "San Francisco, CA"
+}

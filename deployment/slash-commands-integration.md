@@ -34,6 +34,10 @@ Add this section to your CLAUDE.md file in the commands section:
 # Support Commands
 /update-client [client-name]   # Modify existing client configuration
 /export-package [client-name] # Generate client handoff materials
+
+# Content & Asset Management
+/images [status|generate|costs|briefs|retry|reposts]  # AI image generation toolkit
+/intel [status|collect|analyze|report|sync|reset]      # Social media intelligence
 ```
 
 ### 2. Agent Workflow Integration

@@ -1,0 +1,37 @@
+{
+  "$schema": "../../../partners.schema.json",
+
+  "accounts": {
+    "sarah": ["Sarah Martinez LinkedIn"],
+    "company": ["GreenScape Landscaping LinkedIn", "GreenScape Landscaping Instagram"]
+  },
+
+  "names": {
+    "all": "All Team Members",
+    "sarah": "Sarah Martinez",
+    "company": "GreenScape Landscaping"
+  },
+
+  "initials": {
+    "sarah": "SM",
+    "company": "GS"
+  },
+
+  "colors": {
+    "sarah": {
+      "border": "border-l-green-600",
+      "bg": "bg-green-600",
+      "text": "text-green-700"
+    },
+    "company": {
+      "border": "border-l-amber-500",
+      "bg": "bg-amber-500",
+      "text": "text-amber-600"
+    }
+  },
+
+  "emails": {
+    "sarah": "sarah@greenscapephx.com",
+    "company": "info@greenscapephx.com"
+  }
+}

@@ -24,12 +24,12 @@ The {{COMPANY_NAME}} content system now features an **Enhanced Two-Stage Workflo
 ==========================
 
 ✅ SYSTEMATIC (Ready for dashboard):
-1. "Fall Pest Prevention Guide" - Blog Post - HIGH
+1. "Fall Seasonal Service Guide" - Blog Post - HIGH
 
 ⚡ LOCAL GENERATION RECOMMENDED:
-1. "Winter Ant Warning" - Social Media - MEDIUM
+1. "Winter Maintenance Alert" - Social Media - MEDIUM
    Est: 50-150 words
-2. "Emergency Wasp Protocol" - Email - HIGH  
+2. "Emergency Service Protocol" - Email - HIGH
    Est: 200-400 words
 
 📊 SUMMARY:
@@ -77,14 +77,14 @@ Each content record now includes:
 {
   // Existing fields
   id: "temp_123",
-  description: "Winter Ant Warning",
+  description: "Winter Maintenance Alert",
   contentType: "Social Media",
   generationType: "LOCAL",
   
   // NEW: Enhanced workflow fields
   generationStatus: "generated", // pending | generated | failed
   textContent: "Full markdown content...",
-  contentPreview: "Winter ants invade homes when...", 
+  contentPreview: "Winter maintenance helps protect your home when...", 
   wordCount: 147,
   localFilePath: "/path/to/content.md"
 }

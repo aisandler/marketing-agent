@@ -1,0 +1,185 @@
+{
+  "client": {
+    "name": "Comfort Aire HVAC",
+    "industry": "hvac",
+    "businessType": "local_service_business",
+    "serviceArea": {
+      "primary": "Denver, CO",
+      "secondary": ["Aurora", "Lakewood", "Thornton", "Westminster"],
+      "state": "Colorado",
+      "region": "Front Range"
+    },
+    "website": "https://comfortairehvac.com",
+    "phone": "(303) 555-HVAC",
+    "email": "info@comfortairehvac.com"
+  },
+  "airtable": {
+    "webhookUrl": "{{N8N_WEBHOOK_URL}}",
+    "baseId": "{{AIRTABLE_BASE_ID}}",
+    "tableId": "{{AIRTABLE_TABLE_ID}}",
+    "apiUrl": "https://api.airtable.com/v0"
+  },
+  "fields": {
+    "contentId": "Content ID",
+    "description": "Description",
+    "contentType": "Content Type",
+    "priority": "Priority",
+    "targetLocation": "Target Location",
+    "serviceCategory": "HVAC Service Type",
+    "contentFormat": "Content Format",
+    "seasonalRelevance": "Seasonal Relevance",
+    "primaryKeyword": "Primary Keyword",
+    "searchVolume": "Search Volume",
+    "keywordDifficulty": "Keyword Difficulty",
+    "notes": "Notes",
+    "text": "Text",
+    "status": "Status",
+    "title": "Title",
+    "publishDate": "Publish Date",
+    "targetPublishDate": "Target Publish Date"
+  },
+  "brand": {
+    "guidelines": [
+      "docs/brand-guidelines/brand-guide.md",
+      "docs/brand-guidelines/core-messaging-template.md"
+    ],
+    "voiceGuide": "docs/brand-guidelines/brand-guide.md",
+    "personas": null,
+    "styleGuide": null,
+    "assetsDir": "content/client-documents/brand-guides",
+    "knowledge": []
+  },
+  "templates": {
+    "blogOutline": null,
+    "blogDraft": null,
+    "socialPost": null,
+    "locationPage": null
+  },
+  "labels": {
+    "entitySubtypeLabel": "HVAC Service Type"
+  },
+  "drive": {
+    "folders": {
+      "blog": "{{DRIVE_BLOG_FOLDER_ID}}",
+      "social": "{{DRIVE_SOCIAL_FOLDER_ID}}",
+      "location": "{{DRIVE_LOCATION_FOLDER_ID}}",
+      "email": "{{DRIVE_EMAIL_FOLDER_ID}}",
+      "library": "{{DRIVE_LIBRARY_FOLDER_ID}}"
+    }
+  },
+  "branding": {
+    "primaryMessage": "Reliable Comfort. Year-Round Peace of Mind.",
+    "tagline": "Your Comfort is Our Promise",
+    "tone": "trustworthy, knowledgeable, reliable",
+    "personality": ["professional", "dependable", "expert"],
+    "experience": "15+ years",
+    "differentiators": [
+      "24/7 Emergency Service",
+      "Licensed & Insured Technicians",
+      "Energy-Efficient Solutions",
+      "Upfront Pricing"
+    ]
+  },
+  "services": {
+    "primary": [
+      "Air Conditioning Repair",
+      "Heating System Installation",
+      "HVAC Maintenance"
+    ],
+    "secondary": [
+      "Duct Cleaning",
+      "Indoor Air Quality"
+    ],
+    "seasonal": {
+      "spring": ["AC Tune-ups", "Filter Replacement"],
+      "summer": ["AC Repair", "Emergency Cooling"],
+      "fall": ["Heating Maintenance", "Furnace Inspection"],
+      "winter": ["Heating Repair", "Emergency Service"]
+    }
+  },
+  "serviceCategories": {
+    "categories": [
+      { "name": "General", "aliases": ["hvac", "general service"], "isDefault": true },
+      { "name": "Air Conditioning", "aliases": ["ac", "cooling", "air conditioner"] },
+      { "name": "Heating", "aliases": ["furnace", "heat pump", "boiler"] },
+      { "name": "Duct Work", "aliases": ["duct", "ductwork", "ventilation"] },
+      { "name": "Indoor Air Quality", "aliases": ["air quality", "filtration", "humidifier"] }
+    ],
+    "detectionPatterns": {
+      "Air Conditioning": ["ac", "air conditioning", "cooling", "air conditioner", "refrigerant", "compressor"],
+      "Heating": ["furnace", "heating", "heat pump", "boiler", "thermostat", "pilot light"],
+      "Duct Work": ["duct", "ductwork", "ventilation", "airflow", "vent"],
+      "Indoor Air Quality": ["air quality", "filter", "humidifier", "dehumidifier", "purifier", "allergen"]
+    },
+    "seasonalMapping": {
+      "spring": { "focus": "AC tune-ups, filter replacement, spring preparation", "urgency": "medium", "keyCategories": ["Air Conditioning", "General"] },
+      "summer": { "focus": "AC repair, emergency cooling, peak demand", "urgency": "high", "keyCategories": ["Air Conditioning", "Indoor Air Quality"] },
+      "fall": { "focus": "Heating maintenance, furnace inspection, winterization", "urgency": "medium", "keyCategories": ["Heating", "General"] },
+      "winter": { "focus": "Heating repair, emergency service, energy efficiency", "urgency": "high", "keyCategories": ["Heating", "Duct Work"] }
+    }
+  },
+  "locations": {
+    "primary": "Colorado",
+    "secondary": [],
+    "states": ["Colorado"],
+    "detectionPatterns": {
+      "Colorado": ["colorado", "denver", "aurora", "lakewood", "thornton", "westminster", "front range"]
+    }
+  },
+  "seo": {
+    "primaryKeywords": [
+      "HVAC repair Denver",
+      "air conditioning service",
+      "heating installation Colorado"
+    ],
+    "localModifiers": [
+      "Denver",
+      "Aurora",
+      "Front Range"
+    ],
+    "contentTopics": [
+      "Energy efficiency",
+      "HVAC maintenance",
+      "Indoor air quality"
+    ]
+  },
+  "competition": {
+    "primaryCompetitors": [
+      "Front Range HVAC",
+      "Mile High Heating",
+      "Denver Air Pros"
+    ],
+    "competitiveAdvantages": [
+      "Same-day service",
+      "Transparent pricing"
+    ]
+  },
+  "leadGeneration": {
+    "primaryCTA": "Get Your Free HVAC Estimate",
+    "leadMagnets": [
+      "Energy Efficiency Guide",
+      "Seasonal Maintenance Checklist"
+    ],
+    "conversionGoals": [
+      "Emergency service calls",
+      "Maintenance plan signups"
+    ]
+  },
+  "contentStrategy": {
+    "contentPillars": [
+      "Energy Efficiency",
+      "Seasonal Comfort",
+      "HVAC Education"
+    ],
+    "contentTypes": [
+      "Blog Posts",
+      "Location Pages",
+      "Social Media Posts"
+    ],
+    "publishingFrequency": {
+      "blogPosts": "2 per week",
+      "locationPages": "1 per month",
+      "servicePages": "As needed"
+    }
+  }
+}
