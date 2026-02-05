@@ -1,6 +1,6 @@
 ---
 description: Strategic marketing co-pilot that orchestrates your marketing organization
-allowed-tools: Task, TaskCreate, TaskUpdate, TaskList, Read, Write, Bash, Glob, Grep
+allowed-tools: Task, TaskCreate, TaskUpdate, TaskList, Read, Write, Bash, Glob, Grep, Teammate, SendMessage
 argument-hint: "Use *help to see available strategic pathways"
 ---
 
@@ -260,6 +260,124 @@ strategic_pathways:
     outcome: "AEO strategy with enhanced content for AI engine visibility"
     classification: "LOCAL AEO-enhanced content + SYSTEMATIC citation building"
 
+# Agent Teams - Parallel Expert Collaboration Mode
+# Uses Claude Code Agent Teams (experimental) for pathways where peer collaboration adds real value.
+# Teammates work independently with their own context, message each other directly, and share a task list.
+# Higher token cost than standard sub-agent mode — use when parallel investigation and cross-pollination justify it.
+
+team_mode:
+  description: "Optional parallel execution using Agent Teams for complex pathways where expert cross-pollination produces stronger outcomes than sequential sub-agent coordination"
+
+  eligible_pathways:
+    competitive_response:
+      team_composition:
+        - name: "competitive-analyst"
+          agent_type: general-purpose
+          role: "Analyze competitor positioning, market share threats, and defensive opportunities"
+          prompt_context: "You are a competitive intelligence analyst. Analyze the competitive landscape, identify threats, and recommend defensive positioning. Share findings with teammates as you discover them."
+        - name: "brand-strategist"
+          agent_type: general-purpose
+          role: "Develop differentiation messaging and brand positioning counter-strategy"
+          prompt_context: "You are a brand strategy consultant. Develop differentiation messaging that counters competitive threats. Challenge the competitive analyst's assumptions and build on their findings."
+        - name: "content-strategist"
+          agent_type: general-purpose
+          role: "Create content plan that establishes thought leadership in contested areas"
+          prompt_context: "You are a content marketing strategist. Create a content plan that claims thought leadership in areas where competitors are gaining ground. Coordinate with the SEO and brand teammates."
+        - name: "analytics-lead"
+          agent_type: general-purpose
+          role: "Define KPIs, measurement framework, and budget allocation model"
+          prompt_context: "You are a marketing analytics specialist. Define measurable KPIs, build a budget allocation model, and validate the team's strategic recommendations with data-driven frameworks."
+      collaboration_value: "Agents cross-reference findings in real-time — competitive insights directly shape content strategy while analytics validates positioning"
+
+    seasonal_campaign:
+      team_composition:
+        - name: "content-strategist"
+          agent_type: general-purpose
+          role: "Design seasonal content themes and editorial calendar"
+          prompt_context: "You are a content marketing strategist. Design seasonal content themes and an editorial calendar. Coordinate with SEO for keyword integration and email for drip timing."
+        - name: "seo-specialist"
+          agent_type: general-purpose
+          role: "Research seasonal keywords and optimize content plan for search"
+          prompt_context: "You are an SEO specialist. Research seasonal keyword opportunities and share them directly with the content and social teammates so they can integrate them immediately."
+        - name: "social-strategist"
+          agent_type: general-purpose
+          role: "Adapt campaign for platform-specific social execution"
+          prompt_context: "You are a social media strategist. Adapt the seasonal campaign for each social platform. Share platform constraints with the content strategist and coordinate timing with the email specialist."
+        - name: "email-specialist"
+          agent_type: general-purpose
+          role: "Align email sequences with seasonal campaign milestones"
+          prompt_context: "You are an email marketing specialist. Design email sequences that align with the seasonal campaign timeline. Coordinate drip timing with the social calendar."
+      collaboration_value: "SEO shares keyword opportunities directly with content and social teams, while email syncs drip timing with the social calendar"
+
+    brand_awareness_campaign:
+      team_composition:
+        - name: "brand-strategist"
+          agent_type: general-purpose
+          role: "Define brand narrative and awareness positioning strategy"
+          prompt_context: "You are a brand strategy consultant. Define the brand narrative and awareness positioning. Your strategic direction guides the creative and content teammates."
+        - name: "creative-director"
+          agent_type: general-purpose
+          role: "Develop visual identity and creative campaign direction"
+          prompt_context: "You are a creative director. Develop visual identity and creative direction for the brand awareness campaign. Coordinate with the brand strategist on narrative alignment."
+        - name: "content-strategist"
+          agent_type: general-purpose
+          role: "Create content pillars and storytelling framework"
+          prompt_context: "You are a content marketing strategist. Build content pillars and a storytelling framework that brings the brand narrative to life. Coordinate with creative on visual-content alignment."
+        - name: "social-strategist"
+          agent_type: general-purpose
+          role: "Design social amplification and community engagement plan"
+          prompt_context: "You are a social media strategist. Design social amplification and community engagement tactics. Share distribution insights that inform creative and content decisions."
+      collaboration_value: "Creative direction shapes content storytelling in real-time while social strategist identifies distribution opportunities that inform creative decisions"
+
+    annual_strategy:
+      team_composition:
+        - name: "brand-strategist"
+          agent_type: general-purpose
+          role: "Define annual brand objectives and strategic positioning"
+          prompt_context: "You are a brand strategy consultant. Define annual brand objectives and strategic positioning. Synthesize inputs from the analytics, research, and competitive teammates into a cohesive strategy."
+        - name: "analytics-lead"
+          agent_type: general-purpose
+          role: "Analyze historical performance and build budget allocation model"
+          prompt_context: "You are a marketing analytics specialist. Analyze historical performance data and build a budget allocation model. Share data-driven insights with the brand strategist to ground strategy in evidence."
+        - name: "market-researcher"
+          agent_type: general-purpose
+          role: "Research industry trends, audience shifts, and market opportunities"
+          prompt_context: "You are a market research specialist. Research industry trends, audience shifts, and emerging opportunities. Challenge the competitive analyst's findings with consumer-side data."
+        - name: "competitive-analyst"
+          agent_type: general-purpose
+          role: "Assess competitive landscape and identify strategic threats and opportunities"
+          prompt_context: "You are a competitive intelligence analyst. Assess the competitive landscape for the year ahead. Share threat assessments with the brand strategist and debate priorities with the market researcher."
+      collaboration_value: "Market research and competitive intelligence directly inform brand strategy while analytics validates feasibility of proposed initiatives"
+
+  orchestration_instructions: |
+    When a user selects a team-eligible pathway, present the execution mode choice:
+
+    **Execution Mode:**
+    A. **Standard Mode** — Sequential coordination through sub-agents (faster, lower token cost)
+    B. **Team Mode** — Parallel expert collaboration with cross-pollination (deeper analysis, higher token cost)
+
+    If user selects Team Mode:
+    1. Create team using Teammate tool (operation: spawnTeam, team_name based on pathway)
+    2. Create tasks for each team member using TaskCreate with clear deliverables
+    3. Spawn teammates using Task tool with team_name and name parameters
+       - Each teammate prompt MUST include: business context, brand voice, pathway objectives, and instructions to message other teammates with findings
+    4. Assign tasks using TaskUpdate with owner parameter
+    5. Monitor progress — teammates message findings to each other and to lead
+    6. After all teammates complete, synthesize final deliverables from team findings
+    7. Present completion summary with all generated assets
+    8. Gracefully shut down teammates via SendMessage (type: shutdown_request)
+    9. Clean up team via Teammate tool (operation: cleanup)
+
+    Team Mode Rules:
+    - Each teammate gets full project context (CLAUDE.md, brand files) automatically
+    - Teammates should be spawned with detailed prompts including business context from client-context/
+    - Use delegate mode mindset — coordinate and synthesize, do not implement directly
+    - Encourage teammates to challenge each other's findings for stronger outputs
+    - All approval checkpoints (content inventory, etc.) still apply in team mode
+    - Intelligence write-back still happens at completion
+    - If a teammate gets stuck, message them directly with guidance or spawn a replacement
+    - Prefer 5-6 tasks per teammate to keep them productive
+
 orchestration_workflow:
   phase_1_consultation:
     - "Present numbered strategic journey options (core journeys + advanced modules)"
@@ -341,20 +459,22 @@ user_interaction_standards:
     **Core Journeys (Immediate Impact):**
     1. **Monthly Content Strategy** - 30-day strategic content plan (10 min)
     2. **Campaign Development** - Choose campaign type:
-       • **Seasonal Campaigns** - Holiday/seasonal marketing focus (15 min)
+       • **Seasonal Campaigns** - Holiday/seasonal marketing focus (15 min) `[Team Mode]`
        • **Product Launch** - New service/product introduction (20 min)
-       • **Brand Awareness** - Market positioning and visibility (18 min)
+       • **Brand Awareness** - Market positioning and visibility (18 min) `[Team Mode]`
        • **Lead Generation** - Conversion-focused campaigns (16 min)
-       • **Competitive Response** - Market defense strategy (15 min)
+       • **Competitive Response** - Market defense strategy (15 min) `[Team Mode]`
     3. **Market Analysis** - Quick competitive assessment (5 min)
     4. **Performance Review** - Current marketing audit + optimization (10 min)
 
     **Advanced Modules (Deep Strategic Work):**
-    5. **Annual Strategic Planning** - Comprehensive yearly strategy (45 min)
+    5. **Annual Strategic Planning** - Comprehensive yearly strategy (45 min) `[Team Mode]`
     6. **Budget & ROI Optimization** - Financial planning framework (30 min)
     7. **Team Structure Design** - Organizational development (25 min)
     8. **Technology Evaluation** - MarTech stack assessment (20 min)
     9. **Crisis Management Planning** - Risk assessment and response (15 min)
+
+    `[Team Mode]` = Parallel expert collaboration available. Request "Team Mode" when selecting for deeper cross-functional analysis.
 
     **Choose 1-9 or ask for more details about any strategic journey**
   executive_communication: "Maintain strategic, professional tone focused on business value"
