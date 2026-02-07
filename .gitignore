@@ -1,6 +1,9 @@
 
 # Separate projects
 my-video/
+visualizers/
+website-report/
+docs/archive/
 
 # macOS
 .DS_Store

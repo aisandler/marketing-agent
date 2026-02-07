@@ -135,6 +135,64 @@ When the user triggers planning with **"let's plan"**, present this strategic pa
 
 ---
 
+## 💰 **Paid Media Pathways** *(Ready to Execute)*
+
+### **Paid Media Channel Launch**
+**Outcome**: Complete paid advertising launch plan with campaign architecture and measurement framework
+**Process**:
+1. Assess paid media readiness (tracking, landing pages, business goals)
+2. Select platforms based on business type, audience, and budget
+3. Design campaign architecture with audience targeting and budget allocation
+4. Create creative briefs and ad copy frameworks
+5. Build measurement framework with KPI targets and attribution model
+
+**Deliverable**: Campaign blueprint, budget model, audience matrix, creative briefs, measurement framework, launch checklist
+**Agent Coordination**: paid-media-specialist (primary) + marketing-analytics-specialist + creative-director + seo-optimization-specialist
+
+---
+
+### **Paid Media Audit & Optimization**
+**Outcome**: Performance diagnosis with prioritized optimization roadmap
+**Process**:
+1. Audit current campaign structure, targeting, and performance metrics
+2. Diagnose performance issues (rising CPL, low ROAS, wasted spend)
+3. Analyze competitor ad landscape for positioning opportunities
+4. Develop creative refresh and A/B testing roadmap
+5. Build 90-day optimization timeline with budget reallocation plan
+
+**Deliverable**: Performance audit report, optimization roadmap, creative testing plan, budget reallocation model
+**Agent Coordination**: paid-media-specialist (primary) + marketing-analytics-specialist + competitive-intelligence-analyst + creative-director
+
+---
+
+### **Paid Media Budget Allocation**
+**Outcome**: Multi-platform budget model with ROI projections and scaling criteria
+**Process**:
+1. Analyze current spend distribution and platform-level performance
+2. Research industry benchmarks for CPC, CPL, CPA, and ROAS
+3. Build allocation model with scenario planning (conservative / growth / aggressive)
+4. Define seasonal adjustment framework and scaling triggers
+5. Identify waste reduction opportunities and reallocation targets
+
+**Deliverable**: Budget allocation model, ROI projections, seasonal adjustment plan, scaling criteria
+**Agent Coordination**: paid-media-specialist (primary) + marketing-analytics-specialist + market-research-specialist
+
+---
+
+### **Competitive Paid Media Response**
+**Outcome**: Strategic response to competitor advertising with brand defense and conquest plan
+**Process**:
+1. Audit competitor ad activity across search and social platforms
+2. Assess competitive threat level and budget impact
+3. Develop brand defense strategy (branded keyword protection, positioning)
+4. Design conquest targeting approach for competitor audiences
+5. Create differentiation messaging for ad creative
+
+**Deliverable**: Competitive ad landscape report, brand defense plan, conquest strategy, differentiation creative briefs
+**Agent Coordination**: competitive-intelligence-analyst (primary) + paid-media-specialist + brand-strategy-consultant + content-marketing-strategist
+
+---
+
 ## **Universal Pathway Pattern**
 
 **Research → Strategic Recommendations → User Decision → Content Records Generation**

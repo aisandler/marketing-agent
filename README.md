@@ -24,13 +24,14 @@ cp your-materials/* onboarding/intake/
 
 ## What This System Does
 
-You have a complete **AI Marketing Organization** with 12 specialized agents that handle:
+You have a complete **AI Marketing Organization** with 15 specialized agents that handle:
 
 - **Content Creation**: Blog posts, social media, email campaigns
 - **Strategic Planning**: Monthly calendars, seasonal campaigns, product launches
 - **Market Intelligence**: Competitor analysis, performance optimization, market research
 - **SEO & Analytics**: Keyword research, content optimization, ROI measurement
 - **Email Marketing**: Newsletter campaigns, promotional emails, automation sequences
+- **Paid Media**: Campaign strategy, budget allocation, audience targeting, platform optimization
 
 ## Commands
 

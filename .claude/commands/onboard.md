@@ -102,6 +102,7 @@ After core setup, enhance your brand architecture with:
 ## **Output Architecture Generated**
 
 - **Business Foundation** → `client-context/business/` (company profile, services, audience)
+- **Paid Media Profile** → `client-context/business/paid-media-profile.md` (platforms, budget, experience, goals, tracking)
 - **Brand Strategy** → `client-context/brand/` (messaging, voice, positioning)
 - **Competitive Intelligence** → `client-context/competitors/` (analysis, positioning)
 - **Content Strategy** → `client-context/keywords/` (SEO, topics, themes)
@@ -176,6 +177,12 @@ User exits with documented brand architecture sufficient for:
    - "What's your primary business goal for the next 12 months?"
    - "Who is your ideal customer?" (if not clear from materials)
    - "What makes you different from competitors?" (if not evident)
+5. ASK paid media readiness questions:
+   - "Are you currently running any paid advertising? If so, which platforms?" (Google Ads, Meta/Facebook, LinkedIn, etc.)
+   - "What is your approximate monthly advertising budget (or planned budget)?"
+   - "How would you rate your paid media experience?" (beginner / intermediate / advanced)
+   - "What is your primary advertising goal?" (lead generation / brand awareness / e-commerce sales / local customers)
+   - "What tracking do you have in place?" (none / Google Analytics only / conversion tracking with pixels)
 ```
 
 #### Phase 2: Framework & Architecture (3-4 min)
@@ -207,6 +214,7 @@ User exits with documented brand architecture sufficient for:
 ```
 1. CREATE brand architecture documentation:
    - client-context/business/ → Business profile and services
+   - client-context/business/paid-media-profile.md → Paid media readiness (platforms, budget, experience, goals, tracking)
    - client-context/brand/ → Messaging framework and voice
    - client-brand/current/ → User-accessible brand summary
 2. UPDATE CLAUDE.md configuration:

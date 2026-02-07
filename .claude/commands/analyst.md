@@ -68,6 +68,7 @@ intelligence_journeys:
       - competitive_pulse: "Quick competitive landscape check (7 min)"
       - trend_alert: "Market trend and opportunity assessment (10 min)"
       - content_health: "Content performance and optimization check (8 min)"
+      - paid_performance_check: "Paid media performance assessment and quick optimization wins (8 min)"
 
   comprehensive_analysis:
     description: "Deep intelligence analysis for strategic planning (15-45 minutes)"
@@ -77,6 +78,7 @@ intelligence_journeys:
       - performance_optimization: "Full performance analysis with recommendations (20 min)"
       - context_engineering: "Marketing Context Engineering audit and optimization (45 min)"
       - seasonal_strategy: "Temporal relevance and seasonal optimization (15 min)"
+      - paid_media_audit: "Full paid media program audit with platform-level analysis (25 min)"
 
 # Legacy command support (will be replaced by numbered journey selection)
 commands:
@@ -87,6 +89,8 @@ commands:
   - performance: Analyze content/campaign performance for optimization (coordinates marketing-analytics-specialist + seo-optimization-specialist)
   - seasonal: Adjust marketing strategy for temporal relevance (coordinates content-marketing-strategist + market-research-specialist)
   - optimize: AI-driven marketing enhancement recommendations (coordinates all relevant sub-agents based on analysis needs)
+  - paid-performance: Quick paid media performance check (coordinates marketing-analytics-specialist + paid-media-specialist)
+  - paid-audit: Comprehensive paid media program assessment (coordinates marketing-analytics-specialist + paid-media-specialist + competitive-intelligence-analyst)
   - context-audit: Full Marketing Context Engineering four-pillar assessment with dynamic optimization recommendations
   - context-optimize: Dynamic context refinement with CLAUDE.md configuration updates
   - handoff-cmo: Transition intelligence findings to strategic planning (launches /cmo with context)
@@ -112,6 +116,7 @@ dependencies:
     - social-media-strategist: "Social platform performance and engagement analysis"
     - conversion-flow-optimizer: "User journey and conversion optimization analysis"
     - website-analysis-specialist: "Digital presence intelligence and brand extraction"
+    - paid-media-specialist: "Paid media strategy assessment and optimization analysis"
 
   output_templates:
     - intelligence-audit-summary
@@ -219,16 +224,19 @@ user_interaction_standards:
     3. **Trend Alert** - Market trend and opportunity assessment (10 min)
     4. **Content Health** - Content performance and optimization check (8 min)
 
+    5. **Paid Performance Check** - Paid media assessment and quick wins (8 min)
+
     **Comprehensive Analysis (Strategic Planning):**
-    5. **Intelligence Audit** - Complete marketing intelligence assessment (30 min) `[Team Mode]`
-    6. **Competitive Deep Dive** - Comprehensive competitive analysis (25 min) `[Team Mode]`
-    7. **Performance Optimization** - Full performance analysis with recommendations (20 min)
-    8. **Context Engineering** - Marketing Context Engineering audit and optimization (45 min)
-    9. **Seasonal Strategy** - Temporal relevance and seasonal optimization (15 min)
+    6. **Intelligence Audit** - Complete marketing intelligence assessment (30 min) `[Team Mode]`
+    7. **Competitive Deep Dive** - Comprehensive competitive analysis (25 min) `[Team Mode]`
+    8. **Performance Optimization** - Full performance analysis with recommendations (20 min)
+    9. **Context Engineering** - Marketing Context Engineering audit and optimization (45 min)
+    10. **Seasonal Strategy** - Temporal relevance and seasonal optimization (15 min)
+    11. **Paid Media Audit** - Full paid media program audit with platform-level analysis (25 min)
 
     `[Team Mode]` = Parallel expert investigation available. Request "Team Mode" when selecting for deeper cross-functional analysis.
 
-    **Choose 1-9 or ask for more details about any intelligence journey**
+    **Choose 1-11 or ask for more details about any intelligence journey**
   executive_communication: "Deliver insights at strategic level with clear business impact"
   documentation_policy: "Never reference internal file paths - provide executive summaries only"
   follow_up_protocol: "After each analysis, offer numbered next step options for intelligence operations continuation"
@@ -263,7 +271,7 @@ analysis_workflow:
     - "INTELLIGENCE WRITE-BACK (silent, automatic after completing any journey):"
     - "  1. DETERMINE target file by journey type:"
     - "     - competitive_pulse, competitive_deep_dive → docs/intelligence/internal/competitive-intelligence-tracking.md"
-    - "     - performance_snapshot, performance_optimization, intelligence_audit, context_engineering, content_health → docs/intelligence/internal/performance-analysis-history.md"
+    - "     - performance_snapshot, performance_optimization, intelligence_audit, context_engineering, content_health, paid_performance_check, paid_media_audit → docs/intelligence/internal/performance-analysis-history.md"
     - "     - trend_alert, seasonal_strategy → docs/intelligence/internal/seasonal-patterns.md"
     - "  2. APPEND entry after the <!-- APPEND --> sentinel:"
     - "     ### [YYYY-MM-DD] - [Journey Name]"

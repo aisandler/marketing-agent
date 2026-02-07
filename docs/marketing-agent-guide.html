@@ -1636,6 +1636,10 @@
               <div class="task-dot" style="background:var(--purple)"></div>
               <div><span class="task-cmd">/report</span><br>Mid-week performance check</div>
             </div>
+            <div class="day-task">
+              <div class="task-dot" style="background:var(--amber)"></div>
+              <div><span class="task-cmd">/analyst</span><br>Paid media performance check</div>
+            </div>
           </div>
         </div>
 
@@ -1697,6 +1701,10 @@
             <span style="position: absolute; left: 0; color: var(--amber);">&#9679;</span>
             <strong>Periodic health checks.</strong> Run /health monthly to catch stale intelligence data or missing configuration before it affects output quality.
           </li>
+          <li style="padding: 6px 0; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: var(--amber);">&#9679;</span>
+            <strong>Monitor ad spend mid-week.</strong> Run a paid performance check on Wednesdays to catch budget issues before they burn through the week.
+          </li>
         </ul>
       </div>
     </section>
@@ -1704,7 +1712,7 @@
     <!-- ===== SECTION: AGENT TEAM ===== -->
     <section class="section" id="section-agents">
       <h2 class="section-title">Your Agent Team</h2>
-      <p class="section-subtitle">13 specialist agents working behind the scenes.</p>
+      <p class="section-subtitle">15 specialist agents working behind the scenes.</p>
 
       <p class="agent-section-intro">You don't call these agents directly &mdash; they're activated automatically when <code>/cmo</code> or <code>/analyst</code> needs specialized expertise. Click any agent to see what they do and when they're deployed.</p>
 
@@ -1932,7 +1940,7 @@ const commandData = {
     ],
     deeper: {
       title: 'Advanced Modules & Pathways',
-      content: '<p><strong>Core Journeys:</strong></p><ul><li>Monthly Content Strategy &mdash; 30-day strategic plan</li><li>Campaign Development &mdash; Seasonal, Product Launch, Brand Awareness, Lead Gen, Competitive Response</li><li>Market Analysis &mdash; quick competitive assessment</li><li>Performance Review &mdash; marketing audit + optimization</li></ul><p style="margin-top:12px;"><strong>Advanced Modules:</strong></p><ul><li>Annual Strategic Planning</li><li>Budget &amp; ROI Optimization</li><li>Team Structure Design</li><li>Technology Evaluation</li><li>Crisis Management Planning</li></ul><p style="margin-top:12px;">Includes mandatory content inventory approval checkpoint before generation. Automatically writes intelligence back to context files.</p><div style="margin-top:14px; padding:10px 14px; background:#f0f4ff; border-left:3px solid var(--blue); border-radius:4px; font-size:13px;"><strong>Agent Team Mode</strong> &mdash; Select pathways support parallel expert collaboration where specialist agents work simultaneously and cross-reference findings. Available for: Competitive Response, Seasonal Campaigns, Brand Awareness, and Annual Strategy. Request &ldquo;Team Mode&rdquo; when choosing a pathway for deeper, multi-angle analysis.</div>'
+      content: '<p><strong>Core Journeys:</strong></p><ul><li>Monthly Content Strategy &mdash; 30-day strategic plan</li><li>Campaign Development &mdash; Seasonal, Product Launch, Brand Awareness, Lead Gen, Competitive Response</li><li>Market Analysis &mdash; quick competitive assessment</li><li>Performance Review &mdash; marketing audit + optimization</li></ul><p style="margin-top:12px;"><strong>Paid Media:</strong></p><ul><li>Paid Media Launch &mdash; start or expand paid advertising</li><li>Paid Media Optimization &mdash; audit and improve existing campaigns</li><li>Paid Media Budget &mdash; multi-platform budget allocation</li><li>Paid Media Competitive &mdash; counter competitor advertising</li></ul><p style="margin-top:12px;"><strong>Advanced Modules:</strong></p><ul><li>Annual Strategic Planning</li><li>Budget &amp; ROI Optimization</li><li>Team Structure Design</li><li>Technology Evaluation</li><li>Crisis Management Planning</li></ul><p style="margin-top:12px;">Includes mandatory content inventory approval checkpoint before generation. Automatically writes intelligence back to context files.</p><div style="margin-top:14px; padding:10px 14px; background:#f0f4ff; border-left:3px solid var(--blue); border-radius:4px; font-size:13px;"><strong>Agent Team Mode</strong> &mdash; Select pathways support parallel expert collaboration where specialist agents work simultaneously and cross-reference findings. Available for: Competitive Response, Seasonal Campaigns, Brand Awareness, Annual Strategy, and Paid Media Launch. Request &ldquo;Team Mode&rdquo; when choosing a pathway for deeper, multi-angle analysis.</div>'
     }
   },
   analyst: {
@@ -1957,7 +1965,7 @@ const commandData = {
     ],
     deeper: {
       title: 'Comprehensive Analysis Options',
-      content: '<p><strong>Quick Insights:</strong></p><ul><li>Performance Snapshot &mdash; current marketing overview</li><li>Competitive Pulse &mdash; quick landscape check</li><li>Trend Alert &mdash; market opportunity assessment</li><li>Content Health &mdash; content performance check</li></ul><p style="margin-top:12px;"><strong>Deep Analysis:</strong></p><ul><li>Intelligence Audit &mdash; complete assessment</li><li>Competitive Deep Dive &mdash; comprehensive analysis</li><li>Performance Optimization &mdash; full analysis with recs</li><li>Context Engineering &mdash; MCE audit and optimization</li><li>Seasonal Strategy &mdash; temporal optimization</li></ul><div style="margin-top:14px; padding:10px 14px; background:#f0f4ff; border-left:3px solid var(--blue); border-radius:4px; font-size:13px;"><strong>Agent Team Mode</strong> &mdash; Intelligence Audit and Competitive Deep Dive support parallel expert investigation where specialist agents audit their domains independently, then cross-reference findings for stronger analysis. Request &ldquo;Team Mode&rdquo; when selecting these journeys.</div>'
+      content: '<p><strong>Quick Insights:</strong></p><ul><li>Performance Snapshot &mdash; current marketing overview</li><li>Competitive Pulse &mdash; quick landscape check</li><li>Trend Alert &mdash; market opportunity assessment</li><li>Content Health &mdash; content performance check</li><li>Paid Performance Check &mdash; paid media assessment and quick wins</li></ul><p style="margin-top:12px;"><strong>Deep Analysis:</strong></p><ul><li>Intelligence Audit &mdash; complete assessment</li><li>Competitive Deep Dive &mdash; comprehensive analysis</li><li>Performance Optimization &mdash; full analysis with recs</li><li>Context Engineering &mdash; MCE audit and optimization</li><li>Seasonal Strategy &mdash; temporal optimization</li><li>Paid Media Audit &mdash; full paid media program audit with platform-level analysis</li></ul><div style="margin-top:14px; padding:10px 14px; background:#f0f4ff; border-left:3px solid var(--blue); border-radius:4px; font-size:13px;"><strong>Agent Team Mode</strong> &mdash; Intelligence Audit and Competitive Deep Dive support parallel expert investigation where specialist agents audit their domains independently, then cross-reference findings for stronger analysis. Request &ldquo;Team Mode&rdquo; when selecting these journeys.</div>'
     }
   },
   transcript: {
@@ -2298,6 +2306,36 @@ const agentData = {
             'Our organic traffic dropped — what happened?'
           ],
           outputs: ['Keyword strategies', 'SEO audit reports', 'Content optimization recommendations']
+        },
+        {
+          id: 'conversion-optimizer',
+          icon: '&#127919;',
+          color: 'purple',
+          name: 'Conversion Flow Optimizer',
+          role: 'Conversion rate optimization, landing page strategy, funnel design, and A/B testing',
+          deploy: '/cmo',
+          what: 'Designs and optimizes the conversion experience — landing pages, lead capture forms, funnel architecture, and A/B testing roadmaps. Turns website visitors into leads and customers by eliminating friction and applying conversion psychology.',
+          useCases: [
+            'We get traffic but barely any leads — fix our conversion funnel.',
+            'Design a high-converting landing page for our spring promotion.',
+            'Build an A/B testing plan for our contact form and service pages.'
+          ],
+          outputs: ['Conversion audit reports', 'Landing page briefs', 'Funnel blueprints', 'A/B testing roadmaps', 'Lead magnet strategies']
+        },
+        {
+          id: 'paid-media',
+          icon: '&#128176;',
+          color: 'purple',
+          name: 'Paid Media Specialist',
+          role: 'Paid advertising strategy, media planning, budget allocation, and campaign optimization',
+          deploy: '/cmo',
+          what: 'Strategic advisor and educator for paid advertising. Develops campaign architectures, budget allocation models, audience targeting strategies, and measurement frameworks across Google Ads, Meta Ads, LinkedIn, and more. Teaches the reasoning behind each recommendation.',
+          useCases: [
+            'We want to start running Google Ads — where do we begin?',
+            'Our cost per lead doubled — audit our campaigns and fix it.',
+            'How should we split $10K/month across Google, Facebook, and LinkedIn?'
+          ],
+          outputs: ['Campaign blueprints', 'Budget allocation models', 'Audience targeting matrices', 'Creative briefs', 'Measurement frameworks']
         }
       ]
     },
@@ -2354,9 +2392,9 @@ const agentData = {
           icon: '&#127760;',
           color: 'amber',
           name: 'Website Analysis Specialist',
-          role: 'Site performance audits, user experience analysis, and conversion optimization',
+          role: 'Site performance audits, user experience analysis, and digital presence intelligence',
           deploy: '/analyst',
-          what: 'Audits website performance, analyzes user experience flows, and identifies conversion bottlenecks. Recommends improvements to site structure, page speed, and conversion paths.',
+          what: 'Audits website performance, analyzes user experience flows, and extracts brand intelligence from digital presence. Recommends improvements to site structure, page speed, and content strategy. For conversion funnel design and A/B testing, coordinates with Conversion Flow Optimizer.',
           useCases: [
             'Audit our website for conversion issues.',
             'How can we improve our service page performance?',

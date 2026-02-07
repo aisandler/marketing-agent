@@ -14,13 +14,13 @@
 3. **Preview System** with formatted tables before submission
 4. **Master Brand Guidelines** for consistent content creation
 5. **N8N Automation Workflows** for content generation
-6. **12 Specialized Agents** for professional services content expertise
+6. **15 Specialized Agents** for professional services content expertise
 
 ### Current Status:
 - **Airtable Integration**: ✅ Working (Table ID: `YOUR_CONTENT_TABLE_ID`)
 - **Webhook Endpoint**: ✅ Active (`{{WEBHOOK_URL}}`)
 - **Preview System**: ✅ Ready (`automation/preview_and_submit.sh`)
-- **Agent System**: ✅ Configured with 12 specialized agents
+- **Agent System**: ✅ Configured with 15 specialized agents
 - **Brand Guidelines**: ✅ Complete (`{{COMPANY_NAME}}_MASTER_BRAND_GUIDELINES.md`)
 
 ---

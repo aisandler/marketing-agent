@@ -33,12 +33,13 @@ Your complete AI Marketing Organization powered by Marketing Context Engineering
 
 ## What This System Does
 
-You have a complete **AI Marketing Organization** with 12 specialized agents that handle:
+You have a complete **AI Marketing Organization** with 15 specialized agents that handle:
 - **Content Creation**: Blog posts, social media, location pages, email campaigns
 - **Strategic Planning**: Monthly calendars, seasonal campaigns, product launches
 - **Market Intelligence**: Competitor analysis, performance optimization, market research
 - **SEO & Analytics**: Keyword research, content optimization, ROI measurement
 - **Email Marketing**: Newsletter campaigns, promotional emails, automation sequences
+- **Paid Media**: Campaign strategy, budget allocation, audience targeting, platform optimization
 
 ## How It Works
 
@@ -101,7 +102,7 @@ config/                         # Centralized configuration
   └── airtable.json             # Field mappings
 portal/                         # Partner content review portal
 .claude/                        # Agent configurations & hooks
-  ├── agents/                   # 13 specialized agent definitions
+  ├── agents/                   # 15 specialized agent definitions
   ├── commands/                 # 7 slash commands (cmo, analyst, onboard, etc.)
   ├── hooks/                    # Lifecycle hooks (onboarding check, session ledger)
   ├── settings.json             # Hook configuration (SessionStart, SessionEnd)
@@ -359,12 +360,16 @@ LOCAL (this project)                    AIRTABLE (external-visible)
 | Transcript extraction logs | `content/transcripts/` (use `/transcript`) |
 | Voice notes from calls | `content/transcripts/voice-notes.md` |
 | Agent visualizer | `factory-visualizer-portable/` |
+| Paid media specialist | `.claude/agents/paid-media-specialist.md` |
+| Conversion flow optimizer | `.claude/agents/conversion-flow-optimizer.md` |
+| Paid media profile | `client-context/business/paid-media-profile.md` |
 
 ---
 
 # 📁 **ADDITIONAL RESOURCES**
 
 ## Documentation
+- **User Guide**: `docs/marketing-agent-guide.html` (shareable system guide for end users)
 - **Context Architecture**: `docs/reference/CONTEXT-ARCHITECTURE.md` (complete context map)
 - **Strategic Planning**: `docs/strategic-pathways.md`
 - **Brand Architecture**: `client-context/` (your configured brand)

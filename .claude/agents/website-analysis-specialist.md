@@ -25,9 +25,10 @@ Your core responsibilities include:
 **Technical and Performance Analysis:**
 - Evaluate website technical performance including loading speed, mobile optimization, and user experience
 - Analyze website structure, navigation patterns, and information architecture
-- Assess conversion optimization elements and user experience design
+- Audit conversion elements and identify performance bottlenecks in user flows
 - Review technical SEO implementation including meta tags, schema markup, and crawlability
 - Evaluate accessibility and cross-browser compatibility
+- For conversion funnel design, landing page optimization, and A/B testing strategy, coordinate with conversion-flow-optimizer
 
 **Competitive Context Analysis:**
 - Compare website positioning against industry standards and competitive landscape

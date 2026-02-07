@@ -109,6 +109,10 @@ commands:
   - tech-eval: Marketing technology stack evaluation and vendor assessment (coordinates marketing-analytics-specialist + conversion-flow-optimizer)
   - quality: Content quality assurance and validation oversight (uses validation system)
   - aeo: Answer Engine Optimization strategy and content enhancement (coordinates seo-optimization-specialist + content-marketing-strategist + competitive-intelligence-analyst)
+  - paid-launch: Paid media channel launch strategy (coordinates paid-media-specialist + marketing-analytics-specialist + creative-director + seo-optimization-specialist)
+  - paid-optimize: Paid media audit and optimization (coordinates paid-media-specialist + marketing-analytics-specialist + competitive-intelligence-analyst + creative-director)
+  - paid-budget: Paid media budget allocation planning (coordinates paid-media-specialist + marketing-analytics-specialist + market-research-specialist)
+  - paid-competitive: Competitive paid media response (coordinates competitive-intelligence-analyst + paid-media-specialist + brand-strategy-consultant + content-marketing-strategist)
   - handoff-analyst: Request intelligence analysis before strategic planning (launches /analyst with context)
   - handoff-onboard: Update business context or configuration (launches /onboard with strategic insights)
   - projects: Show current campaign status and active projects
@@ -132,6 +136,7 @@ dependencies:
     - brand-strategy-consultant: "Brand positioning and messaging strategy for technical authority"
     - conversion-flow-optimizer: "User journey and conversion optimization"
     - website-analysis-specialist: "Digital presence intelligence and brand extraction"
+    - paid-media-specialist: "Paid advertising strategy, media planning, budget allocation, and campaign optimization"
 
   content_generation_system:
     unified_in_engine_approach:
@@ -260,6 +265,38 @@ strategic_pathways:
     outcome: "AEO strategy with enhanced content for AI engine visibility"
     classification: "LOCAL AEO-enhanced content + SYSTEMATIC citation building"
 
+  paid_media_launch:
+    description: "Paid media channel launch strategy with platform selection, budget allocation, audience targeting, and campaign architecture"
+    primary_agent: paid-media-specialist
+    supporting_agents: [marketing-analytics-specialist, creative-director, seo-optimization-specialist]
+    outcome: "Complete paid media launch plan with campaign blueprints, budget model, audience matrices, creative briefs, and measurement framework"
+    classification: "LOCAL strategic planning + SYSTEMATIC campaign implementation"
+    strategic_elements: ["Platform selection & rationale", "Budget allocation by platform & funnel stage", "Audience targeting architecture", "Campaign structure & naming conventions", "Creative briefs for ad development", "Measurement & attribution setup", "Launch timeline with learning periods"]
+
+  paid_media_optimization:
+    description: "Paid media audit and optimization for existing campaigns with performance diagnosis and improvement plan"
+    primary_agent: paid-media-specialist
+    supporting_agents: [marketing-analytics-specialist, competitive-intelligence-analyst, creative-director]
+    outcome: "Complete paid media optimization plan with performance diagnosis, budget reallocation, audience refinement, and creative refresh strategy"
+    classification: "LOCAL performance analysis + SYSTEMATIC optimization execution"
+    strategic_elements: ["Campaign performance diagnosis", "Budget reallocation recommendations", "Audience refinement strategy", "Creative refresh & A/B testing roadmap", "Competitor ad landscape analysis", "90-day optimization timeline"]
+
+  paid_media_budget:
+    description: "Multi-platform paid media budget allocation with ROI modeling and scenario planning"
+    primary_agent: paid-media-specialist
+    supporting_agents: [marketing-analytics-specialist, market-research-specialist]
+    outcome: "Budget allocation model with platform ROI benchmarks, seasonal adjustments, and scaling criteria"
+    classification: "LOCAL financial planning + SYSTEMATIC budget tracking"
+    strategic_elements: ["Current spend analysis", "Platform ROI benchmarks", "Allocation model with scenarios", "Seasonal adjustment plan", "Scaling criteria & thresholds", "Waste reduction opportunities"]
+
+  paid_media_competitive:
+    description: "Competitive paid media response strategy for countering competitor advertising activity"
+    primary_agent: competitive-intelligence-analyst
+    supporting_agents: [paid-media-specialist, brand-strategy-consultant, content-marketing-strategist]
+    outcome: "Competitive ad response strategy with brand defense plan, conquest targeting, and differentiation messaging"
+    classification: "LOCAL competitive analysis + SYSTEMATIC response execution"
+    strategic_elements: ["Competitor ad landscape audit", "Brand defense & conquest strategy", "Budget impact assessment", "Differentiation messaging for ads", "Monitoring & response plan"]
+
 # Agent Teams - Parallel Expert Collaboration Mode
 # Uses Claude Code Agent Teams (experimental) for pathways where peer collaboration adds real value.
 # Teammates work independently with their own context, message each other directly, and share a task list.
@@ -328,6 +365,26 @@ team_mode:
           role: "Design social amplification and community engagement plan"
           prompt_context: "You are a social media strategist. Design social amplification and community engagement tactics. Share distribution insights that inform creative and content decisions."
       collaboration_value: "Creative direction shapes content storytelling in real-time while social strategist identifies distribution opportunities that inform creative decisions"
+
+    paid_media_launch:
+      team_composition:
+        - name: "paid-media-strategist"
+          agent_type: general-purpose
+          role: "Design campaign architecture, platform strategy, audience targeting, and budget allocation"
+          prompt_context: "You are a paid media specialist. Design the complete paid media launch strategy including campaign architecture, platform selection, and audience targeting. Share budget and targeting recommendations with the analytics lead and creative director."
+        - name: "analytics-lead"
+          agent_type: general-purpose
+          role: "Build measurement framework, attribution model, and ROI projections"
+          prompt_context: "You are a marketing analytics specialist. Build the measurement framework and attribution model for the paid media launch. Validate the paid media strategist's budget projections with data-driven ROI analysis."
+        - name: "creative-director"
+          agent_type: general-purpose
+          role: "Develop ad creative strategy, format recommendations, and creative briefs"
+          prompt_context: "You are a creative director. Develop ad creative strategy and briefs for the paid media launch. Coordinate with the paid media strategist on platform-specific creative requirements and format recommendations."
+        - name: "seo-specialist"
+          agent_type: general-purpose
+          role: "Coordinate paid-organic keyword strategy and SERP coverage plan"
+          prompt_context: "You are an SEO specialist. Analyze the keyword landscape to coordinate paid and organic search strategy. Share keyword gap analysis with the paid media strategist to avoid cannibalization and maximize SERP coverage."
+      collaboration_value: "Paid media strategy shapes creative briefs in real-time while SEO identifies organic gaps that inform paid keyword targeting and analytics validates budget allocations"
 
     annual_strategy:
       team_composition:
@@ -421,8 +478,8 @@ orchestration_workflow:
     - "Offer numbered next step options for strategic session continuation"
     - "INTELLIGENCE WRITE-BACK (silent, automatic after completing any pathway):"
     - "  1. DETERMINE target file by pathway type:"
-    - "     - competitive_response, market_analysis → docs/intelligence/internal/competitive-intelligence-tracking.md"
-    - "     - performance_review, budget_optimization, annual_strategy → docs/intelligence/internal/performance-analysis-history.md"
+    - "     - competitive_response, market_analysis, paid_media_competitive → docs/intelligence/internal/competitive-intelligence-tracking.md"
+    - "     - performance_review, budget_optimization, annual_strategy, paid_media_launch, paid_media_optimization, paid_media_budget → docs/intelligence/internal/performance-analysis-history.md"
     - "     - seasonal_campaign, monthly_content → docs/intelligence/internal/seasonal-patterns.md"
     - "  2. APPEND entry after the <!-- APPEND --> sentinel:"
     - "     ### [YYYY-MM-DD] - [Pathway Name]"
@@ -467,16 +524,22 @@ user_interaction_standards:
     3. **Market Analysis** - Quick competitive assessment (5 min)
     4. **Performance Review** - Current marketing audit + optimization (10 min)
 
+    **Paid Media:**
+    5. **Paid Media Launch** - Start or expand paid advertising (20 min) `[Team Mode]`
+    6. **Paid Media Optimization** - Audit and improve existing campaigns (18 min)
+    7. **Paid Media Budget** - Multi-platform budget allocation (15 min)
+    8. **Paid Media Competitive** - Counter competitor advertising (15 min)
+
     **Advanced Modules (Deep Strategic Work):**
-    5. **Annual Strategic Planning** - Comprehensive yearly strategy (45 min) `[Team Mode]`
-    6. **Budget & ROI Optimization** - Financial planning framework (30 min)
-    7. **Team Structure Design** - Organizational development (25 min)
-    8. **Technology Evaluation** - MarTech stack assessment (20 min)
-    9. **Crisis Management Planning** - Risk assessment and response (15 min)
+    9. **Annual Strategic Planning** - Comprehensive yearly strategy (45 min) `[Team Mode]`
+    10. **Budget & ROI Optimization** - Financial planning framework (30 min)
+    11. **Team Structure Design** - Organizational development (25 min)
+    12. **Technology Evaluation** - MarTech stack assessment (20 min)
+    13. **Crisis Management Planning** - Risk assessment and response (15 min)
 
     `[Team Mode]` = Parallel expert collaboration available. Request "Team Mode" when selecting for deeper cross-functional analysis.
 
-    **Choose 1-9 or ask for more details about any strategic journey**
+    **Choose 1-13 or ask for more details about any strategic journey**
   executive_communication: "Maintain strategic, professional tone focused on business value"
   complexity_management: "Make complex marketing orchestration feel natural and conversational"
   outcome_focus: "Connect all strategic recommendations to measurable business outcomes"
