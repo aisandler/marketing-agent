@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing Command Center</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg-panel: #111118;
+    --bg-card: #1a1a24;
+    --bg-hover: #22222e;
+    --border: #2a2a3a;
+    --border-active: #7c6bff;
+    --fg: #e0e0e8;
+    --fg-dim: #6b6b80;
+    --accent: #7c6bff;
+    --accent-glow: rgba(124, 107, 255, 0.15);
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --error: #ef4444;
+    --info: #22d3ee;
+    --blue: #3b82f6;
+    --green: #22c55e;
+    --purple: #a855f7;
+    --pink: #ec4899;
+    --red: #ef4444;
+    --cyan: #06b6d4;
+    --orange: #f97316;
+    --amber: #f59e0b;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Status Bar ── */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-panel);
+    flex-shrink: 0;
+  }
+  .status-bar .title {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+  }
+  .status-indicators {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--fg-dim);
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot.on { background: var(--success); box-shadow: 0 0 6px var(--success); }
+  .dot.warn { background: var(--warning); }
+  .dot.off { background: var(--fg-dim); opacity: 0.4; }
+  .dot.pulse { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .status-right {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--fg-dim);
+  }
+
+  /* ── Main Layout ── */
+  .main {
+    display: grid;
+    grid-template-columns: 240px 1fr 280px;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .panel:last-child { border-right: none; }
+
+  .panel-header {
+    padding: 14px 16px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .panel-header .badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--bg-card);
+    color: var(--fg-dim);
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .panel-body::-webkit-scrollbar { width: 5px; }
+  .panel-body::-webkit-scrollbar-track { background: transparent; }
+  .panel-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── Agent Panel ── */
+  .agent-section-label {
+    padding: 10px 16px 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    opacity: 0.6;
+  }
+
+  .agent-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .agent-row:hover { background: var(--bg-hover); }
+  .agent-row.selected {
+    background: var(--accent-glow);
+    border-left-color: var(--accent);
+  }
+  .agent-row.spawned {
+    padding-left: 32px;
+  }
+  .agent-row .tree-connector {
+    color: var(--fg-dim);
+    font-size: 12px;
+    opacity: 0.5;
+    width: 16px;
+    flex-shrink: 0;
+  }
+
+  .agent-color-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .agent-name {
+    flex: 1;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .agent-hotkey {
+    font-size: 11px;
+    color: var(--fg-dim);
+    background: var(--bg-card);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Menlo, monospace;
+    flex-shrink: 0;
+  }
+  .agent-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .agent-status.active { background: var(--success); box-shadow: 0 0 6px var(--success); }
+  .agent-status.idle { background: var(--fg-dim); opacity: 0.3; }
+
+  .agent-detail {
+    margin: 8px 16px;
+    padding: 10px 12px;
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--fg-dim);
+    line-height: 1.6;
+  }
+  .agent-detail .detail-title {
+    color: var(--fg);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .agent-detail .tag {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    margin-right: 4px;
+  }
+
+  /* ── Activity Stream ── */
+  .stream-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(251, 191, 36, 0.08);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .stream-filter .filter-label { color: var(--warning); font-weight: 600; }
+  .stream-filter .clear-btn {
+    margin-left: auto;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--fg-dim);
+    padding: 2px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+  }
+  .stream-filter .clear-btn:hover { border-color: var(--fg-dim); color: var(--fg); }
+
+  .event-card {
+    display: flex;
+    padding: 6px 16px;
+    gap: 8px;
+    border-bottom: 1px solid rgba(42, 42, 58, 0.4);
+    align-items: flex-start;
+    transition: background 0.1s;
+  }
+  .event-card:hover { background: var(--bg-hover); }
+
+  .event-stripe {
+    width: 3px;
+    min-height: 28px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .event-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .event-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .event-agent-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .event-time {
+    font-size: 11px;
+    color: var(--fg-dim);
+    font-family: 'SF Mono', Menlo, monospace;
+    flex-shrink: 0;
+  }
+  .event-badge {
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .event-context {
+    font-size: 12px;
+    color: var(--fg-dim);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .event-indent-1 { padding-left: 32px; }
+  .event-indent-2 { padding-left: 48px; }
+
+  .empty-stream {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 12px;
+    color: var(--fg-dim);
+    text-align: center;
+    padding: 40px;
+  }
+  .empty-stream .icon { font-size: 32px; opacity: 0.3; }
+  .empty-stream .msg { font-size: 14px; }
+  .empty-stream .hint { font-size: 12px; opacity: 0.6; }
+  .onboard-cta {
+    margin-top: 8px;
+    padding: 8px 20px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .onboard-cta:hover { opacity: 0.85; }
+
+  /* ── Context & Intel Panel ── */
+  .context-section-label {
+    padding: 12px 16px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    opacity: 0.6;
+  }
+
+  .context-file {
+    display: flex;
+    align-items: center;
+    padding: 5px 16px;
+    gap: 8px;
+    font-size: 13px;
+    cursor: default;
+  }
+  .context-file .cf-key {
+    color: var(--fg-dim);
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 11px;
+    width: 18px;
+    flex-shrink: 0;
+  }
+  .context-file .cf-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .context-file .cf-name.missing { color: var(--fg-dim); opacity: 0.5; }
+  .context-file .cf-status {
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  .intel-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 16px;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .intel-row .intel-label { flex: 1; }
+  .intel-row .intel-age { color: var(--fg-dim); font-size: 12px; }
+  .intel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .intel-dot.fresh { background: var(--success); }
+  .intel-dot.stale { background: var(--warning); }
+  .intel-dot.old, .intel-dot.never { background: var(--error); opacity: 0.6; }
+
+  /* ── Command Bar ── */
+  .command-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 12px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-panel);
+    flex-shrink: 0;
+  }
+  .command-bar .prompt-char {
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .command-bar input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--fg);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+  }
+  .command-bar input::placeholder { color: var(--fg-dim); opacity: 0.5; }
+
+  .quick-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .quick-action {
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--fg-dim);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .quick-action:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  /* ── Launch Modal ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.hidden { display: none; }
+  .modal {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    width: 440px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .modal h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .modal .modal-sub {
+    font-size: 13px;
+    color: var(--fg-dim);
+    margin-bottom: 16px;
+  }
+  .modal input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--fg);
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+  }
+  .modal input:focus { border-color: var(--accent); }
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .modal-actions button {
+    padding: 8px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--fg);
+    transition: all 0.15s;
+  }
+  .modal-actions button:hover { border-color: var(--fg-dim); }
+  .modal-actions .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .modal-actions .btn-primary:hover { opacity: 0.85; }
+</style>
+</head>
+<body>
+
+<!-- Status Bar -->
+<div class="status-bar">
+  <div class="title">MARKETING COMMAND CENTER</div>
+  <div class="status-indicators">
+    <div class="indicator"><div class="dot off" id="dot-onboard"></div><span>Onboarded</span></div>
+    <div class="indicator"><div class="dot off" id="dot-intel"></div><span>Intel</span></div>
+    <div class="indicator"><div class="dot off" id="dot-active"></div><span id="active-count">0</span> Active</div>
+    <div class="indicator"><div class="dot off" id="dot-ws"></div><span>Connected</span></div>
+  </div>
+  <div class="status-right">
+    <span id="session-id">No session</span>
+    <span id="clock"></span>
+  </div>
+</div>
+
+<!-- Main 3-Panel Layout -->
+<div class="main">
+
+  <!-- Left: Agent Panel -->
+  <div class="panel">
+    <div class="panel-header">Agents <span class="badge" id="agent-count">0</span></div>
+    <div class="panel-body" id="agent-list"></div>
+  </div>
+
+  <!-- Center: Activity Stream -->
+  <div class="panel" style="border-right: 1px solid var(--border);">
+    <div class="panel-header">Activity Stream <span class="badge" id="event-count">0</span></div>
+    <div class="stream-filter hidden" id="stream-filter">
+      <span class="filter-label" id="filter-label"></span>
+      <button class="clear-btn" onclick="clearFilter()">Clear</button>
+    </div>
+    <div class="panel-body" id="event-list"></div>
+  </div>
+
+  <!-- Right: Context & Intel -->
+  <div class="panel">
+    <div class="panel-header">Context & Intel</div>
+    <div class="panel-body">
+      <div class="context-section-label">Context Files</div>
+      <div id="context-files"></div>
+      <div class="context-section-label" style="margin-top: 8px;">Intelligence Status</div>
+      <div id="intel-status"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Command Bar -->
+<div class="command-bar">
+  <span class="prompt-char">&#x276F;</span>
+  <input type="text" id="command-input" placeholder="Type a command or message..." autocomplete="off">
+  <div class="quick-actions">
+    <button class="quick-action" onclick="runQuick('/cmo')">/cmo</button>
+    <button class="quick-action" onclick="runQuick('/analyst')">/analyst</button>
+    <button class="quick-action" onclick="runQuick('/onboard')">/onboard</button>
+  </div>
+</div>
+
+<!-- Launch Modal -->
+<div class="modal-overlay hidden" id="launch-modal">
+  <div class="modal">
+    <h3 id="modal-title">Launch Agent</h3>
+    <div class="modal-sub" id="modal-sub">Enter a task description</div>
+    <input type="text" id="modal-input" placeholder="e.g. Plan February content calendar...">
+    <div class="modal-actions">
+      <button onclick="closeLaunchModal()">Cancel</button>
+      <button class="btn-primary" onclick="confirmLaunch()">Launch</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──
+let agents = [];
+let events = [];
+let agentStatuses = new Map(); // agentId -> {agentType, status, startedAt, parentSessionId, toolCounts, totalTools}
+let filterAgentType = null;
+let selectedAgentName = null;
+let launchTarget = null; // agent being launched
+let ws = null;
+let wsConnected = false;
+
+const COLORS = {
+  blue: '#3b82f6', green: '#22c55e', purple: '#a855f7', pink: '#ec4899',
+  red: '#ef4444', cyan: '#06b6d4', orange: '#f97316', amber: '#f59e0b',
+};
+
+const EVENT_BADGES = {
+  SubagentStart:     { sym: '▶', label: 'SPAWN', color: 'var(--success)' },
+  SubagentStop:      { sym: '■', label: 'STOP',  color: 'var(--fg-dim)' },
+  PreToolUse:        { sym: '→', label: 'TOOL',  color: 'var(--warning)' },
+  PostToolUse:       { sym: '✓', label: 'DONE',  color: 'var(--info)' },
+  PostToolUseFailure:{ sym: '✗', label: 'FAIL',  color: 'var(--error)' },
+  Stop:              { sym: '◼', label: 'END',   color: 'var(--fg-dim)' },
+  SessionStart:      { sym: '●', label: 'START', color: 'var(--success)' },
+  SessionEnd:        { sym: '○', label: 'END',   color: 'var(--fg-dim)' },
+};
+
+// ── Init ──
+async function init() {
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  const [agentData, intelData, eventData] = await Promise.all([
+    fetch('/api/agents').then(r => r.json()).catch(() => []),
+    fetch('/api/intel').then(r => r.json()).catch(() => ({})),
+    fetch('/events?limit=200').then(r => r.json()).catch(() => []),
+  ]);
+
+  agents = agentData;
+  renderAgents();
+  renderIntel(intelData);
+
+  // Process historical events
+  for (const e of eventData) {
+    processAgentStatus(e);
+    events.push(e);
+  }
+  renderEvents();
+  updateStatusBar(intelData);
+
+  // Find latest session
+  const lastStart = [...eventData].reverse().find(e => e.hook_event_name === 'SessionStart');
+  if (lastStart?.session_id) {
+    document.getElementById('session-id').textContent = lastStart.session_id.slice(0, 8);
+  }
+
+  connectWebSocket();
+  setupCommandInput();
+
+  document.getElementById('agent-count').textContent = agents.length;
+}
+
+// ── WebSocket ──
+function connectWebSocket() {
+  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  ws = new WebSocket(`${proto}//${location.host}/events/stream`);
+
+  ws.onopen = () => {
+    wsConnected = true;
+    document.getElementById('dot-ws').className = 'dot on pulse';
+  };
+  ws.onclose = () => {
+    wsConnected = false;
+    document.getElementById('dot-ws').className = 'dot off';
+    setTimeout(connectWebSocket, 3000);
+  };
+  ws.onmessage = (msg) => {
+    try {
+      const event = JSON.parse(msg.data);
+      processAgentStatus(event);
+      events.push(event);
+      if (events.length > 300) events = events.slice(-200);
+      renderEvents();
+      updateActiveCount();
+
+      if (event.hook_event_name === 'SessionStart' && event.session_id) {
+        document.getElementById('session-id').textContent = event.session_id.slice(0, 8);
+      }
+    } catch {}
+  };
+}
+
+// ── Agent Status Tracking ──
+function processAgentStatus(event) {
+  const { hook_event_name, agent_id, agent_type, parent_session_id, received_at, tool_name } = event;
+
+  if (hook_event_name === 'SubagentStart' && agent_id) {
+    agentStatuses.set(agent_id, {
+      agentType: agent_type || 'unknown',
+      status: 'active',
+      startedAt: received_at || new Date().toISOString(),
+      parentSessionId: parent_session_id || null,
+      toolCounts: {},
+      totalTools: 0,
+    });
+    renderAgents();
+  } else if (hook_event_name === 'SubagentStop' && agent_id) {
+    const s = agentStatuses.get(agent_id);
+    if (s) { s.status = 'idle'; agentStatuses.set(agent_id, s); renderAgents(); }
+  } else if ((hook_event_name === 'PostToolUse' || hook_event_name === 'PostToolUseFailure') && agent_id && tool_name) {
+    const s = agentStatuses.get(agent_id);
+    if (s) {
+      s.toolCounts[tool_name] = (s.toolCounts[tool_name] || 0) + 1;
+      s.totalTools++;
+      agentStatuses.set(agent_id, s);
+    }
+  }
+}
+
+function getActiveCount() {
+  return [...agentStatuses.values()].filter(s => s.status === 'active').length;
+}
+
+function updateActiveCount() {
+  const count = getActiveCount();
+  document.getElementById('active-count').textContent = count;
+  document.getElementById('dot-active').className = count > 0 ? 'dot on pulse' : 'dot off';
+}
+
+function isAgentActive(agentName) {
+  for (const [, s] of agentStatuses) {
+    if (s.agentType === agentName && s.status === 'active') return true;
+  }
+  return false;
+}
+
+function getAgentDetail(agentName) {
+  for (const [id, s] of agentStatuses) {
+    if (s.agentType === agentName && s.status === 'active') return { ...s, agentId: id };
+  }
+  return null;
+}
+
+// ── Renderers ──
+function renderAgents() {
+  const list = document.getElementById('agent-list');
+
+  // Build spawn tree: orchestrator -> children
+  const childrenOf = {}; // parent agentType -> [child agentType]
+  for (const [, s] of agentStatuses) {
+    if (s.parentSessionId && s.status === 'active') {
+      for (const [pid, ps] of agentStatuses) {
+        if (pid === s.parentSessionId || ps.agentType === 'cmo' || ps.agentType === 'analyst') {
+          if (pid === s.parentSessionId) {
+            const key = ps.agentType;
+            if (!childrenOf[key]) childrenOf[key] = [];
+            if (!childrenOf[key].includes(s.agentType)) childrenOf[key].push(s.agentType);
+          }
+        }
+      }
+    }
+  }
+
+  const orchs = agents.filter(a => a.isOrchestrator);
+  const specs = agents.filter(a => !a.isOrchestrator);
+
+  let html = '<div class="agent-section-label">Orchestrators</div>';
+  for (const a of orchs) {
+    html += agentRowHTML(a);
+    // Show spawned children
+    if (childrenOf[a.name]) {
+      for (let i = 0; i < childrenOf[a.name].length; i++) {
+        const childType = childrenOf[a.name][i];
+        const childAgent = specs.find(s => s.name === childType);
+        if (childAgent) {
+          const isLast = i === childrenOf[a.name].length - 1;
+          html += agentRowHTML(childAgent, true, isLast ? '└' : '├');
+        }
+      }
+    }
+  }
+
+  html += '<div class="agent-section-label" style="margin-top: 4px;">Specialists</div>';
+  for (const a of specs) {
+    html += agentRowHTML(a);
+  }
+
+  list.innerHTML = html;
+}
+
+function agentRowHTML(agent, spawned = false, connector = '') {
+  const active = isAgentActive(agent.name);
+  const color = COLORS[agent.color] || 'var(--fg-dim)';
+  const selected = selectedAgentName === agent.name;
+  const cls = ['agent-row'];
+  if (selected) cls.push('selected');
+  if (spawned) cls.push('spawned');
+
+  let connectorHtml = '';
+  if (spawned) {
+    connectorHtml = `<span class="tree-connector">${connector}</span>`;
+  }
+
+  return `<div class="${cls.join(' ')}" onclick="selectAgent('${agent.name}')" ondblclick="openLaunchModal('${agent.name}')">
+    ${connectorHtml}
+    <div class="agent-color-dot" style="background:${color}"></div>
+    <div class="agent-name">${agent.displayName}</div>
+    <span class="agent-hotkey">${agent.hotkey}</span>
+    <div class="agent-status ${active ? 'active' : 'idle'}"></div>
+  </div>`;
+}
+
+function renderEvents() {
+  const list = document.getElementById('event-list');
+  const filtered = filterAgentType
+    ? events.filter(e => e.agent_type === filterAgentType)
+    : events;
+
+  document.getElementById('event-count').textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    const isOnboarded = document.getElementById('dot-onboard').classList.contains('on');
+    list.innerHTML = `<div class="empty-stream">
+      <div class="icon">◈</div>
+      <div class="msg">${isOnboarded ? 'Waiting for events...' : 'Brand not configured'}</div>
+      <div class="hint">${isOnboarded
+        ? 'Launch an agent or run a command to see activity here.'
+        : 'Set up your brand architecture to get started.'}</div>
+      ${!isOnboarded ? '<button class="onboard-cta" onclick="runQuick(\'/onboard\')">Run /onboard</button>' : ''}
+    </div>`;
+    return;
+  }
+
+  let html = '';
+  for (const event of filtered.slice(-150)) {
+    html += eventCardHTML(event);
+  }
+  list.innerHTML = html;
+
+  // Auto-scroll to bottom
+  list.scrollTop = list.scrollHeight;
+}
+
+function eventCardHTML(event) {
+  const badge = EVENT_BADGES[event.hook_event_name] || { sym: '·', label: event.hook_event_name || '?', color: 'var(--fg-dim)' };
+  const agent = agents.find(a => a.name === event.agent_type);
+  const color = agent ? (COLORS[agent.color] || 'var(--fg-dim)') : 'var(--fg-dim)';
+  const tag = agent ? agent.shortTag : (event.agent_type || '?').split('-')[0].slice(0, 6);
+  const time = formatTime(event.received_at);
+  const context = getEventContext(event);
+  const indent = event.parent_session_id ? 'event-indent-1' : '';
+  const multiAgent = getActiveCount() > 1 || agentStatuses.size > 1;
+
+  return `<div class="event-card ${indent}">
+    <div class="event-stripe" style="background:${color}"></div>
+    <div class="event-body">
+      <div class="event-top">
+        ${multiAgent ? `<span class="event-agent-tag" style="background:${color}22;color:${color}">${tag}</span>` : ''}
+        <span class="event-time">${time}</span>
+        <span class="event-badge" style="color:${badge.color}">${badge.sym} ${badge.label}</span>
+      </div>
+      ${context ? `<div class="event-context">${escapeHtml(context)}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function getEventContext(event) {
+  try {
+    const p = event.payload ? JSON.parse(event.payload) : {};
+    const ti = p.tool_input || p.input || {};
+    const tn = event.tool_name || '';
+
+    if (['SubagentStart', 'SubagentStop'].includes(event.hook_event_name)) {
+      return event.agent_type || p.agent_type || '';
+    }
+
+    switch (tn) {
+      case 'Bash': return ti.command ? ti.command.slice(0, 60) : '';
+      case 'Read': return shortPath(ti.file_path || '');
+      case 'Write': case 'Edit': return shortPath(ti.file_path || '');
+      case 'Glob': return ti.pattern || '';
+      case 'Grep': return ti.pattern || '';
+      case 'WebFetch': return extractDomain(ti.url || '');
+      case 'WebSearch': return ti.query ? ti.query.slice(0, 50) : '';
+      case 'Task': return ti.description ? ti.description.slice(0, 50) : '';
+      default: return tn;
+    }
+  } catch { return event.tool_name || ''; }
+}
+
+function renderIntel(data) {
+  if (!data || !data.intel) return;
+
+  // Context files
+  const cfDiv = document.getElementById('context-files');
+  cfDiv.innerHTML = (data.contextFiles || []).map(cf =>
+    `<div class="context-file">
+      <span class="cf-key">${cf.key}</span>
+      <span class="cf-name ${cf.exists ? '' : 'missing'}">${cf.label}</span>
+      <span class="cf-status">${cf.exists ? '✓' : '✗'}</span>
+    </div>`
+  ).join('');
+
+  // Intel status
+  const intelDiv = document.getElementById('intel-status');
+  let html = '';
+  for (const item of data.intel.items) {
+    html += `<div class="intel-row">
+      <span class="intel-label">${item.label}</span>
+      <span class="intel-age">${item.displayLabel}</span>
+      <div class="intel-dot ${item.status}"></div>
+    </div>`;
+  }
+  html += `<div class="intel-row">
+    <span class="intel-label">Ledger</span>
+    <span class="intel-age">${data.intel.ledgerCount} sessions</span>
+    <div class="intel-dot ${data.intel.ledgerCount > 0 ? 'fresh' : 'never'}"></div>
+  </div>`;
+  intelDiv.innerHTML = html;
+}
+
+function updateStatusBar(intelData) {
+  if (intelData) {
+    document.getElementById('dot-onboard').className = intelData.isOnboarded ? 'dot on' : 'dot off';
+    const hasFresh = (intelData.intel?.items || []).some(i => i.status === 'fresh');
+    document.getElementById('dot-intel').className = hasFresh ? 'dot on' : 'dot warn';
+  }
+  updateActiveCount();
+}
+
+// ── Agent Selection & Filtering ──
+function selectAgent(name) {
+  selectedAgentName = selectedAgentName === name ? null : name;
+  renderAgents();
+
+  // Show detail if active
+  const detail = getAgentDetail(name);
+  // Detail is shown inline via renderAgents if we expand it later
+}
+
+function setFilter(agentType) {
+  filterAgentType = agentType;
+  document.getElementById('stream-filter').classList.remove('hidden');
+  document.getElementById('filter-label').textContent = `Filtered: ${agentType}`;
+  renderEvents();
+}
+
+function clearFilter() {
+  filterAgentType = null;
+  document.getElementById('stream-filter').classList.add('hidden');
+  renderEvents();
+}
+
+// ── Launch Modal ──
+function openLaunchModal(agentName) {
+  const agent = agents.find(a => a.name === agentName);
+  if (!agent) return;
+  launchTarget = agent;
+  document.getElementById('modal-title').textContent = `Launch ${agent.displayName}`;
+  document.getElementById('modal-sub').textContent = agent.description.slice(0, 100) || 'Enter a task description';
+  document.getElementById('modal-input').value = '';
+  document.getElementById('launch-modal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('modal-input').focus(), 50);
+}
+
+function closeLaunchModal() {
+  document.getElementById('launch-modal').classList.add('hidden');
+  launchTarget = null;
+}
+
+async function confirmLaunch() {
+  const task = document.getElementById('modal-input').value.trim();
+  if (!task || !launchTarget) return;
+
+  try {
+    await fetch('/api/launch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agentFile: launchTarget.filePath, task }),
+    });
+  } catch (e) {
+    console.error('Launch failed:', e);
+  }
+  closeLaunchModal();
+}
+
+// ── Command Bar ──
+function setupCommandInput() {
+  const input = document.getElementById('command-input');
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && input.value.trim()) {
+      handleCommand(input.value.trim());
+      input.value = '';
+    }
+  });
+
+  // Modal input enter
+  document.getElementById('modal-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') confirmLaunch();
+    if (e.key === 'Escape') closeLaunchModal();
+  });
+
+  // Global escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLaunchModal();
+  });
+}
+
+function handleCommand(input) {
+  if (input.startsWith('/cmo') || input.startsWith('/analyst') || input.startsWith('/onboard')) {
+    const parts = input.split(' ');
+    const cmd = parts[0].slice(1); // remove /
+    const task = parts.slice(1).join(' ') || `Begin ${cmd} session`;
+    const agent = agents.find(a => a.name === cmd);
+    if (agent) {
+      fetch('/api/launch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ agentFile: agent.filePath, task }),
+      }).catch(console.error);
+    }
+  }
+}
+
+function runQuick(cmd) {
+  const name = cmd.slice(1);
+  const agent = agents.find(a => a.name === name);
+  if (agent) {
+    openLaunchModal(agent.name);
+  }
+}
+
+// ── Helpers ──
+function formatTime(ts) {
+  if (!ts) return '--:--:--';
+  try {
+    const d = new Date(ts);
+    return d.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  } catch { return '--:--:--'; }
+}
+
+function shortPath(p) {
+  if (!p) return '';
+  const parts = p.split('/');
+  return parts.length > 2 ? parts.slice(-2).join('/') : p;
+}
+
+function extractDomain(url) {
+  try { return new URL(url).hostname; } catch { return url.slice(0, 30); }
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function updateClock() {
+  document.getElementById('clock').textContent =
+    new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
+// ── Go ──
+init();
+</script>
+</body>
+</html>

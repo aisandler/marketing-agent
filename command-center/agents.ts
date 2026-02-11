@@ -5,8 +5,8 @@ export interface AgentMeta {
   name: string;
   displayName: string;
   shortTag: string;
-  color?: string;
-  description?: string;
+  color: string;
+  description: string;
   filePath: string;
   hotkey: string;
   isOrchestrator: boolean;
@@ -30,18 +30,13 @@ function parseFrontmatter(content: string): Record<string, string> {
 }
 
 function makeShortTag(name: string): string {
-  // "content-marketing-strategist" -> "Content"
-  // "seo-optimization-specialist" -> "SEO"
   const first = name.split("-")[0];
-  if (first.length <= 3) return first.toUpperCase(); // SEO, CRO
+  if (first.length <= 3) return first.toUpperCase();
   return first.charAt(0).toUpperCase() + first.slice(1, 7);
 }
 
 function makeDisplayName(name: string): string {
-  return name
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+  return name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 }
 
 export function loadAgents(projectDir: string): AgentMeta[] {
@@ -49,7 +44,7 @@ export function loadAgents(projectDir: string): AgentMeta[] {
   const files = readdirSync(agentsDir).filter((f) => f.endsWith(".md"));
 
   const specialists: AgentMeta[] = [];
-  let hotkeyChar = "b".charCodeAt(0); // b through p for specialists
+  let hotkeyChar = "b".charCodeAt(0);
 
   for (const file of files.sort()) {
     const filePath = join(agentsDir, file);
@@ -61,8 +56,8 @@ export function loadAgents(projectDir: string): AgentMeta[] {
       name,
       displayName: makeDisplayName(name),
       shortTag: makeShortTag(name),
-      color: fm.color,
-      description: fm.description,
+      color: fm.color || "",
+      description: fm.description || "",
       filePath,
       hotkey: String.fromCharCode(hotkeyChar),
       isOrchestrator: false,
@@ -70,7 +65,6 @@ export function loadAgents(projectDir: string): AgentMeta[] {
     hotkeyChar++;
   }
 
-  // Orchestrators are special — they use command files, not agent files
   const orchestrators: AgentMeta[] = [
     {
       name: "cmo",
