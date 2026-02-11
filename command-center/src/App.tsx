@@ -15,7 +15,7 @@ import { useAgentFilter } from "./hooks/useAgentFilter";
 import { useIntelStatus } from "./hooks/useIntelStatus";
 import type { EventRow, PanelFocus, ProcessInfo } from "./types";
 import { join } from "path";
-import { spawn } from "child_process";
+import { spawn, spawnSync } from "child_process";
 
 const PROJECT_DIR = getProjectDir();
 const API_URL = "http://localhost:3457";
@@ -122,28 +122,28 @@ export function App() {
     spawn(editor, [path], { stdio: "inherit" });
   }, []);
 
-  // Launch agent
+  // Launch an interactive agent (suspends TUI, gives it the terminal)
+  const launchInteractive = useCallback((cmd: string, args: string[]) => {
+    // Suspend Ink's raw mode so the child process gets the real TTY
+    if (process.stdin.isTTY && (process.stdin as any).setRawMode) {
+      try { (process.stdin as any).setRawMode(false); } catch {}
+    }
+    process.stdout.write("\x1B[2J\x1B[H"); // clear screen
+    spawnSync(cmd, args, { stdio: "inherit", cwd: PROJECT_DIR });
+    // Restore screen for Ink
+    process.stdout.write("\x1B[2J\x1B[H");
+    if (process.stdin.isTTY && (process.stdin as any).setRawMode) {
+      try { (process.stdin as any).setRawMode(true); } catch {}
+    }
+    // Refresh intel after agent runs (it may have created files)
+    refreshIntel();
+  }, [refreshIntel]);
+
+  // Launch agent — interactive (gets full terminal)
   const launchAgent = useCallback((agent: AgentMeta, task: string) => {
     const args = ["--agent", agent.filePath, "--prompt", task];
-    try {
-      const proc = Bun.spawn(["claude", ...args], {
-        stdout: "ignore",
-        stderr: "ignore",
-        stdin: "ignore",
-      });
-      const info: ProcessInfo = {
-        pid: proc.pid,
-        agentType: agent.name,
-        task,
-        startedAt: new Date(),
-        proc,
-      };
-      setProcesses((prev) => [...prev, info]);
-      proc.exited.then(() => {
-        setProcesses((prev) => prev.filter((p) => p.pid !== proc.pid));
-      });
-    } catch {}
-  }, []);
+    launchInteractive("claude", args);
+  }, [launchInteractive]);
 
   // Handle command submission
   const handleCommand = useCallback(
@@ -157,29 +157,25 @@ export function App() {
         const analyst = agents.find((a) => a.name === "analyst");
         if (analyst) launchAgent(analyst, task);
       } else if (input.startsWith("/onboard")) {
-        try {
-          Bun.spawn(["claude", "--agent", join(PROJECT_DIR, ".claude/commands/onboard.md")], {
-            stdout: "ignore", stderr: "ignore", stdin: "ignore",
-          });
-        } catch {}
+        launchInteractive("claude", ["--agent", join(PROJECT_DIR, ".claude/commands/onboard.md")]);
       } else if (input.startsWith("/images")) {
         const subCmd = input.slice(7).trim();
-        const flag = subCmd === "generate" ? "--limit 5" : "--status";
-        try {
-          Bun.spawn(
-            ["npx", "tsx", join(PROJECT_DIR, "automation/image-generation/generate-images.ts"), ...flag.split(" ")],
-            { stdout: "inherit", stderr: "inherit" }
-          );
-        } catch {}
+        const args = subCmd === "generate"
+          ? ["--limit", "5"]
+          : ["--status"];
+        launchInteractive("npx", ["tsx", join(PROJECT_DIR, "automation/image-generation/generate-images.ts"), ...args]);
+      } else if (input.startsWith("/intel")) {
+        launchInteractive("npx", ["tsx", join(PROJECT_DIR, "automation/intel/synthesize.ts")]);
+      } else if (input.startsWith("/report")) {
+        launchInteractive("claude", ["--agent", join(PROJECT_DIR, ".claude/commands/report.md")]);
+      } else if (input.startsWith("/transcript")) {
+        launchInteractive("claude", ["--agent", join(PROJECT_DIR, ".claude/commands/transcript.md")]);
       } else {
-        try {
-          Bun.spawn(["claude", "--prompt", input], {
-            stdout: "ignore", stderr: "ignore", stdin: "ignore",
-          });
-        } catch {}
+        // Generic prompt — launch interactive Claude session
+        launchInteractive("claude", ["--prompt", input]);
       }
     },
-    [agents, launchAgent]
+    [agents, launchAgent, launchInteractive]
   );
 
   // Kill a process by index
@@ -487,6 +483,7 @@ export function App() {
           focus={focus}
           scrollOffset={scrollOffset}
           maxHeight={termHeight - 6}
+          isOnboarded={onboarded}
         />
         <ContextPanel
           contextFiles={contextFiles}

@@ -13,6 +13,7 @@ interface ActivityStreamProps {
   focus: PanelFocus;
   scrollOffset: number;
   maxHeight: number;
+  isOnboarded: boolean;
 }
 
 function getAgentMeta(
@@ -69,6 +70,7 @@ export function ActivityStream({
   focus,
   scrollOffset,
   maxHeight,
+  isOnboarded,
 }: ActivityStreamProps) {
   const isFocused = focus === "activity";
   const dimTags = agentActiveCount <= 1;
@@ -106,7 +108,17 @@ export function ActivityStream({
       </Box>
 
       <Box paddingX={1} flexDirection="column" flexGrow={1}>
-        {visible.length === 0 ? (
+        {!isOnboarded && events.length === 0 ? (
+          <Box flexDirection="column" marginTop={1} paddingX={1}>
+            <Text bold color={theme.warning}>Brand not configured</Text>
+            <Text color={theme.dim}> </Text>
+            <Text color={theme.fg}>Run <Text color={theme.accent} bold>/onboard</Text> to set up your brand</Text>
+            <Text color={theme.fg}>architecture, voice guide, and competitive</Text>
+            <Text color={theme.fg}>analysis. Type <Text color={theme.info}>/</Text> then <Text color={theme.info}>onboard</Text> in the command bar.</Text>
+            <Text color={theme.dim}> </Text>
+            <Text color={theme.dim}>Or launch any agent directly with hotkeys.</Text>
+          </Box>
+        ) : visible.length === 0 ? (
           <Box justifyContent="center" marginTop={1}>
             <Text color={theme.dim}>
               {events.length === 0
