@@ -95,7 +95,7 @@
   /* ── Main Layout ── */
   .main {
     display: grid;
-    grid-template-columns: 240px 1fr 280px;
+    grid-template-columns: 260px 1fr 280px;
     flex: 1;
     overflow: hidden;
   }
@@ -161,15 +161,14 @@
     cursor: pointer;
     transition: background 0.15s;
     border-left: 3px solid transparent;
+    user-select: none;
   }
   .agent-row:hover { background: var(--bg-hover); }
   .agent-row.selected {
     background: var(--accent-glow);
     border-left-color: var(--accent);
   }
-  .agent-row.spawned {
-    padding-left: 32px;
-  }
+  .agent-row.spawned { padding-left: 32px; }
   .agent-row .tree-connector {
     color: var(--fg-dim);
     font-size: 12px;
@@ -210,7 +209,7 @@
   .agent-status.idle { background: var(--fg-dim); opacity: 0.3; }
 
   .agent-detail {
-    margin: 8px 16px;
+    margin: 2px 12px 6px;
     padding: 10px 12px;
     background: var(--bg-card);
     border-radius: var(--radius-sm);
@@ -219,20 +218,49 @@
     color: var(--fg-dim);
     line-height: 1.6;
   }
-  .agent-detail .detail-title {
-    color: var(--fg);
-    font-weight: 600;
-    margin-bottom: 4px;
+  .agent-detail .detail-desc {
+    margin-bottom: 8px;
   }
-  .agent-detail .tag {
-    display: inline-block;
-    padding: 1px 6px;
-    border-radius: 4px;
+  .agent-detail .copy-cmd {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .agent-detail code {
+    flex: 1;
+    font-family: 'SF Mono', Menlo, monospace;
     font-size: 11px;
-    margin-right: 4px;
+    background: var(--bg);
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: var(--fg);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+  .copy-btn {
+    padding: 4px 10px;
+    font-size: 11px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .copy-btn:hover { opacity: 0.85; }
+  .copy-btn:active { transform: scale(0.97); }
 
   /* ── Activity Stream ── */
+  .stream-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+    flex-shrink: 0;
+  }
   .stream-filter {
     display: flex;
     align-items: center;
@@ -256,6 +284,19 @@
   }
   .stream-filter .clear-btn:hover { border-color: var(--fg-dim); color: var(--fg); }
 
+  .clear-events-btn {
+    margin-left: auto;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--fg-dim);
+    padding: 3px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.15s;
+  }
+  .clear-events-btn:hover { border-color: var(--fg-dim); color: var(--fg); }
+
   .event-card {
     display: flex;
     padding: 6px 16px;
@@ -273,10 +314,7 @@
     flex-shrink: 0;
     margin-top: 2px;
   }
-  .event-body {
-    flex: 1;
-    min-width: 0;
-  }
+  .event-body { flex: 1; min-width: 0; }
   .event-top {
     display: flex;
     align-items: center;
@@ -311,37 +349,110 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   .event-indent-1 { padding-left: 32px; }
-  .event-indent-2 { padding-left: 48px; }
 
+  /* ── Empty / Getting Started ── */
   .empty-stream {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
-    gap: 12px;
+    gap: 16px;
     color: var(--fg-dim);
     text-align: center;
     padding: 40px;
   }
   .empty-stream .icon { font-size: 32px; opacity: 0.3; }
-  .empty-stream .msg { font-size: 14px; }
-  .empty-stream .hint { font-size: 12px; opacity: 0.6; }
-  .onboard-cta {
-    margin-top: 8px;
-    padding: 8px 20px;
+  .empty-stream .msg { font-size: 16px; color: var(--fg); font-weight: 500; }
+  .empty-stream .hint { font-size: 13px; opacity: 0.7; max-width: 400px; line-height: 1.5; }
+
+  .getting-started {
+    padding: 24px 32px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .getting-started h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--fg);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 28px;
+    height: 28px;
     background: var(--accent);
     color: white;
-    border: none;
-    border-radius: var(--radius-sm);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
-  .onboard-cta:hover { opacity: 0.85; }
+  .step-content { flex: 1; }
+  .step-content h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fg);
+    margin-bottom: 4px;
+  }
+  .step-content p {
+    font-size: 13px;
+    color: var(--fg-dim);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .step-cmd {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 12px;
+    color: var(--fg);
+  }
+  .step-cmd code { flex: 1; }
+  .step-cmd .copy-btn {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+  .step-or {
+    text-align: center;
+    font-size: 12px;
+    color: var(--fg-dim);
+    opacity: 0.5;
+    margin: -8px 0 12px 42px;
+  }
+  .hooks-status {
+    text-align: center;
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+  }
+  .hooks-status.installed {
+    background: rgba(74, 222, 128, 0.1);
+    color: var(--success);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+  }
+  .hooks-status.not-installed {
+    background: rgba(251, 191, 36, 0.1);
+    color: var(--warning);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+  }
 
   /* ── Context & Intel Panel ── */
   .context-section-label {
@@ -360,7 +471,6 @@
     padding: 5px 16px;
     gap: 8px;
     font-size: 13px;
-    cursor: default;
   }
   .context-file .cf-key {
     color: var(--fg-dim);
@@ -432,8 +542,8 @@
     flex-shrink: 0;
   }
   .quick-action {
-    padding: 4px 10px;
-    font-size: 11px;
+    padding: 6px 14px;
+    font-size: 12px;
     color: var(--fg-dim);
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -441,12 +551,44 @@
     cursor: pointer;
     transition: all 0.15s;
     white-space: nowrap;
+    user-select: none;
   }
   .quick-action:hover {
     border-color: var(--accent);
     color: var(--accent);
     background: var(--accent-glow);
   }
+  .quick-action:active {
+    transform: scale(0.96);
+  }
+
+  /* ── Toast ── */
+  .toast-container {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .toast {
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    animation: toastIn 0.3s ease;
+    max-width: 360px;
+  }
+  .toast.success { background: #16a34a; }
+  .toast.info { background: #2563eb; }
+  .toast.warning { background: #d97706; }
+  .toast.error { background: #dc2626; }
+  .toast.fade-out { animation: toastOut 0.3s ease forwards; }
+  @keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateY(-10px); } }
 
   /* ── Launch Modal ── */
   .modal-overlay {
@@ -465,7 +607,7 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 24px;
-    width: 440px;
+    width: 480px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   }
   .modal h3 {
@@ -490,6 +632,13 @@
     font-family: inherit;
   }
   .modal input:focus { border-color: var(--accent); }
+  .modal-note {
+    font-size: 12px;
+    color: var(--fg-dim);
+    margin-top: 10px;
+    line-height: 1.5;
+    opacity: 0.7;
+  }
   .modal-actions {
     display: flex;
     justify-content: flex-end;
@@ -514,6 +663,11 @@
     color: white;
   }
   .modal-actions .btn-primary:hover { opacity: 0.85; }
+  .modal-actions .btn-copy {
+    background: var(--bg-card);
+    border-color: var(--border);
+    color: var(--fg);
+  }
 </style>
 </head>
 <body>
@@ -544,10 +698,13 @@
 
   <!-- Center: Activity Stream -->
   <div class="panel" style="border-right: 1px solid var(--border);">
-    <div class="panel-header">Activity Stream <span class="badge" id="event-count">0</span></div>
+    <div class="panel-header">
+      Activity Stream <span class="badge" id="event-count">0</span>
+      <button class="clear-events-btn" id="clear-events-btn">Clear</button>
+    </div>
     <div class="stream-filter hidden" id="stream-filter">
       <span class="filter-label" id="filter-label"></span>
-      <button class="clear-btn" onclick="clearFilter()">Clear</button>
+      <button class="clear-btn" id="clear-filter-btn">Clear</button>
     </div>
     <div class="panel-body" id="event-list"></div>
   </div>
@@ -568,11 +725,11 @@
 <!-- Command Bar -->
 <div class="command-bar">
   <span class="prompt-char">&#x276F;</span>
-  <input type="text" id="command-input" placeholder="Type a command or message..." autocomplete="off">
-  <div class="quick-actions">
-    <button class="quick-action" onclick="runQuick('/cmo')">/cmo</button>
-    <button class="quick-action" onclick="runQuick('/analyst')">/analyst</button>
-    <button class="quick-action" onclick="runQuick('/onboard')">/onboard</button>
+  <input type="text" id="command-input" placeholder="Type a command (/cmo, /analyst, /onboard) and press Enter..." autocomplete="off">
+  <div class="quick-actions" id="quick-actions">
+    <button class="quick-action" data-cmd="/cmo">/cmo</button>
+    <button class="quick-action" data-cmd="/analyst">/analyst</button>
+    <button class="quick-action" data-cmd="/onboard">/onboard</button>
   </div>
 </div>
 
@@ -582,23 +739,29 @@
     <h3 id="modal-title">Launch Agent</h3>
     <div class="modal-sub" id="modal-sub">Enter a task description</div>
     <input type="text" id="modal-input" placeholder="e.g. Plan February content calendar...">
+    <div class="modal-note">The agent will run in the background. Activity appears in the stream when hooks are installed.</div>
     <div class="modal-actions">
-      <button onclick="closeLaunchModal()">Cancel</button>
-      <button class="btn-primary" onclick="confirmLaunch()">Launch</button>
+      <button id="modal-copy-btn" class="btn-copy">Copy Command</button>
+      <button id="modal-cancel-btn">Cancel</button>
+      <button id="modal-launch-btn" class="btn-primary">Launch</button>
     </div>
   </div>
 </div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
 
 <script>
 // ── State ──
 let agents = [];
 let events = [];
-let agentStatuses = new Map(); // agentId -> {agentType, status, startedAt, parentSessionId, toolCounts, totalTools}
+let agentStatuses = new Map();
 let filterAgentType = null;
 let selectedAgentName = null;
-let launchTarget = null; // agent being launched
+let launchTarget = null;
 let ws = null;
 let wsConnected = false;
+let hooksInstalled = false;
 
 const COLORS = {
   blue: '#3b82f6', green: '#22c55e', purple: '#a855f7', pink: '#ec4899',
@@ -606,15 +769,38 @@ const COLORS = {
 };
 
 const EVENT_BADGES = {
-  SubagentStart:     { sym: '▶', label: 'SPAWN', color: 'var(--success)' },
-  SubagentStop:      { sym: '■', label: 'STOP',  color: 'var(--fg-dim)' },
-  PreToolUse:        { sym: '→', label: 'TOOL',  color: 'var(--warning)' },
-  PostToolUse:       { sym: '✓', label: 'DONE',  color: 'var(--info)' },
-  PostToolUseFailure:{ sym: '✗', label: 'FAIL',  color: 'var(--error)' },
-  Stop:              { sym: '◼', label: 'END',   color: 'var(--fg-dim)' },
-  SessionStart:      { sym: '●', label: 'START', color: 'var(--success)' },
-  SessionEnd:        { sym: '○', label: 'END',   color: 'var(--fg-dim)' },
+  SubagentStart:     { sym: '\u25B6', label: 'SPAWN', color: 'var(--success)' },
+  SubagentStop:      { sym: '\u25A0', label: 'STOP',  color: 'var(--fg-dim)' },
+  PreToolUse:        { sym: '\u2192', label: 'TOOL',  color: 'var(--warning)' },
+  PostToolUse:       { sym: '\u2713', label: 'DONE',  color: 'var(--info)' },
+  PostToolUseFailure:{ sym: '\u2717', label: 'FAIL',  color: 'var(--error)' },
+  Stop:              { sym: '\u25FC', label: 'END',   color: 'var(--fg-dim)' },
+  SessionStart:      { sym: '\u25CF', label: 'START', color: 'var(--success)' },
+  SessionEnd:        { sym: '\u25CB', label: 'END',   color: 'var(--fg-dim)' },
 };
+
+// ── Toast System ──
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('fade-out');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+// ── Clipboard ──
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('Copied to clipboard', 'success');
+  } catch {
+    showToast('Copy failed - use manual copy', 'warning');
+  }
+}
 
 // ── Init ──
 async function init() {
@@ -628,10 +814,11 @@ async function init() {
   ]);
 
   agents = agentData;
+  hooksInstalled = eventData.length > 0;
+
   renderAgents();
   renderIntel(intelData);
 
-  // Process historical events
   for (const e of eventData) {
     processAgentStatus(e);
     events.push(e);
@@ -639,16 +826,102 @@ async function init() {
   renderEvents();
   updateStatusBar(intelData);
 
-  // Find latest session
   const lastStart = [...eventData].reverse().find(e => e.hook_event_name === 'SessionStart');
   if (lastStart?.session_id) {
     document.getElementById('session-id').textContent = lastStart.session_id.slice(0, 8);
   }
 
   connectWebSocket();
-  setupCommandInput();
+  bindEvents();
 
   document.getElementById('agent-count').textContent = agents.length;
+}
+
+// ── Event Binding (no inline onclick) ──
+function bindEvents() {
+  // Command input
+  const input = document.getElementById('command-input');
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && input.value.trim()) {
+      handleCommand(input.value.trim());
+      input.value = '';
+    }
+  });
+
+  // Quick action buttons
+  document.getElementById('quick-actions').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-cmd]');
+    if (btn) {
+      const cmd = btn.dataset.cmd;
+      const name = cmd.slice(1);
+      const agent = agents.find(a => a.name === name);
+      if (agent) openLaunchModal(agent.name);
+    }
+  });
+
+  // Agent list (delegated)
+  document.getElementById('agent-list').addEventListener('click', (e) => {
+    const row = e.target.closest('[data-agent]');
+    if (!row) return;
+    const name = row.dataset.agent;
+    selectAgent(name);
+  });
+  document.getElementById('agent-list').addEventListener('dblclick', (e) => {
+    const row = e.target.closest('[data-agent]');
+    if (!row) return;
+    openLaunchModal(row.dataset.agent);
+  });
+
+  // Copy buttons (delegated on agent list)
+  document.getElementById('agent-list').addEventListener('click', (e) => {
+    const copyBtn = e.target.closest('[data-copy]');
+    if (copyBtn) {
+      e.stopPropagation();
+      copyToClipboard(copyBtn.dataset.copy);
+    }
+  });
+
+  // Clear events
+  document.getElementById('clear-events-btn').addEventListener('click', () => {
+    events = [];
+    agentStatuses.clear();
+    renderEvents();
+    renderAgents();
+    updateActiveCount();
+    showToast('Events cleared', 'info');
+  });
+
+  // Filter clear
+  document.getElementById('clear-filter-btn').addEventListener('click', clearFilter);
+
+  // Modal buttons
+  document.getElementById('modal-cancel-btn').addEventListener('click', closeLaunchModal);
+  document.getElementById('modal-launch-btn').addEventListener('click', confirmLaunch);
+  document.getElementById('modal-copy-btn').addEventListener('click', () => {
+    if (!launchTarget) return;
+    const task = document.getElementById('modal-input').value.trim() || 'Begin session';
+    const cmd = launchTarget.isOrchestrator
+      ? `claude /${launchTarget.name} ${task}`
+      : `claude --agent ${launchTarget.filePath} --prompt "${task}"`;
+    copyToClipboard(cmd);
+    closeLaunchModal();
+  });
+
+  // Modal input enter/escape
+  document.getElementById('modal-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') confirmLaunch();
+    if (e.key === 'Escape') closeLaunchModal();
+  });
+
+  // Global escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLaunchModal();
+  });
+
+  // Modal overlay click-to-close
+  document.getElementById('launch-modal').addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal-overlay')) closeLaunchModal();
+  });
 }
 
 // ── WebSocket ──
@@ -668,6 +941,7 @@ function connectWebSocket() {
   ws.onmessage = (msg) => {
     try {
       const event = JSON.parse(msg.data);
+      hooksInstalled = true;
       processAgentStatus(event);
       events.push(event);
       if (events.length > 300) events = events.slice(-200);
@@ -676,6 +950,10 @@ function connectWebSocket() {
 
       if (event.hook_event_name === 'SessionStart' && event.session_id) {
         document.getElementById('session-id').textContent = event.session_id.slice(0, 8);
+        showToast('New session started', 'success');
+      }
+      if (event.hook_event_name === 'SubagentStart') {
+        showToast(`Agent spawned: ${event.agent_type || 'unknown'}`, 'info');
       }
     } catch {}
   };
@@ -725,28 +1003,18 @@ function isAgentActive(agentName) {
   return false;
 }
 
-function getAgentDetail(agentName) {
-  for (const [id, s] of agentStatuses) {
-    if (s.agentType === agentName && s.status === 'active') return { ...s, agentId: id };
-  }
-  return null;
-}
-
 // ── Renderers ──
 function renderAgents() {
   const list = document.getElementById('agent-list');
 
-  // Build spawn tree: orchestrator -> children
-  const childrenOf = {}; // parent agentType -> [child agentType]
+  const childrenOf = {};
   for (const [, s] of agentStatuses) {
     if (s.parentSessionId && s.status === 'active') {
       for (const [pid, ps] of agentStatuses) {
-        if (pid === s.parentSessionId || ps.agentType === 'cmo' || ps.agentType === 'analyst') {
-          if (pid === s.parentSessionId) {
-            const key = ps.agentType;
-            if (!childrenOf[key]) childrenOf[key] = [];
-            if (!childrenOf[key].includes(s.agentType)) childrenOf[key].push(s.agentType);
-          }
+        if (pid === s.parentSessionId) {
+          const key = ps.agentType;
+          if (!childrenOf[key]) childrenOf[key] = [];
+          if (!childrenOf[key].includes(s.agentType)) childrenOf[key].push(s.agentType);
         }
       }
     }
@@ -758,14 +1026,14 @@ function renderAgents() {
   let html = '<div class="agent-section-label">Orchestrators</div>';
   for (const a of orchs) {
     html += agentRowHTML(a);
-    // Show spawned children
+    if (selectedAgentName === a.name) html += agentDetailHTML(a);
     if (childrenOf[a.name]) {
       for (let i = 0; i < childrenOf[a.name].length; i++) {
         const childType = childrenOf[a.name][i];
         const childAgent = specs.find(s => s.name === childType);
         if (childAgent) {
           const isLast = i === childrenOf[a.name].length - 1;
-          html += agentRowHTML(childAgent, true, isLast ? '└' : '├');
+          html += agentRowHTML(childAgent, true, isLast ? '\u2514' : '\u251C');
         }
       }
     }
@@ -774,6 +1042,7 @@ function renderAgents() {
   html += '<div class="agent-section-label" style="margin-top: 4px;">Specialists</div>';
   for (const a of specs) {
     html += agentRowHTML(a);
+    if (selectedAgentName === a.name) html += agentDetailHTML(a);
   }
 
   list.innerHTML = html;
@@ -792,12 +1061,27 @@ function agentRowHTML(agent, spawned = false, connector = '') {
     connectorHtml = `<span class="tree-connector">${connector}</span>`;
   }
 
-  return `<div class="${cls.join(' ')}" onclick="selectAgent('${agent.name}')" ondblclick="openLaunchModal('${agent.name}')">
+  return `<div class="${cls.join(' ')}" data-agent="${agent.name}">
     ${connectorHtml}
     <div class="agent-color-dot" style="background:${color}"></div>
     <div class="agent-name">${agent.displayName}</div>
     <span class="agent-hotkey">${agent.hotkey}</span>
     <div class="agent-status ${active ? 'active' : 'idle'}"></div>
+  </div>`;
+}
+
+function agentDetailHTML(agent) {
+  const desc = agent.description || 'No description';
+  const cmd = agent.isOrchestrator
+    ? `/${agent.name}`
+    : `claude --agent .claude/agents/${agent.name}.md`;
+
+  return `<div class="agent-detail">
+    <div class="detail-desc">${escapeHtml(desc)}</div>
+    <div class="copy-cmd">
+      <code>${escapeHtml(cmd)}</code>
+      <button class="copy-btn" data-copy="${escapeHtml(cmd)}">Copy</button>
+    </div>
   </div>`;
 }
 
@@ -810,15 +1094,7 @@ function renderEvents() {
   document.getElementById('event-count').textContent = filtered.length;
 
   if (filtered.length === 0) {
-    const isOnboarded = document.getElementById('dot-onboard').classList.contains('on');
-    list.innerHTML = `<div class="empty-stream">
-      <div class="icon">◈</div>
-      <div class="msg">${isOnboarded ? 'Waiting for events...' : 'Brand not configured'}</div>
-      <div class="hint">${isOnboarded
-        ? 'Launch an agent or run a command to see activity here.'
-        : 'Set up your brand architecture to get started.'}</div>
-      ${!isOnboarded ? '<button class="onboard-cta" onclick="runQuick(\'/onboard\')">Run /onboard</button>' : ''}
-    </div>`;
+    list.innerHTML = renderEmptyState();
     return;
   }
 
@@ -827,13 +1103,60 @@ function renderEvents() {
     html += eventCardHTML(event);
   }
   list.innerHTML = html;
-
-  // Auto-scroll to bottom
   list.scrollTop = list.scrollHeight;
 }
 
+function renderEmptyState() {
+  return `<div class="getting-started">
+    <h2>Getting Started</h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Install event hooks</h3>
+        <p>Connect Claude Code sessions to this dashboard so agent activity streams here in real-time.</p>
+        <div class="step-cmd">
+          <code>cd command-center && bash hooks/install.sh</code>
+          <button class="copy-btn" data-copy="cd command-center && bash hooks/install.sh">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Run a Claude session in your terminal</h3>
+        <p>Open a terminal and start any Claude command. The dashboard monitors your sessions - it doesn't replace them.</p>
+        <div class="step-cmd">
+          <code>claude /cmo</code>
+          <button class="copy-btn" data-copy="claude /cmo">Copy</button>
+        </div>
+        <div style="height:6px"></div>
+        <div class="step-cmd">
+          <code>claude /analyst</code>
+          <button class="copy-btn" data-copy="claude /analyst">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Watch activity appear here</h3>
+        <p>Every tool call, agent spawn, and session event streams to this dashboard via WebSocket. See all your agents working simultaneously.</p>
+      </div>
+    </div>
+
+    <div class="hooks-status ${hooksInstalled ? 'installed' : 'not-installed'}">
+      ${hooksInstalled
+        ? 'Hooks connected - waiting for new events...'
+        : 'No events received yet. Run step 1 to install hooks.'}
+    </div>
+  </div>`;
+}
+
 function eventCardHTML(event) {
-  const badge = EVENT_BADGES[event.hook_event_name] || { sym: '·', label: event.hook_event_name || '?', color: 'var(--fg-dim)' };
+  const badge = EVENT_BADGES[event.hook_event_name] || { sym: '\u00B7', label: event.hook_event_name || '?', color: 'var(--fg-dim)' };
   const agent = agents.find(a => a.name === event.agent_type);
   const color = agent ? (COLORS[agent.color] || 'var(--fg-dim)') : 'var(--fg-dim)';
   const tag = agent ? agent.shortTag : (event.agent_type || '?').split('-')[0].slice(0, 6);
@@ -866,7 +1189,7 @@ function getEventContext(event) {
     }
 
     switch (tn) {
-      case 'Bash': return ti.command ? ti.command.slice(0, 60) : '';
+      case 'Bash': return ti.command ? ti.command.slice(0, 80) : '';
       case 'Read': return shortPath(ti.file_path || '');
       case 'Write': case 'Edit': return shortPath(ti.file_path || '');
       case 'Glob': return ti.pattern || '';
@@ -882,17 +1205,15 @@ function getEventContext(event) {
 function renderIntel(data) {
   if (!data || !data.intel) return;
 
-  // Context files
   const cfDiv = document.getElementById('context-files');
   cfDiv.innerHTML = (data.contextFiles || []).map(cf =>
     `<div class="context-file">
       <span class="cf-key">${cf.key}</span>
       <span class="cf-name ${cf.exists ? '' : 'missing'}">${cf.label}</span>
-      <span class="cf-status">${cf.exists ? '✓' : '✗'}</span>
+      <span class="cf-status">${cf.exists ? '\u2713' : '\u2717'}</span>
     </div>`
   ).join('');
 
-  // Intel status
   const intelDiv = document.getElementById('intel-status');
   let html = '';
   for (const item of data.intel.items) {
@@ -923,10 +1244,6 @@ function updateStatusBar(intelData) {
 function selectAgent(name) {
   selectedAgentName = selectedAgentName === name ? null : name;
   renderAgents();
-
-  // Show detail if active
-  const detail = getAgentDetail(name);
-  // Detail is shown inline via renderAgents if we expand it later
 }
 
 function setFilter(agentType) {
@@ -948,7 +1265,7 @@ function openLaunchModal(agentName) {
   if (!agent) return;
   launchTarget = agent;
   document.getElementById('modal-title').textContent = `Launch ${agent.displayName}`;
-  document.getElementById('modal-sub').textContent = agent.description.slice(0, 100) || 'Enter a task description';
+  document.getElementById('modal-sub').textContent = agent.description || 'Enter a task description';
   document.getElementById('modal-input').value = '';
   document.getElementById('launch-modal').classList.remove('hidden');
   setTimeout(() => document.getElementById('modal-input').focus(), 50);
@@ -961,63 +1278,47 @@ function closeLaunchModal() {
 
 async function confirmLaunch() {
   const task = document.getElementById('modal-input').value.trim();
-  if (!task || !launchTarget) return;
+  if (!task || !launchTarget) {
+    if (!task) showToast('Enter a task description first', 'warning');
+    return;
+  }
 
   try {
-    await fetch('/api/launch', {
+    const res = await fetch('/api/launch', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ agentFile: launchTarget.filePath, task }),
     });
+    const data = await res.json();
+    if (data.ok) {
+      showToast(`${launchTarget.displayName} launched (PID: ${data.pid})`, 'success');
+    } else {
+      showToast(`Launch failed: ${data.error || 'unknown'}`, 'error');
+    }
   } catch (e) {
-    console.error('Launch failed:', e);
+    showToast('Launch failed: ' + e.message, 'error');
   }
   closeLaunchModal();
 }
 
 // ── Command Bar ──
-function setupCommandInput() {
-  const input = document.getElementById('command-input');
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && input.value.trim()) {
-      handleCommand(input.value.trim());
-      input.value = '';
-    }
-  });
-
-  // Modal input enter
-  document.getElementById('modal-input').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') confirmLaunch();
-    if (e.key === 'Escape') closeLaunchModal();
-  });
-
-  // Global escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLaunchModal();
-  });
-}
-
 function handleCommand(input) {
-  if (input.startsWith('/cmo') || input.startsWith('/analyst') || input.startsWith('/onboard')) {
+  if (input.startsWith('/')) {
     const parts = input.split(' ');
-    const cmd = parts[0].slice(1); // remove /
-    const task = parts.slice(1).join(' ') || `Begin ${cmd} session`;
+    const cmd = parts[0].slice(1);
     const agent = agents.find(a => a.name === cmd);
     if (agent) {
-      fetch('/api/launch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ agentFile: agent.filePath, task }),
-      }).catch(console.error);
+      openLaunchModal(agent.name);
+      if (parts.length > 1) {
+        setTimeout(() => {
+          document.getElementById('modal-input').value = parts.slice(1).join(' ');
+        }, 100);
+      }
+      return;
     }
-  }
-}
-
-function runQuick(cmd) {
-  const name = cmd.slice(1);
-  const agent = agents.find(a => a.name === name);
-  if (agent) {
-    openLaunchModal(agent.name);
+    showToast(`Unknown command: ${parts[0]}`, 'warning');
+  } else {
+    showToast('Commands start with / (e.g. /cmo, /analyst)', 'info');
   }
 }
 
@@ -1041,7 +1342,7 @@ function extractDomain(url) {
 }
 
 function escapeHtml(s) {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function updateClock() {
