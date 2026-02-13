@@ -1,6 +1,61 @@
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 
+// --- Team Grouping ---
+
+export interface AgentTeam {
+  name: string;
+  label: string;
+  icon: string;
+  color: string;
+  agents: AgentMeta[];
+}
+
+const TEAM_MAP: Record<string, string> = {
+  cmo: "orchestrators",
+  analyst: "orchestrators",
+  "content-marketing-strategist": "content",
+  "lead-writer": "content",
+  "monthly-content-planner": "content",
+  "creative-director": "content",
+  "brand-strategy-consultant": "strategy",
+  "market-research-specialist": "strategy",
+  "crisis-response-specialist": "strategy",
+  "seo-optimization-specialist": "digital",
+  "social-media-strategist": "digital",
+  "conversion-flow-optimizer": "digital",
+  "website-analysis-specialist": "digital",
+  "marketing-analytics-specialist": "analytics",
+  "competitive-intelligence-analyst": "analytics",
+  "email-marketing-specialist": "campaigns",
+  "paid-media-specialist": "campaigns",
+};
+
+const TEAM_DEFS: Array<{ name: string; label: string; icon: string; color: string }> = [
+  { name: "orchestrators", label: "Orchestrators", icon: "\u{1F3AF}", color: "#8b5cf6" },
+  { name: "content", label: "Content", icon: "\u{270F}\u{FE0F}", color: "#f97316" },
+  { name: "strategy", label: "Strategy", icon: "\u{1F9E0}", color: "#06b6d4" },
+  { name: "digital", label: "Digital", icon: "\u{1F310}", color: "#3b82f6" },
+  { name: "analytics", label: "Analytics", icon: "\u{1F4CA}", color: "#10b981" },
+  { name: "campaigns", label: "Campaigns", icon: "\u{1F4E8}", color: "#f59e0b" },
+];
+
+export function groupAgentsIntoTeams(agents: AgentMeta[]): AgentTeam[] {
+  const buckets = new Map<string, AgentMeta[]>();
+  for (const def of TEAM_DEFS) buckets.set(def.name, []);
+
+  for (const agent of agents) {
+    const team = TEAM_MAP[agent.name] || "strategy";
+    const bucket = buckets.get(team);
+    if (bucket) bucket.push(agent);
+  }
+
+  return TEAM_DEFS.filter((def) => (buckets.get(def.name)?.length ?? 0) > 0).map((def) => ({
+    ...def,
+    agents: buckets.get(def.name)!,
+  }));
+}
+
 export interface AgentMeta {
   name: string;
   displayName: string;

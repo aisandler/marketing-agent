@@ -5,6 +5,12 @@ visualizers/
 website-report/
 docs/archive/
 
+# Brand-specific docs (not part of product template)
+docs/brand/
+
+# Binary artifacts
+marketing-agent.zip
+
 # macOS
 .DS_Store
 .DS_Store?

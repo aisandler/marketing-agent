@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Marketing Organization — Agent Teams</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 1200px;
+    height: 675px;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0c0e14;
+    color: #e2e8f0;
+  }
+
+  .poster {
+    width: 1200px;
+    height: 675px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ---- Subtle grid bg ---- */
+  .poster::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 50% 50%, rgba(56,189,248,0.03) 0%, transparent 60%),
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 100% 100%, 32px 32px, 32px 32px;
+    pointer-events: none;
+  }
+
+  /* ---- Top bar ---- */
+  .top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #4299e1, #9f7aea, #38bdf8);
+  }
+
+  /* ---- Left column: headline area ---- */
+  .left {
+    position: absolute;
+    top: 28px;
+    left: 48px;
+    width: 340px;
+    z-index: 2;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 100px;
+    padding: 5px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #38bdf8;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #38bdf8;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(56,189,248,0.4); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 5px rgba(56,189,248,0); }
+  }
+
+  h1 {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  h1 .accent { color: #38bdf8; }
+
+  .subtitle {
+    font-size: 13px;
+    color: #718096;
+    line-height: 1.55;
+    margin-bottom: 24px;
+  }
+
+  .subtitle strong { color: #a0aec0; font-weight: 600; }
+
+  /* Stats row */
+  .stats {
+    display: flex;
+    gap: 20px;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 26px;
+    font-weight: 800;
+    color: #e2e8f0;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: #4a5568;
+    font-weight: 600;
+    margin-top: 3px;
+  }
+
+  /* ---- Center: Network diagram ---- */
+  .network {
+    position: absolute;
+    top: 10px;
+    left: 370px;
+    width: 500px;
+    height: 540px;
+    z-index: 1;
+  }
+
+  .network svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Animated connection lines */
+  .conn {
+    stroke-dasharray: 3 4;
+    animation: dash 2.5s linear infinite;
+  }
+
+  .conn-solid {
+    opacity: 0.12;
+  }
+
+  .conn-team {
+    stroke-dasharray: 5 3;
+    animation: dash-fast 1.2s linear infinite;
+  }
+
+  @keyframes dash {
+    to { stroke-dashoffset: -14; }
+  }
+
+  @keyframes dash-fast {
+    to { stroke-dashoffset: -16; }
+  }
+
+  /* Agent nodes */
+  .node {
+    cursor: default;
+  }
+
+  .node-bg {
+    rx: 8;
+    ry: 8;
+  }
+
+  .node-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 8.5px;
+    font-weight: 600;
+    fill: #a0aec0;
+  }
+
+  .node-icon {
+    font-size: 16px;
+  }
+
+  .orch-ring {
+    fill: none;
+    stroke-width: 2;
+    rx: 12;
+    ry: 12;
+  }
+
+  /* ---- Right column: Agent list ---- */
+  .right {
+    position: absolute;
+    top: 28px;
+    right: 40px;
+    width: 260px;
+    z-index: 2;
+  }
+
+  .disc-group {
+    margin-bottom: 12px;
+  }
+
+  .disc-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .disc-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+  }
+
+  .disc-dot.blue { background: #4299e1; }
+  .disc-dot.green { background: #48bb78; }
+  .disc-dot.purple { background: #9f7aea; }
+  .disc-dot.amber { background: #ed8936; }
+
+  .disc-label span { color: #4a5568; }
+
+  .agent-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-bottom: 1px;
+  }
+
+  .agent-item:hover {
+    background: rgba(255,255,255,0.03);
+  }
+
+  .ai-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  .ai-icon.blue { background: rgba(66,153,225,0.12); }
+  .ai-icon.green { background: rgba(72,187,120,0.12); }
+  .ai-icon.purple { background: rgba(159,122,234,0.12); }
+  .ai-icon.amber { background: rgba(237,137,54,0.12); }
+
+  .ai-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #cbd5e0;
+    white-space: nowrap;
+  }
+
+  /* ---- Bottom bar: flow + footer ---- */
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 110px;
+    background: linear-gradient(180deg, transparent 0%, rgba(12,14,20,0.95) 30%, #0c0e14 100%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 18px;
+  }
+
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 14px;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 7px 14px;
+  }
+
+  .flow-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #38bdf8;
+    flex-shrink: 0;
+  }
+
+  .flow-text {
+    font-size: 11px;
+    color: #718096;
+    font-weight: 500;
+  }
+
+  .flow-text strong { color: #a0aec0; }
+
+  .flow-arrow {
+    color: #2d3748;
+    font-size: 16px;
+    padding: 0 8px;
+  }
+
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-left {
+    font-size: 11px;
+    color: #2d3748;
+  }
+
+  .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .model-badge {
+    font-size: 10px;
+    font-weight: 700;
+    color: #38bdf8;
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.15);
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.3px;
+  }
+
+  .footer-tag {
+    font-size: 10px;
+    color: #4a5568;
+    font-weight: 600;
+  }
+
+  /* Team mode tags */
+  .team-tags {
+    position: absolute;
+    bottom: 120px;
+    left: 48px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 340px;
+    z-index: 3;
+  }
+
+  .team-tag {
+    font-size: 9px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: rgba(56,189,248,0.06);
+    color: rgba(56,189,248,0.7);
+    border: 1px solid rgba(56,189,248,0.12);
+    letter-spacing: 0.2px;
+  }
+
+  .team-tag-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 5px;
+    width: 100%;
+  }
+
+  /* Glow accents */
+  .glow-blue {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(66,153,225,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .glow-purple {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(159,122,234,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="top-bar"></div>
+
+  <!-- Glow accents -->
+  <div class="glow-blue" style="top:-50px;left:350px;"></div>
+  <div class="glow-purple" style="bottom:-30px;right:200px;"></div>
+
+  <!-- LEFT: Headline -->
+  <div class="left">
+    <div class="badge"><span class="dot"></span> Claude Opus 4.6 &middot; Agent Teams</div>
+    <h1>15 AI Agents.<br>One <span class="accent">Marketing<br>Organization.</span></h1>
+    <p class="subtitle">
+      Two AI executives orchestrate 15 specialists across 4 disciplines.
+      With <strong>Agent Teams</strong>, they work in parallel, message each other,
+      and cross-reference findings &mdash; not sequential handoffs, but real-time collaboration.
+    </p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">15</div><div class="stat-label">Agents</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">Disciplines</div></div>
+      <div class="stat"><div class="stat-num">13</div><div class="stat-label">Pathways</div></div>
+      <div class="stat"><div class="stat-num">7</div><div class="stat-label">Team Flows</div></div>
+    </div>
+  </div>
+
+  <!-- Team mode eligible tags -->
+  <div class="team-tags">
+    <div class="team-tag-label">Team Mode Eligible</div>
+    <div class="team-tag">Competitive Response</div>
+    <div class="team-tag">Seasonal Campaigns</div>
+    <div class="team-tag">Brand Awareness</div>
+    <div class="team-tag">Annual Strategy</div>
+    <div class="team-tag">Paid Media Launch</div>
+    <div class="team-tag">Intelligence Audit</div>
+    <div class="team-tag">Competitive Deep Dive</div>
+  </div>
+
+  <!-- CENTER: Network Diagram -->
+  <div class="network">
+    <svg viewBox="0 0 500 540" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Connection lines from CMO (250,80) to agents -->
+      <!-- Strategy & Brand -->
+      <line x1="250" y1="95" x2="95" y2="185" class="conn" stroke="rgba(66,153,225,0.25)" stroke-width="1"/>
+      <line x1="250" y1="95" x2="175" y2="200" class="conn" stroke="rgba(66,153,225,0.2)" stroke-width="1"/>
+      <line x1="250" y1="95" x2="100" y2="260" class="conn" stroke="rgba(66,153,225,0.15)" stroke-width="1"/>
+
+      <!-- Content Creation -->
+      <line x1="250" y1="95" x2="200" y2="300" class="conn" stroke="rgba(72,187,120,0.25)" stroke-width="1"/>
+      <line x1="250" y1="95" x2="130" y2="340" class="conn" stroke="rgba(72,187,120,0.2)" stroke-width="1"/>
+      <line x1="250" y1="95" x2="195" y2="385" class="conn" stroke="rgba(72,187,120,0.15)" stroke-width="1"/>
+
+      <!-- Distribution & Growth -->
+      <line x1="250" y1="95" x2="310" y2="185" class="conn" stroke="rgba(159,122,234,0.25)" stroke-width="1"/>
+      <line x1="250" y1="95" x2="380" y2="220" class="conn" stroke="rgba(159,122,234,0.2)" stroke-width="1"/>
+      <line x1="250" y1="95" x2="340" y2="290" class="conn" stroke="rgba(159,122,234,0.18)" stroke-width="1"/>
+      <line x1="250" y1="95" x2="410" y2="310" class="conn" stroke="rgba(159,122,234,0.15)" stroke-width="1"/>
+      <line x1="250" y1="95" x2="365" y2="370" class="conn" stroke="rgba(159,122,234,0.12)" stroke-width="1"/>
+
+      <!-- Research & Analytics (from Analyst at 380,80) -->
+      <line x1="380" y1="95" x2="300" y2="440" class="conn" stroke="rgba(237,137,54,0.25)" stroke-width="1"/>
+      <line x1="380" y1="95" x2="190" y2="460" class="conn" stroke="rgba(237,137,54,0.2)" stroke-width="1"/>
+      <line x1="380" y1="95" x2="395" y2="450" class="conn" stroke="rgba(237,137,54,0.18)" stroke-width="1"/>
+      <line x1="380" y1="95" x2="105" y2="430" class="conn" stroke="rgba(237,137,54,0.15)" stroke-width="1"/>
+
+      <!-- TEAM MODE: peer-to-peer connections (bright, animated) -->
+      <line x1="95" y1="185" x2="175" y2="200" class="conn-team" stroke="rgba(56,189,248,0.35)" stroke-width="1.5"/>
+      <line x1="175" y1="200" x2="200" y2="300" class="conn-team" stroke="rgba(56,189,248,0.3)" stroke-width="1.5"/>
+      <line x1="95" y1="185" x2="310" y2="185" class="conn-team" stroke="rgba(56,189,248,0.25)" stroke-width="1.5"/>
+      <line x1="200" y1="300" x2="340" y2="290" class="conn-team" stroke="rgba(56,189,248,0.2)" stroke-width="1.5"/>
+
+      <!-- Orchestrator: CMO -->
+      <rect x="216" y="58" width="68" height="38" rx="10" fill="rgba(66,153,225,0.12)" stroke="rgba(66,153,225,0.4)" stroke-width="1.5"/>
+      <text x="250" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#e2e8f0">&#127919;</text>
+      <text x="250" y="86" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" font-weight="700" fill="rgba(66,153,225,0.8)" letter-spacing="0.5">CMO</text>
+
+      <!-- Orchestrator: Analyst -->
+      <rect x="346" y="58" width="68" height="38" rx="10" fill="rgba(237,137,54,0.12)" stroke="rgba(237,137,54,0.4)" stroke-width="1.5"/>
+      <text x="380" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#e2e8f0">&#128200;</text>
+      <text x="380" y="86" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" font-weight="700" fill="rgba(237,137,54,0.8)" letter-spacing="0.5">ANALYST</text>
+
+      <!-- Orchestrator link -->
+      <line x1="284" y1="77" x2="346" y2="77" class="conn-solid" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+
+      <!-- Strategy & Brand agents (blue) -->
+      <g class="node">
+        <rect x="70" y="170" width="50" height="32" class="node-bg" fill="rgba(66,153,225,0.08)" stroke="rgba(66,153,225,0.25)" stroke-width="1"/>
+        <text x="95" y="184" text-anchor="middle" class="node-icon">&#127919;</text>
+        <text x="95" y="196" text-anchor="middle" class="node-label" fill="rgba(66,153,225,0.7)" font-size="6">Brand</text>
+      </g>
+      <g class="node">
+        <rect x="150" y="185" width="50" height="32" class="node-bg" fill="rgba(66,153,225,0.08)" stroke="rgba(66,153,225,0.25)" stroke-width="1"/>
+        <text x="175" y="199" text-anchor="middle" class="node-icon">&#128373;</text>
+        <text x="175" y="211" text-anchor="middle" class="node-label" fill="rgba(66,153,225,0.7)" font-size="6">Comp Intel</text>
+      </g>
+      <g class="node">
+        <rect x="75" y="245" width="50" height="32" class="node-bg" fill="rgba(66,153,225,0.08)" stroke="rgba(66,153,225,0.25)" stroke-width="1"/>
+        <text x="100" y="259" text-anchor="middle" class="node-icon">&#128680;</text>
+        <text x="100" y="271" text-anchor="middle" class="node-label" fill="rgba(66,153,225,0.7)" font-size="6">Crisis</text>
+      </g>
+
+      <!-- Content Creation agents (green) -->
+      <g class="node">
+        <rect x="175" y="285" width="50" height="32" class="node-bg" fill="rgba(72,187,120,0.08)" stroke="rgba(72,187,120,0.25)" stroke-width="1"/>
+        <text x="200" y="299" text-anchor="middle" class="node-icon">&#128221;</text>
+        <text x="200" y="311" text-anchor="middle" class="node-label" fill="rgba(72,187,120,0.7)" font-size="6">Content</text>
+      </g>
+      <g class="node">
+        <rect x="105" y="325" width="50" height="32" class="node-bg" fill="rgba(72,187,120,0.08)" stroke="rgba(72,187,120,0.25)" stroke-width="1"/>
+        <text x="130" y="339" text-anchor="middle" class="node-icon">&#9997;</text>
+        <text x="130" y="351" text-anchor="middle" class="node-label" fill="rgba(72,187,120,0.7)" font-size="6">Writer</text>
+      </g>
+      <g class="node">
+        <rect x="170" y="370" width="50" height="32" class="node-bg" fill="rgba(72,187,120,0.08)" stroke="rgba(72,187,120,0.25)" stroke-width="1"/>
+        <text x="195" y="384" text-anchor="middle" class="node-icon">&#127912;</text>
+        <text x="195" y="396" text-anchor="middle" class="node-label" fill="rgba(72,187,120,0.7)" font-size="6">Creative</text>
+      </g>
+
+      <!-- Distribution & Growth agents (purple) -->
+      <g class="node">
+        <rect x="285" y="170" width="50" height="32" class="node-bg" fill="rgba(159,122,234,0.08)" stroke="rgba(159,122,234,0.25)" stroke-width="1"/>
+        <text x="310" y="184" text-anchor="middle" class="node-icon">&#128231;</text>
+        <text x="310" y="196" text-anchor="middle" class="node-label" fill="rgba(159,122,234,0.7)" font-size="6">Email</text>
+      </g>
+      <g class="node">
+        <rect x="355" y="205" width="50" height="32" class="node-bg" fill="rgba(159,122,234,0.08)" stroke="rgba(159,122,234,0.25)" stroke-width="1"/>
+        <text x="380" y="219" text-anchor="middle" class="node-icon">&#128241;</text>
+        <text x="380" y="231" text-anchor="middle" class="node-label" fill="rgba(159,122,234,0.7)" font-size="6">Social</text>
+      </g>
+      <g class="node">
+        <rect x="315" y="275" width="50" height="32" class="node-bg" fill="rgba(159,122,234,0.08)" stroke="rgba(159,122,234,0.25)" stroke-width="1"/>
+        <text x="340" y="289" text-anchor="middle" class="node-icon">&#128269;</text>
+        <text x="340" y="301" text-anchor="middle" class="node-label" fill="rgba(159,122,234,0.7)" font-size="6">SEO</text>
+      </g>
+      <g class="node">
+        <rect x="385" y="295" width="50" height="32" class="node-bg" fill="rgba(159,122,234,0.08)" stroke="rgba(159,122,234,0.25)" stroke-width="1"/>
+        <text x="410" y="309" text-anchor="middle" class="node-icon">&#127919;</text>
+        <text x="410" y="321" text-anchor="middle" class="node-label" fill="rgba(159,122,234,0.7)" font-size="6">CRO</text>
+      </g>
+      <g class="node">
+        <rect x="340" y="355" width="50" height="32" class="node-bg" fill="rgba(159,122,234,0.08)" stroke="rgba(159,122,234,0.25)" stroke-width="1"/>
+        <text x="365" y="369" text-anchor="middle" class="node-icon">&#128176;</text>
+        <text x="365" y="381" text-anchor="middle" class="node-label" fill="rgba(159,122,234,0.7)" font-size="6">Paid</text>
+      </g>
+
+      <!-- Research & Analytics agents (amber) -->
+      <g class="node">
+        <rect x="80" y="415" width="50" height="32" class="node-bg" fill="rgba(237,137,54,0.08)" stroke="rgba(237,137,54,0.25)" stroke-width="1"/>
+        <text x="105" y="429" text-anchor="middle" class="node-icon">&#128200;</text>
+        <text x="105" y="441" text-anchor="middle" class="node-label" fill="rgba(237,137,54,0.7)" font-size="6">Research</text>
+      </g>
+      <g class="node">
+        <rect x="165" y="445" width="50" height="32" class="node-bg" fill="rgba(237,137,54,0.08)" stroke="rgba(237,137,54,0.25)" stroke-width="1"/>
+        <text x="190" y="459" text-anchor="middle" class="node-icon">&#128202;</text>
+        <text x="190" y="471" text-anchor="middle" class="node-label" fill="rgba(237,137,54,0.7)" font-size="6">Analytics</text>
+      </g>
+      <g class="node">
+        <rect x="275" y="425" width="50" height="32" class="node-bg" fill="rgba(237,137,54,0.08)" stroke="rgba(237,137,54,0.25)" stroke-width="1"/>
+        <text x="300" y="439" text-anchor="middle" class="node-icon">&#128197;</text>
+        <text x="300" y="451" text-anchor="middle" class="node-label" fill="rgba(237,137,54,0.7)" font-size="6">Planner</text>
+      </g>
+      <g class="node">
+        <rect x="370" y="435" width="50" height="32" class="node-bg" fill="rgba(237,137,54,0.08)" stroke="rgba(237,137,54,0.25)" stroke-width="1"/>
+        <text x="395" y="449" text-anchor="middle" class="node-icon">&#127760;</text>
+        <text x="395" y="461" text-anchor="middle" class="node-label" fill="rgba(237,137,54,0.7)" font-size="6">Website</text>
+      </g>
+
+      <!-- Team Mode label -->
+      <rect x="155" y="220" width="90" height="20" rx="10" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.3)" stroke-width="1"/>
+      <text x="200" y="234" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="700" fill="rgba(56,189,248,0.8)" letter-spacing="0.5">TEAM MODE</text>
+
+    </svg>
+  </div>
+
+  <!-- RIGHT: Agent roster -->
+  <div class="right">
+    <div class="disc-group">
+      <div class="disc-label"><div class="disc-dot blue"></div><span>Strategy & Brand</span></div>
+      <div class="agent-item"><div class="ai-icon blue">&#127919;</div><div class="ai-name">Brand Strategy Consultant</div></div>
+      <div class="agent-item"><div class="ai-icon blue">&#128373;</div><div class="ai-name">Competitive Intel Analyst</div></div>
+      <div class="agent-item"><div class="ai-icon blue">&#128680;</div><div class="ai-name">Crisis Response Specialist</div></div>
+    </div>
+    <div class="disc-group">
+      <div class="disc-label"><div class="disc-dot green"></div><span>Content Creation</span></div>
+      <div class="agent-item"><div class="ai-icon green">&#128221;</div><div class="ai-name">Content Marketing Strategist</div></div>
+      <div class="agent-item"><div class="ai-icon green">&#9997;</div><div class="ai-name">Lead Writer</div></div>
+      <div class="agent-item"><div class="ai-icon green">&#127912;</div><div class="ai-name">Creative Director</div></div>
+    </div>
+    <div class="disc-group">
+      <div class="disc-label"><div class="disc-dot purple"></div><span>Distribution & Growth</span></div>
+      <div class="agent-item"><div class="ai-icon purple">&#128231;</div><div class="ai-name">Email Marketing Specialist</div></div>
+      <div class="agent-item"><div class="ai-icon purple">&#128241;</div><div class="ai-name">Social Media Strategist</div></div>
+      <div class="agent-item"><div class="ai-icon purple">&#128269;</div><div class="ai-name">SEO Optimization Specialist</div></div>
+      <div class="agent-item"><div class="ai-icon purple">&#127919;</div><div class="ai-name">Conversion Flow Optimizer</div></div>
+      <div class="agent-item"><div class="ai-icon purple">&#128176;</div><div class="ai-name">Paid Media Specialist</div></div>
+    </div>
+    <div class="disc-group">
+      <div class="disc-label"><div class="disc-dot amber"></div><span>Research & Analytics</span></div>
+      <div class="agent-item"><div class="ai-icon amber">&#128200;</div><div class="ai-name">Market Research Specialist</div></div>
+      <div class="agent-item"><div class="ai-icon amber">&#128202;</div><div class="ai-name">Marketing Analytics Specialist</div></div>
+      <div class="agent-item"><div class="ai-icon amber">&#128197;</div><div class="ai-name">Monthly Content Planner</div></div>
+      <div class="agent-item"><div class="ai-icon amber">&#127760;</div><div class="ai-name">Website Analysis Specialist</div></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM: Flow + footer -->
+  <div class="bottom-bar">
+    <div class="flow-row">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-text"><strong>Describe</strong> your goal</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-text"><strong>CMO</strong> assembles team</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-text">Agents work <strong>in parallel</strong></div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-text"><strong>Unified</strong> deliverable</div>
+      </div>
+    </div>
+    <div class="footer-row">
+      <div class="footer-left">Built with Claude Code &mdash; Marketing Context Engineering</div>
+      <div class="footer-right">
+        <span class="model-badge">Claude Opus 4.6</span>
+        <span class="footer-tag">Agent Teams</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
