@@ -7,7 +7,6 @@ import { attachPermHandlers, renderPerm, renderAsk } from './permissions.js';
 
 // --- Performance: streaming throttle ---
 let _rafId = null;
-let _debounceTimer = null;
 
 // --- Performance: message pagination ---
 let _messageOffset = 0;
@@ -189,9 +188,8 @@ export function renderStream(s) {
   const area = document.getElementById('chatArea');
   if (!area) return;
 
-  // Cancel any pending RAF/debounce from previous delta
+  // Cancel any pending RAF from previous delta
   if (_rafId) { cancelAnimationFrame(_rafId); _rafId = null; }
-  if (_debounceTimer) { clearTimeout(_debounceTimer); _debounceTimer = null; }
 
   // Schedule DOM update on next animation frame (caps to 60fps)
   _rafId = requestAnimationFrame(() => {
@@ -216,18 +214,7 @@ export function renderStream(s) {
     }
 
     const contentEl = el.querySelector('.msg-content');
-
-    // Set raw escaped text immediately for fast display
-    contentEl.textContent = s.streamBuf;
-
-    // Debounce the full markdown parse to every 200ms
-    _debounceTimer = setTimeout(() => {
-      _debounceTimer = null;
-      // Re-check element is still in DOM
-      const liveEl = area.querySelector('.streaming-msg .msg-content');
-      if (liveEl) liveEl.innerHTML = md(s.streamBuf);
-    }, 200);
-
+    contentEl.innerHTML = md(s.streamBuf);
     area.scrollTop = area.scrollHeight;
   });
 }
