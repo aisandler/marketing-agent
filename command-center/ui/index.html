@@ -120,6 +120,12 @@
       opacity: 1;
       pointer-events: auto;
     }
+    .agent-flyout ~ main {
+      transition: margin-left 0.28s cubic-bezier(0.16,1,0.3,1);
+    }
+    .agent-flyout.open ~ main {
+      margin-left: 280px;
+    }
 
     /* === Workspace Panel Show/Hide === */
     .workspace-operations,
