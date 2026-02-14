@@ -1,7 +1,7 @@
 import { join, resolve, relative } from "path";
 import { readFileSync, readdirSync, statSync, writeFileSync, mkdirSync, existsSync, copyFileSync, unlinkSync } from "fs";
 import { loadAgents, groupAgentsIntoTeams } from "./agents.ts";
-import { getIntelStatus, getContextFiles, isOnboarded, getContextHealth } from "./intel.ts";
+import { getIntelStatus, getContextFiles, isOnboarded, getContextHealth, getLedgerInsights, getFeedbackLoop } from "./intel.ts";
 import { getImageQueue, getImageCosts, generateImages } from "./images.ts";
 import { SessionManager } from "./sessions.ts";
 import type { ClientMessage, ServerMessage, FileEntry } from "./protocol.ts";
@@ -16,6 +16,22 @@ process.on("unhandledRejection", (err: any) => {
 
 const PORT = 3457;
 const PROJECT_DIR = join(import.meta.dir, "..");
+
+// --- Panel Queue Persistence ---
+const QUEUE_PATH = join(PROJECT_DIR, ".claude/tasks/panel-queue.json");
+
+function readQueue(): { items: { id: string; text: string; done: boolean }[] } {
+  try {
+    if (existsSync(QUEUE_PATH)) return JSON.parse(readFileSync(QUEUE_PATH, "utf-8"));
+  } catch {}
+  return { items: [] };
+}
+
+function writeQueue(data: { items: { id: string; text: string; done: boolean }[] }) {
+  const dir = join(PROJECT_DIR, ".claude/tasks");
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+  writeFileSync(QUEUE_PATH, JSON.stringify(data, null, 2));
+}
 
 // Load agent metadata at startup
 const agents = loadAgents(PROJECT_DIR);
@@ -550,6 +566,47 @@ const server = Bun.serve({
     // API: context health
     if (url.pathname === "/api/context/health") {
       return Response.json(getContextHealth(PROJECT_DIR));
+    }
+
+    // API: ledger insights for mission control
+    if (url.pathname === "/api/intel/ledger-insights") {
+      return Response.json(getLedgerInsights(PROJECT_DIR));
+    }
+
+    // API: feedback loop data for Learned tab
+    if (url.pathname === "/api/intel/feedback-loop") {
+      return Response.json(getFeedbackLoop(PROJECT_DIR));
+    }
+
+    // API: panel task queue
+    if (url.pathname === "/api/panel-queue" && req.method === "GET") {
+      return Response.json(readQueue());
+    }
+    if (url.pathname === "/api/panel-queue" && req.method === "POST") {
+      const body = (await req.json()) as { text: string };
+      if (!body.text?.trim()) return Response.json({ error: "text required" }, { status: 400 });
+      const queue = readQueue();
+      const item = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), text: body.text.trim(), done: false };
+      queue.items.push(item);
+      writeQueue(queue);
+      return Response.json(item);
+    }
+    if (url.pathname.startsWith("/api/panel-queue/") && req.method === "PATCH") {
+      const id = url.pathname.split("/").pop()!;
+      const body = (await req.json()) as { done: boolean };
+      const queue = readQueue();
+      const item = queue.items.find((i) => i.id === id);
+      if (!item) return Response.json({ error: "not found" }, { status: 404 });
+      item.done = body.done;
+      writeQueue(queue);
+      return Response.json(item);
+    }
+    if (url.pathname.startsWith("/api/panel-queue/") && req.method === "DELETE") {
+      const id = url.pathname.split("/").pop()!;
+      const queue = readQueue();
+      queue.items = queue.items.filter((i) => i.id !== id);
+      writeQueue(queue);
+      return Response.json({ ok: true });
     }
 
     // --- Environment Variables API ---

@@ -232,22 +232,10 @@
     .settings-status.missing    { background: rgba(239,68,68,0.15); color: #ef4444; }
     .settings-status.optional   { background: #08090C; color: rgba(255,255,255,0.35); }
 
-    /* === Sub-Agent Slide-Over === */
-    .sub-slide {
-      position: fixed;
-      top: 0;
-      right: -500px;
-      width: 500px;
-      height: 100vh;
-      background: #0a0b10;
-      border-left: 1px solid #333;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      transition: right 0.3s cubic-bezier(0.16,1,0.3,1);
-      box-shadow: -8px 0 24px rgba(0,0,0,0.3);
-    }
-    .sub-slide.open { right: 0; }
+    /* === Sub-Agent Inline Expansion === */
+    .subagent-detail { max-height: 0; overflow: hidden; transition: max-height 0.25s ease-out; padding: 0; }
+    .subagent-card.expanded .subagent-detail { max-height: 400px; overflow-y: auto; padding-top: 8px; margin-top: 6px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .subagent-card.expanded { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
 
     /* === Sub-Agent Card Status === */
     .subagent-status.running   { background: rgba(16,185,129,0.15); color: #10b981; }
@@ -516,6 +504,45 @@
       padding: 16px 20px !important;
     }
 
+    /* === Right Panel Tab States === */
+    .rp-tab {
+      border-color: transparent;
+      color: rgba(255,255,255,0.35);
+      background: transparent;
+    }
+    .rp-tab:hover {
+      color: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.03);
+    }
+    .rp-tab.active {
+      border-color: rgba(255,102,0,0.5);
+      color: #FF6600;
+      background: rgba(255,102,0,0.08);
+    }
+    .rp-tab-content.active {
+      display: flex !important;
+    }
+
+    /* === Right Panel: Collapsible Details === */
+    .right-panel details summary { list-style: none; cursor: pointer; }
+    .right-panel details summary::-webkit-details-marker { display: none; }
+    .right-panel details summary::before {
+      content: '\25B8';
+      display: inline-block;
+      margin-right: 6px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.35);
+      transition: transform 0.15s;
+    }
+    .right-panel details[open] summary::before { transform: rotate(90deg); }
+
+    /* === Right Panel: Vitals Grid Hover === */
+    .rp-vital {
+      transition: background 0.15s;
+      border-radius: 8px;
+    }
+    .rp-vital:hover { background: rgba(255,255,255,0.05); }
+
     /* === Reduced Motion === */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -730,34 +757,23 @@
 
   </main>
 
-  <!-- ===== Right Panel (320px) — Context Intelligence ===== -->
-  <aside class="right-panel w-80 bg-[#14151a] border-l border-border-dim flex flex-col z-20 flex-shrink-0 overflow-y-auto">
-    <div class="px-5 py-4 border-b border-white/5 flex-shrink-0">
-      <h2 class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500">Context Intelligence</h2>
-    </div>
-
-    <!-- Health Gauge -->
-    <div class="px-5 py-4 flex justify-center" id="ctxHealthGauge"></div>
-
-    <!-- Onboarded Badge -->
-    <div class="px-5 pb-3" id="ctxOnboarded"></div>
-
-    <!-- Intelligence -->
-    <div class="px-5 py-3">
-      <div class="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-3">Active Streams</div>
-      <div id="ctxIntel" class="flex flex-col gap-1"></div>
-    </div>
-
-    <!-- Context Files -->
-    <div class="px-5 py-3">
-      <div class="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-3">Context Files</div>
-      <div id="ctxFiles" class="flex flex-col gap-1"></div>
-    </div>
-
-    <!-- Session Stats -->
-    <div class="px-5 py-3 mt-auto border-t border-white/5">
-      <div class="text-[10px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-3">Session</div>
-      <div id="ctxStats" class="flex flex-col gap-1"></div>
+  <!-- ===== Right Panel (320px) — Intelligence Sidebar ===== -->
+  <aside class="right-panel w-80 bg-[#14151a] border-l border-border-dim flex flex-col z-20 flex-shrink-0 overflow-hidden">
+    <header class="px-4 py-3 border-b border-white/5 flex-shrink-0">
+      <div class="flex items-center gap-2 mb-2.5">
+        <h2 class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500">Intelligence</h2>
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400" style="animation:pulse 2s infinite" id="rpLiveDot"></span>
+      </div>
+      <div class="flex gap-1" id="rpTabBar">
+        <button class="rp-tab px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full border transition-all cursor-pointer" data-tab="live">Live</button>
+        <button class="rp-tab px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full border transition-all cursor-pointer" data-tab="context">Context</button>
+        <button class="rp-tab px-3 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full border transition-all cursor-pointer" data-tab="learned">Learned</button>
+      </div>
+    </header>
+    <div class="flex-1 overflow-y-auto">
+      <div id="rpTabLive" class="rp-tab-content hidden flex flex-col gap-3 p-4"></div>
+      <div id="rpTabContext" class="rp-tab-content hidden flex flex-col gap-3 p-4"></div>
+      <div id="rpTabLearned" class="rp-tab-content hidden flex flex-col gap-3 p-4"></div>
     </div>
   </aside>
 

@@ -6,11 +6,11 @@ import { renderChat, toggleTool, agentColor, loadEarlierMessages, resetMessageOf
 import { selOpt, submitAsk } from './permissions.js';
 import { renderAgentFlyout, renderQuickAgents, toggleFlyout, pickAgent } from './sidebar.js';
 import { renderTabs, renderLiveCards, setupSessionHandlers, startSess, switchTo, closeSess } from './sessions.js';
-import { renderCtx, updStats, renderContextDashboard, contextFix } from './context.js';
+import { renderCtx, updStats, renderContextDashboard, contextFix, setupRightPanel, initNextData, addQueueItem, toggleQueueItem, deleteQueueItem, refreshStatus, switchRpTab, openContextFile, refreshLearned } from './context.js';
 import { setupInput, updInput, doSend, doStop } from './input.js';
 import { setupKeyboard, switchWorkspace } from './keyboard.js';
 import { loadFileRoots, toggleDir, openFile, saveFile, setupFiles, renderFileTree } from './files.js';
-import { setupOrchestration, renderOrchestrationPanel, openSubSlide, closeSubSlide } from './orchestration.js';
+import { setupOrchestration, renderOrchestrationPanel, toggleSubDetail, dismissOrchestrationPanel } from './orchestration.js';
 import { setupImages, refreshImages, generateImages, generateImagesDry } from './images.js';
 import { setupActivity, clearActivity } from './activity.js';
 import { setupCommandPalette, togglePalette, cpSelect } from './command-palette.js';
@@ -32,13 +32,20 @@ window.CC = {
   switchWorkspace,
   toggleFlyout,
   contextFix,
+  addQueueItem,
+  toggleQueueItem,
+  deleteQueueItem,
+  refreshStatus,
+  switchRpTab,
+  openContextFile,
+  refreshLearned,
   refreshImages,
   generateImages,
   generateImagesDry,
   clearActivity,
   loadEarlierMessages,
-  openSubSlide,
-  closeSubSlide,
+  toggleSubDetail,
+  dismissOrchPanel: dismissOrchestrationPanel,
   togglePalette,
   cpSelect,
   editEnvKey,
@@ -65,6 +72,7 @@ setupSettings();
 // --- Setup UI ---
 setupInput();
 setupKeyboard();
+setupRightPanel();
 
 // --- Render hydrated state ---
 if (Store.get('sessions').size > 0) {
@@ -95,6 +103,7 @@ fetch('/api/agents').then(r => r.json()).then(agents => {
 }).catch(() => {});
 
 fetch('/api/intel').then(r => r.json()).then(renderCtx).catch(() => {});
+initNextData();
 
 // --- Periodic updates ---
 setInterval(() => {

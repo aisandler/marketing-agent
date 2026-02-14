@@ -274,3 +274,141 @@ export function getContextHealth(projectDir: string): { score: number; items: Co
 
   return { score, items, actions };
 }
+
+// --- Ledger Insights (for Mission Control) ---
+
+export function getLedgerInsights(projectDir: string): {
+  agentRecency: { agent: string; daysAgo: number | null }[];
+  recommendations: { text: string; date: string; agent: string }[];
+} {
+  const ledgerPath = join(projectDir, "docs/intelligence/internal/context-intelligence-ledger.md");
+  const trackedAgents = ["CMO", "Analyst", "Intel", "Report"];
+  const lastSeen: Record<string, Date | null> = {};
+  for (const a of trackedAgents) lastSeen[a] = null;
+  const recommendations: { text: string; date: string; agent: string }[] = [];
+
+  if (!existsSync(ledgerPath)) {
+    return {
+      agentRecency: trackedAgents.map((a) => ({ agent: a, daysAgo: null })),
+      recommendations,
+    };
+  }
+
+  try {
+    const content = readFileSync(ledgerPath, "utf-8");
+    const sessions = content.split(/^### Session:/m).slice(1);
+
+    for (const session of sessions) {
+      const dateMatch = session.match(/(\d{4}-\d{2}-\d{2})/);
+      const date = dateMatch ? dateMatch[1] : null;
+      if (!date) continue;
+      const sessionDate = new Date(date);
+
+      const lower = session.toLowerCase();
+      let agent = "CMO";
+      if (lower.includes("analyst") || lower.includes("/analyst")) agent = "Analyst";
+      else if (lower.includes("/intel") || lower.includes("intelligence collection")) agent = "Intel";
+      else if (lower.includes("/report") || lower.includes("website report")) agent = "Report";
+      else if (lower.includes("/cmo") || lower.includes("cmo")) agent = "CMO";
+
+      if (trackedAgents.includes(agent)) {
+        if (!lastSeen[agent] || sessionDate > lastSeen[agent]!) {
+          lastSeen[agent] = sessionDate;
+        }
+      }
+
+      const lines = session.split("\n");
+      for (const line of lines) {
+        const recMatch = line.match(/(?:Recommendation|Next step|Action item|TODO):\s*(.+)/i);
+        if (recMatch) {
+          recommendations.push({ text: recMatch[1].trim(), date, agent });
+        }
+      }
+    }
+  } catch {
+    // Failed to parse — return empty
+  }
+
+  return {
+    agentRecency: trackedAgents.map((a) => ({
+      agent: a,
+      daysAgo: lastSeen[a] ? Math.floor((Date.now() - lastSeen[a]!.getTime()) / (1000 * 60 * 60 * 24)) : null,
+    })),
+    recommendations: recommendations.slice(-10).reverse(),
+  };
+}
+
+// --- Feedback Loop Data (for Learned tab) ---
+
+interface FeedbackEntry {
+  text: string;
+  date: string;
+  source: string;
+  type: "pattern" | "insight" | "competitive" | "seasonal";
+}
+
+export function getFeedbackLoop(projectDir: string): {
+  patterns: FeedbackEntry[];
+  hasData: boolean;
+  sources: { name: string; updated: string; entryCount: number }[];
+} {
+  const patterns: FeedbackEntry[] = [];
+  const sources: { name: string; updated: string; entryCount: number }[] = [];
+
+  const files = [
+    { name: "Performance", path: join(projectDir, "docs/intelligence/internal/performance-analysis-history.md"), type: "pattern" as const },
+    { name: "Seasonal", path: join(projectDir, "docs/intelligence/internal/seasonal-patterns.md"), type: "seasonal" as const },
+    { name: "Competitive", path: join(projectDir, "docs/intelligence/internal/competitive-intelligence-tracking.md"), type: "competitive" as const },
+  ];
+
+  for (const file of files) {
+    if (!existsSync(file.path)) {
+      sources.push({ name: file.name, updated: "Never", entryCount: 0 });
+      continue;
+    }
+
+    try {
+      const content = readFileSync(file.path, "utf-8");
+
+      // Get last updated date
+      const updMatch = content.match(/\*\*Last Updated:\*\*\s*([\w\d\s-]+)/);
+      const updated = updMatch ? updMatch[1].trim() : "Never";
+
+      // Split on entry markers (### or --- followed by content)
+      const afterMarker = content.split("<!-- APPEND NEW ENTRIES BELOW THIS LINE -->")[1] || "";
+      const entries = afterMarker.split(/^###\s+/m).filter(e => e.trim().length > 20);
+
+      sources.push({ name: file.name, updated, entryCount: entries.length });
+
+      for (const entry of entries.slice(-15)) {
+        // Extract date from entry
+        const dateMatch = entry.match(/(\d{4}-\d{2}-\d{2})/);
+        const date = dateMatch ? dateMatch[1] : "";
+
+        // Extract meaningful lines (skip headers, blank lines, metadata)
+        const lines = entry.split("\n")
+          .map(l => l.trim())
+          .filter(l => l.length > 15 && !l.startsWith("#") && !l.startsWith("**Last") && !l.startsWith("---") && !l.startsWith("<!--"));
+
+        for (const line of lines.slice(0, 3)) {
+          // Clean markdown formatting
+          const clean = line.replace(/^\s*[-*]\s*/, "").replace(/\*\*/g, "").trim();
+          if (clean.length > 15) {
+            patterns.push({ text: clean, date, source: file.name, type: file.type });
+          }
+        }
+      }
+    } catch {
+      sources.push({ name: file.name, updated: "Error", entryCount: 0 });
+    }
+  }
+
+  // Sort patterns by date descending
+  patterns.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+  return {
+    patterns: patterns.slice(0, 20),
+    hasData: patterns.length > 0,
+    sources,
+  };
+}

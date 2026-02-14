@@ -15,6 +15,8 @@ interface SubSession {
   agentId: string;
   agentType: string;
   parentToolUseId: string;
+  taskName: string;
+  taskDescription: string;
   status: "running" | "completed";
   lastProgressAt: number;
 }
@@ -32,6 +34,7 @@ interface ManagedSession {
   abortController: AbortController;
   lastProgressAt: number;
   subSessions: Map<string, SubSession>;
+  pendingTaskDescriptions: Array<{ toolUseId: string; name: string; description: string }>;
 }
 
 export class SessionManager {
@@ -82,6 +85,7 @@ export class SessionManager {
       abortController,
       lastProgressAt: 0,
       subSessions: new Map(),
+      pendingTaskDescriptions: [],
     };
 
     this.sessions.set(sessionId, session);
@@ -122,7 +126,7 @@ export class SessionManager {
         append: session.agentContent,
       },
       tools: { type: "preset", preset: "claude_code" },
-      permissionMode: "acceptEdits",
+      permissionMode: "bypassPermissions",
       includePartialMessages: true,
       stderr: (data: string) => {
         if (data.includes("error") || data.includes("Error") || data.includes("ENOENT")) {
@@ -137,11 +141,16 @@ export class SessionManager {
             if (input.hook_event_name === "SubagentStart") {
               const agentId = input.agent_id;
               const agentType = input.agent_type;
-              // We'll associate with parent_tool_use_id when we see messages
+              // Shift from FIFO queue to get task name/description
+              const pending = session.pendingTaskDescriptions.shift();
+              const taskName = pending?.name || "";
+              const taskDescription = pending?.description || "";
               session.subSessions.set(agentId, {
                 agentId,
                 agentType,
                 parentToolUseId: "",
+                taskName,
+                taskDescription,
                 status: "running",
                 lastProgressAt: 0,
               });
@@ -151,6 +160,8 @@ export class SessionManager {
                 agentId,
                 agentType,
                 parentToolUseId: "",
+                taskName,
+                taskDescription,
               });
             }
             return { continue: true };
@@ -301,6 +312,16 @@ export class SessionManager {
               this.send({ type: "subagent_assistant_message", sessionId, agentId: sub.agentId, content: mapped });
             }
           } else {
+            // Scan for Task tool_use blocks and enqueue descriptions (FIFO)
+            for (const block of content) {
+              if (block.type === "tool_use" && block.name === "Task" && block.input) {
+                session.pendingTaskDescriptions.push({
+                  toolUseId: block.id,
+                  name: (block.input as any).name || (block.input as any).description || "",
+                  description: (block.input as any).description || "",
+                });
+              }
+            }
             this.send({ type: "assistant_message", sessionId, content: mapped });
           }
           continue;
@@ -426,7 +447,9 @@ export class SessionManager {
       }
     }
 
-    // Auto-approve everything else (acceptEdits mode handles the rest)
+    // Auto-approve everything else
+    // Note: with bypassPermissions mode, the CLI auto-approves most tools
+    // before reaching this callback. This catch-all handles any edge cases.
     return { behavior: "allow", updatedInput: input };
   }
 

@@ -5,9 +5,10 @@ import { agentColor, fmtDuration, fmtToolResult, renderChat, renderStream, reset
 import { wsSend, registerHandler } from './ws.js';
 import { toast } from './toast.js';
 import { renderAgentFlyout, renderQuickAgents } from './sidebar.js';
-import { renderCtx, updStats } from './context.js';
+import { renderCtx, updStats, onSessionStart, onSessionComplete, trackToolUse } from './context.js';
 import { updInput } from './input.js';
 import { logEvent } from './activity.js';
+import { clearSubSessionsForSession, clearAllSubSessions } from './orchestration.js';
 
 function toolSummary(b) {
   const p = b.input || {};
@@ -104,6 +105,7 @@ export function startSess(agentName, prompt) {
   logEvent('session_start', { agentName: agent.displayName || agentName });
   if (!isAutoStart) logEvent('message_sent', { agentName: agent.displayName || agentName, text: prompt });
   renderAll();
+  onSessionStart();
 }
 
 export function switchTo(id) {
@@ -148,6 +150,9 @@ export function setupSessionHandlers() {
     renderQuickAgents();
     renderCtx(msg.intel);
 
+    // Clear stale sub-sessions on reconnect (server doesn't resend them)
+    clearAllSubSessions();
+
     const sessions = Store.get('sessions');
     for (const s of (msg.sessions || [])) {
       if (!sessions.has(s.id)) {
@@ -168,7 +173,12 @@ export function setupSessionHandlers() {
     const s = Store.get('sessions').get(msg.sessionId);
     if (s) {
       s.status = msg.status;
+      if (msg.status === 'completed' || msg.status === 'error') onSessionComplete();
       logEvent('session_status', { agentName: s.agent.displayName || msg.agentName, status: msg.status });
+      // Clean up sub-agents when parent session ends
+      if (msg.status === 'completed' || msg.status === 'error') {
+        clearSubSessionsForSession(msg.sessionId);
+      }
       renderTabs(); renderLiveCards(); updInput();
       if (msg.sessionId === Store.get('activeSessionId')) {
         renderChat();
@@ -197,6 +207,7 @@ export function setupSessionHandlers() {
     for (const b of (msg.content || [])) {
       if (b.type === 'tool_use') {
         logEvent('tool_use', { agentName: s.agent.displayName || s.agent.name, toolName: b.name, summary: toolSummary(b) });
+        trackToolUse(msg.sessionId, b.name, b.input);
       }
     }
     if (msg.sessionId === Store.get('activeSessionId')) {

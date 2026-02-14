@@ -139,6 +139,8 @@ export type ServerMessage =
       agentId: string;
       agentType: string;
       parentToolUseId: string;
+      taskName: string;
+      taskDescription: string;
     }
   | {
       type: "subagent_stop";
