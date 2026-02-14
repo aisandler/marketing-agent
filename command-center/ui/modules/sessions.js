@@ -87,18 +87,22 @@ function migrate(msg) {
 }
 
 export function startSess(agentName, prompt) {
-  wsSend({ type: 'start_session', agentName, prompt });
+  const isAutoStart = !prompt;
+  const finalPrompt = prompt || 'Your complete workflow instructions have been loaded into the system prompt. Begin your session now — introduce yourself and present options. Do not invoke the /' + agentName + ' skill or any other startup skills as your instructions are already loaded.';
+  wsSend({ type: 'start_session', agentName, prompt: finalPrompt });
   const agents = Store.get('agents') || [];
   const agent = agents.find(a => a.name === agentName) || { name: agentName, displayName: agentName, color: 'purple' };
   const id = agentName + '-' + Date.now().toString(36);
+  // Hide the auto-start prompt from the chat — makes it feel like the agent initiates
+  const messages = isAutoStart ? [] : [{ role: 'user', content: prompt }];
   Store.get('sessions').set(id, {
-    agent, messages: [{ role: 'user', content: prompt }],
+    agent, messages,
     status: 'starting', cost: 0, turns: 0, startedAt: Date.now(), streamBuf: '',
   });
   Store.batch({ activeSessionId: id, _pendingAgent: null });
   Store.persistNow();
   logEvent('session_start', { agentName: agent.displayName || agentName });
-  logEvent('message_sent', { agentName: agent.displayName || agentName, text: prompt });
+  if (!isAutoStart) logEvent('message_sent', { agentName: agent.displayName || agentName, text: prompt });
   renderAll();
 }
 

@@ -64,7 +64,7 @@ export function pickAgent(name) {
   if (!agent) return;
   toggleFlyout(false);
   if (Store.get('activeWorkspace') !== 'operations') switchWorkspace('operations');
-  startSess(name, 'Start');
+  startSess(name);
 }
 
 export function renderQuickAgents() {
