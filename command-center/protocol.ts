@@ -64,6 +64,19 @@ export type ClientMessage =
     }
   | {
       type: "sync";
+    }
+  | {
+      type: "image_queue_sync";
+    }
+  | {
+      type: "image_generate";
+      recordId?: string;
+      limit?: number;
+      dryRun?: boolean;
+    }
+  | {
+      type: "context_action";
+      action: "collect_intel" | "run_onboard" | "generate_images";
     };
 
 // --- Server -> Browser ---
@@ -121,6 +134,69 @@ export type ServerMessage =
       elapsedSeconds: number;
     }
   | {
+      type: "subagent_start";
+      sessionId: string;
+      agentId: string;
+      agentType: string;
+      parentToolUseId: string;
+    }
+  | {
+      type: "subagent_stop";
+      sessionId: string;
+      agentId: string;
+      transcriptPath?: string;
+    }
+  | {
+      type: "subagent_text_delta";
+      sessionId: string;
+      agentId: string;
+      text: string;
+    }
+  | {
+      type: "subagent_tool_progress";
+      sessionId: string;
+      agentId: string;
+      toolName: string;
+      toolId: string;
+      elapsedSeconds: number;
+    }
+  | {
+      type: "subagent_assistant_message";
+      sessionId: string;
+      agentId: string;
+      content: ContentBlock[];
+    }
+  | {
+      type: "subagent_tool_result";
+      sessionId: string;
+      agentId: string;
+      toolId: string;
+      content: unknown;
+    }
+  | {
+      type: "image_queue_status";
+      pending: number;
+      processing: number;
+      completed: number;
+      failed: number;
+      totalCost: number;
+      records: any[];
+    }
+  | {
+      type: "image_generation_progress";
+      recordId: string;
+      status: string;
+      postTopic?: string;
+      imageUrl?: string;
+      error?: string;
+    }
+  | {
+      type: "context_health";
+      score: number;
+      items: ContextHealthItem[];
+      actions: ContextAction[];
+    }
+  | {
       type: "error";
       sessionId?: string;
       message: string;
@@ -159,4 +235,23 @@ export interface IntelPayload {
     exists: boolean;
   }>;
   isOnboarded: boolean;
+}
+
+// --- Context Health Types ---
+
+export interface ContextHealthItem {
+  key: string;
+  label: string;
+  category: "config" | "intel" | "content";
+  status: "ok" | "missing" | "stale" | "old";
+  path: string;
+  daysAgo?: number;
+  fixAction?: string;
+}
+
+export interface ContextAction {
+  label: string;
+  description: string;
+  agentName: string;
+  prompt: string;
 }

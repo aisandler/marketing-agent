@@ -11,6 +11,14 @@ interface PendingPermission {
   requestId: string;
 }
 
+interface SubSession {
+  agentId: string;
+  agentType: string;
+  parentToolUseId: string;
+  status: "running" | "completed";
+  lastProgressAt: number;
+}
+
 interface ManagedSession {
   id: string;
   sdkSessionId: string | null;
@@ -23,6 +31,7 @@ interface ManagedSession {
   pendingPermission: PendingPermission | null;
   abortController: AbortController;
   lastProgressAt: number;
+  subSessions: Map<string, SubSession>;
 }
 
 export class SessionManager {
@@ -72,6 +81,7 @@ export class SessionManager {
       pendingPermission: null,
       abortController,
       lastProgressAt: 0,
+      subSessions: new Map(),
     };
 
     this.sessions.set(sessionId, session);
@@ -121,6 +131,50 @@ export class SessionManager {
       },
       canUseTool: (toolName, input, { signal }) =>
         self.handlePermission(sessionId, toolName, input, signal),
+      hooks: {
+        SubagentStart: [{
+          hooks: [async (input) => {
+            if (input.hook_event_name === "SubagentStart") {
+              const agentId = input.agent_id;
+              const agentType = input.agent_type;
+              // We'll associate with parent_tool_use_id when we see messages
+              session.subSessions.set(agentId, {
+                agentId,
+                agentType,
+                parentToolUseId: "",
+                status: "running",
+                lastProgressAt: 0,
+              });
+              self.send({
+                type: "subagent_start",
+                sessionId,
+                agentId,
+                agentType,
+                parentToolUseId: "",
+              });
+            }
+            return { continue: true };
+          }],
+        }],
+        SubagentStop: [{
+          hooks: [async (input) => {
+            if (input.hook_event_name === "SubagentStop") {
+              const agentId = input.agent_id;
+              const sub = session.subSessions.get(agentId);
+              if (sub) {
+                sub.status = "completed";
+                self.send({
+                  type: "subagent_stop",
+                  sessionId,
+                  agentId,
+                  transcriptPath: input.agent_transcript_path,
+                });
+              }
+            }
+            return { continue: true };
+          }],
+        }],
+      },
     };
 
     // Resume if we have a previous session ID
@@ -147,23 +201,71 @@ export class SessionManager {
           continue;
         }
 
+        // --- Sub-agent routing ---
+        const parentToolUseId: string | null = (msg as any).parent_tool_use_id ?? null;
+        const isSubAgent = parentToolUseId !== null;
+
+        // If this is a sub-agent message, find/update the sub-session
+        if (isSubAgent) {
+          // Try to associate parentToolUseId with an agent
+          for (const sub of session.subSessions.values()) {
+            if (!sub.parentToolUseId && sub.status === "running") {
+              sub.parentToolUseId = parentToolUseId;
+              break;
+            }
+          }
+        }
+
+        // Find sub-agent by parentToolUseId
+        const findSubByToolUse = (ptId: string): SubSession | undefined => {
+          for (const sub of session.subSessions.values()) {
+            if (sub.parentToolUseId === ptId) return sub;
+          }
+          return undefined;
+        };
+
         // Streaming text deltas
         if (msg.type === "stream_event") {
           const event = (msg as any).event;
           if (event?.type === "content_block_delta" && event.delta?.type === "text_delta") {
-            this.send({
-              type: "text_delta",
-              sessionId,
-              text: event.delta.text,
-            });
+            if (isSubAgent) {
+              const sub = findSubByToolUse(parentToolUseId);
+              if (sub) {
+                this.send({
+                  type: "subagent_text_delta",
+                  sessionId,
+                  agentId: sub.agentId,
+                  text: event.delta.text,
+                });
+              }
+            } else {
+              this.send({
+                type: "text_delta",
+                sessionId,
+                text: event.delta.text,
+              });
+            }
           }
           continue;
         }
 
-        // Tool progress — throttle to 1 msg/second/session
+        // Tool progress — throttle to 1 msg/second
         if (msg.type === "tool_progress") {
           const now = Date.now();
-          if (now - session.lastProgressAt >= 1000) {
+          if (isSubAgent) {
+            const sub = findSubByToolUse(parentToolUseId);
+            if (sub && now - sub.lastProgressAt >= 1000) {
+              sub.lastProgressAt = now;
+              this.send({
+                type: "subagent_tool_progress",
+                sessionId,
+                agentId: sub.agentId,
+                toolName: (msg as any).tool_name || "",
+                toolId: (msg as any).tool_use_id || "",
+                elapsedSeconds: (msg as any).elapsed_time_seconds || 0,
+              });
+            }
+          } else if (now - session.lastProgressAt >= 1000) {
             session.lastProgressAt = now;
             this.send({
               type: "tool_progress",
@@ -193,7 +295,14 @@ export class SessionManager {
             }
             return block;
           });
-          this.send({ type: "assistant_message", sessionId, content: mapped });
+          if (isSubAgent) {
+            const sub = findSubByToolUse(parentToolUseId);
+            if (sub) {
+              this.send({ type: "subagent_assistant_message", sessionId, agentId: sub.agentId, content: mapped });
+            }
+          } else {
+            this.send({ type: "assistant_message", sessionId, content: mapped });
+          }
           continue;
         }
 
@@ -203,12 +312,25 @@ export class SessionManager {
           const blocks = Array.isArray(content) ? content : [];
           for (const block of blocks) {
             if (block.type === "tool_result") {
-              this.send({
-                type: "tool_result",
-                sessionId,
-                toolId: block.tool_use_id,
-                content: block.content,
-              });
+              if (isSubAgent) {
+                const sub = findSubByToolUse(parentToolUseId);
+                if (sub) {
+                  this.send({
+                    type: "subagent_tool_result",
+                    sessionId,
+                    agentId: sub.agentId,
+                    toolId: block.tool_use_id,
+                    content: block.content,
+                  });
+                }
+              } else {
+                this.send({
+                  type: "tool_result",
+                  sessionId,
+                  toolId: block.tool_use_id,
+                  content: block.content,
+                });
+              }
             }
           }
           continue;
