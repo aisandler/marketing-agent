@@ -159,12 +159,8 @@ export function renderChat() {
   if (isActive && !s.streamBuf) {
     const color = agentColor(s.agent);
     h += '<div class="thinking-indicator flex items-center gap-3 p-4 self-start">' +
-      '<div class="thinking-dots flex gap-1.5">' +
-        '<span class="w-2 h-2 rounded-full" style="background:' + color + '"></span>' +
-        '<span class="w-2 h-2 rounded-full" style="background:' + color + '"></span>' +
-        '<span class="w-2 h-2 rounded-full" style="background:' + color + '"></span>' +
-      '</div>' +
-      '<span class="thinking-label text-xs text-gray-500">' + (s.agent.displayName || s.agent.name) + ' is thinking\u2026</span>' +
+      '<div class="agent-token thinking w-8 h-8 rounded-lg" style="background:' + color + ';box-shadow:0 0 16px ' + color + '50"></div>' +
+      '<span class="text-xs text-gray-500">' + (s.agent.displayName || s.agent.name) + ' is thinking\u2026</span>' +
     '</div>';
   }
 
@@ -176,10 +172,9 @@ export function renderChat() {
 
 function renderStreamingMsg(s) {
   const color = agentColor(s.agent);
-  const tag = agentTag(s.agent);
   return '<div class="message assistant streaming-msg self-start max-w-4xl w-full">' +
     '<div class="flex items-start gap-4">' +
-      agentAvatar(color, tag) +
+      agentAvatar(color) +
       '<div class="flex-1 min-w-0">' +
         '<div class="glass-panel rounded-lg overflow-hidden">' +
           agentCardHeader(s.agent, color) +
@@ -208,9 +203,8 @@ export function renderStream(s) {
       el = document.createElement('div');
       el.className = 'message assistant streaming-msg self-start max-w-4xl w-full';
       const color = agentColor(s.agent);
-      const tag = agentTag(s.agent);
       el.innerHTML = '<div class="flex items-start gap-4">' +
-        agentAvatar(color, tag) +
+        agentAvatar(color) +
         '<div class="flex-1 min-w-0">' +
           '<div class="glass-panel rounded-lg overflow-hidden">' +
             agentCardHeader(s.agent, color) +
@@ -245,33 +239,41 @@ export function loadEarlierMessages() {
 
 // --- Shared HTML fragments ---
 
-function agentAvatar(color, tag) {
-  return '<div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 mt-1" style="background:' + color + ';box-shadow:0 0 20px ' + color + '40, 0 2px 8px rgba(0,0,0,0.3)">' +
-    '<span class="text-white text-[11px] font-bold">' + tag + '</span>' +
-  '</div>';
+function agentAvatar(color) {
+  return '<div class="agent-token w-8 h-8 rounded-lg flex-shrink-0 mt-1" style="background:' + color + ';box-shadow:0 0 16px ' + color + '50, 0 2px 6px rgba(0,0,0,0.3)"></div>';
 }
 
 function agentCardHeader(agent, color) {
+  const role = agentRole(agent.name);
   return '<div class="border-b border-white/5 px-4 py-2.5 flex items-center justify-between" style="background:rgba(20,21,24,0.60)">' +
     '<div class="flex items-center gap-2 text-[10px] font-bold tracking-[0.12em] uppercase" style="color:' + color + '">' +
       '<div class="w-1.5 h-1.5 rounded-full" style="background:' + color + ';box-shadow:0 0 6px ' + color + '">' + '</div>' +
       (agent.displayName || agent.name) +
     '</div>' +
-    '<div class="flex gap-1.5">' +
-      '<div class="w-1.5 h-1.5 rounded-full bg-red-500/60"></div>' +
-      '<div class="w-1.5 h-1.5 rounded-full bg-yellow-500/60"></div>' +
-      '<div class="w-1.5 h-1.5 rounded-full bg-green-500/60"></div>' +
-    '</div>' +
+    (role ? '<span class="text-[9px] text-gray-600 font-medium tracking-wide uppercase">' + role + '</span>' : '') +
   '</div>';
 }
 
+const AGENT_ROLES = {
+  cmo: 'Orchestrator', analyst: 'Orchestrator',
+  'content-marketing-strategist': 'Content', 'lead-writer': 'Content',
+  'monthly-content-planner': 'Content', 'creative-director': 'Content',
+  'brand-strategy-consultant': 'Strategy', 'market-research-specialist': 'Strategy',
+  'crisis-response-specialist': 'Strategy',
+  'seo-optimization-specialist': 'Digital', 'social-media-strategist': 'Digital',
+  'conversion-flow-optimizer': 'Digital', 'website-analysis-specialist': 'Digital',
+  'marketing-analytics-specialist': 'Analytics', 'competitive-intelligence-analyst': 'Analytics',
+  'email-marketing-specialist': 'Campaigns', 'paid-media-specialist': 'Campaigns',
+};
+
+function agentRole(name) { return AGENT_ROLES[name] || ''; }
+
 function renderAssistant(content, agent) {
   const color = agentColor(agent);
-  const tag = agentTag(agent);
 
   let h = '<div class="message assistant self-start max-w-4xl w-full">' +
     '<div class="flex items-start gap-4">' +
-      agentAvatar(color, tag) +
+      agentAvatar(color) +
       '<div class="flex-1 min-w-0">' +
         '<div class="glass-panel rounded-lg overflow-hidden">' +
           agentCardHeader(agent, color) +

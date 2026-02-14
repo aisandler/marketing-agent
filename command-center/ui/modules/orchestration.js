@@ -70,7 +70,7 @@ export function renderOrchestrationPanel() {
 
     h += '<div class="subagent-card glass-panel rounded-lg p-2.5 mb-1.5 flex items-start gap-2.5 cursor-pointer hover:bg-white/[0.03] transition-colors ' + sub.status + spawnClass + '" data-agent-id="' + agentId + '"' + spawnStyle +
       ' onclick="window.CC.openSubSlide(\'' + agentId + '\')">' +
-      '<div class="subagent-token w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-[9px] font-bold text-white relative" style="background:' + color + '">' + abbrev + '</div>' +
+      '<div class="subagent-token w-6 h-6 rounded-md flex-shrink-0 relative" style="background:' + color + ';box-shadow:0 0 10px ' + color + '40"></div>' +
       '<div class="flex-1 min-w-0">' +
         '<div class="flex items-center gap-2">' +
           '<span class="text-xs text-gray-300 truncate">' + esc(sub.displayName || sub.agentType) + '</span>' +
@@ -160,7 +160,7 @@ export function openSubSlide(agentId) {
   const abbrev = (sub.agentType || 'AG').split('-').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 
   let h = '<div class="flex items-center gap-3 px-4 py-3 border-b border-white/5 bg-deep flex-shrink-0">' +
-    '<div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold text-white" style="background:' + color + '">' + abbrev + '</div>' +
+    '<div class="w-7 h-7 rounded-lg" style="background:' + color + ';box-shadow:0 0 12px ' + color + '40"></div>' +
     '<div class="text-sm text-gray-200 font-semibold flex-1">' + esc(sub.displayName || sub.agentType) + '</div>' +
     '<button class="w-7 h-7 flex items-center justify-center rounded text-gray-500 hover:text-white hover:bg-white/5 cursor-pointer transition-colors border-0 bg-transparent text-lg" onclick="window.CC.closeSubSlide()">&times;</button>' +
   '</div>';

@@ -47,6 +47,9 @@ window.CC = {
   clearEnvKey,
 };
 
+// --- Restore persisted state before anything renders ---
+Store.hydrate();
+
 // Store module references for cross-module access
 Store.set('_modules', { toggleFlyout });
 
@@ -62,6 +65,19 @@ setupSettings();
 // --- Setup UI ---
 setupInput();
 setupKeyboard();
+
+// --- Render hydrated state ---
+if (Store.get('sessions').size > 0) {
+  renderTabs();
+  renderLiveCards();
+  renderChat();
+  updInput();
+}
+// Restore active workspace rail button
+const hydratedWs = Store.get('activeWorkspace');
+if (hydratedWs && hydratedWs !== 'operations') {
+  switchWorkspace(hydratedWs);
+}
 
 // --- Initial data fetch ---
 connectWS();

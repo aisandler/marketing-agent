@@ -96,6 +96,7 @@ export function startSess(agentName, prompt) {
     status: 'starting', cost: 0, turns: 0, startedAt: Date.now(), streamBuf: '',
   });
   Store.batch({ activeSessionId: id, _pendingAgent: null });
+  Store.persistNow();
   logEvent('session_start', { agentName: agent.displayName || agentName });
   logEvent('message_sent', { agentName: agent.displayName || agentName, text: prompt });
   renderAll();
@@ -119,6 +120,7 @@ export function closeSess(id) {
     const keys = [...sessions.keys()];
     Store.set('activeSessionId', keys.length > 0 ? keys[keys.length - 1] : null);
   }
+  Store.persistNow();
   renderAll();
   updStats();
 }
@@ -186,6 +188,7 @@ export function setupSessionHandlers() {
     if (!s) return;
     s.streamBuf = '';
     s.messages.push({ role: 'assistant', content: msg.content });
+    Store.persistNow();
     logEvent('message_received', { agentName: s.agent.displayName || s.agent.name, blocks: msg.content?.length || 0 });
     for (const b of (msg.content || [])) {
       if (b.type === 'tool_use') {
@@ -253,6 +256,7 @@ export function setupSessionHandlers() {
       role: 'result', cost: msg.cost, turns: msg.turns,
       durationMs: msg.durationMs, result: msg.result, isError: msg.isError,
     });
+    Store.persistNow();
     logEvent(msg.isError ? 'session_error' : 'session_result', {
       agentName: s.agent.displayName || s.agent.name,
       cost: msg.cost, turns: msg.turns, message: msg.result,
