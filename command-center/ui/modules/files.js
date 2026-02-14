@@ -118,25 +118,38 @@ function renderBreadcrumbs(path) {
   return h + '</div>';
 }
 
-// --- Markdown preview (split view for .md files) ---
+// --- File type detection ---
 
 function isMarkdown(path) {
   return path && (path.endsWith('.md') || path.endsWith('.mdx'));
 }
 
-function renderMarkdownPreview(content) {
-  if (typeof marked !== 'undefined') {
-    try { return marked.parse(content); } catch {}
+// --- File editing ---
+
+// Track active editors so we can clean up
+let _cmChangeHandler = null;
+let _tuiEditor = null;
+
+function destroyTuiEditor() {
+  if (_tuiEditor) {
+    try { _tuiEditor.destroy(); } catch {}
+    _tuiEditor = null;
   }
-  return '<pre>' + esc(content) + '</pre>';
 }
 
-// --- File editing ---
+function markDirty(dirty) {
+  Store.set('fileDirty', dirty);
+  const badge = document.getElementById('fileDirtyBadge');
+  const btn = document.getElementById('btnSave');
+  if (badge) badge.style.display = dirty ? '' : 'none';
+  if (btn) btn.disabled = !dirty;
+}
 
 export async function openFile(path) {
   if (Store.get('fileDirty') && Store.get('openFilePath') && Store.get('openFilePath') !== path) {
     if (!confirm('You have unsaved changes. Discard them?')) return;
   }
+  destroyTuiEditor();
   Store.batch({ openFilePath: path, fileDirty: false });
   renderFileTree();
 
@@ -149,10 +162,7 @@ export async function openFile(path) {
       '<span class="text-amber-400 text-[10px] font-bold" id="fileDirtyBadge" style="display:none">Modified</span>' +
       '<button class="px-3 py-1 text-[11px] font-bold bg-gradient-to-r from-glow to-cyan-500 text-white rounded-md cursor-pointer border-0 disabled:opacity-40" id="btnSave" disabled onclick="window.CC.saveFile()">Save</button>' +
     '</div>' +
-    '<div class="flex flex-1 overflow-hidden">' +
-      '<div class="flex-1 overflow-hidden" id="editorContent"></div>' +
-      (isMarkdown(path) ? '<div class="w-1/2 overflow-y-auto p-4 border-l border-white/5 text-xs text-gray-300 leading-relaxed msg-content" id="mdPreview"></div>' : '') +
-    '</div>';
+    '<div class="flex-1 overflow-hidden" id="editorContent"></div>';
 
   try {
     const res = await fetch('/api/files/read?path=' + encodeURIComponent(path));
@@ -161,10 +171,11 @@ export async function openFile(path) {
     Store.set('openFileContent', data.content);
     const sizeEl = document.getElementById('fileSize');
     if (sizeEl) sizeEl.textContent = formatBytes(data.size);
-    initEditor(data.content, path);
+
     if (isMarkdown(path)) {
-      const preview = document.getElementById('mdPreview');
-      if (preview) preview.innerHTML = renderMarkdownPreview(data.content);
+      initTuiEditor(data.content);
+    } else {
+      initCodeMirror(data.content, path);
     }
   } catch {
     const ec = document.getElementById('editorContent');
@@ -172,10 +183,43 @@ export async function openFile(path) {
   }
 }
 
-// Track the change handler so we can detach it when reusing the instance
-let _cmChangeHandler = null;
+// --- Toast UI WYSIWYG Editor (for .md files) ---
 
-function initEditor(content, path) {
+function initTuiEditor(content) {
+  const container = document.getElementById('editorContent');
+  if (!container || typeof toastui === 'undefined') {
+    // Fallback to CodeMirror if Toast UI didn't load
+    initCodeMirror(content, Store.get('openFilePath'));
+    return;
+  }
+
+  _tuiEditor = new toastui.Editor({
+    el: container,
+    initialEditType: 'wysiwyg',
+    initialValue: content,
+    theme: 'dark',
+    height: '100%',
+    usageStatistics: false,
+    hideModeSwitch: true,
+    toolbarItems: [
+      ['heading', 'bold', 'italic', 'strike'],
+      ['hr', 'quote'],
+      ['ul', 'ol', 'task'],
+      ['table', 'link'],
+      ['code', 'codeblock'],
+    ],
+    events: {
+      change: () => {
+        const val = _tuiEditor.getMarkdown();
+        markDirty(val !== Store.get('openFileContent'));
+      },
+    },
+  });
+}
+
+// --- CodeMirror (for code files) ---
+
+function initCodeMirror(content, path) {
   const container = document.getElementById('editorContent');
   if (!container) return;
 
@@ -190,15 +234,7 @@ function initEditor(content, path) {
         existingCm.setOption('mode', getCmMode(path));
         existingCm.clearHistory();
         _cmChangeHandler = () => {
-          const val = existingCm.getValue();
-          const dirty = val !== Store.get('openFileContent');
-          Store.set('fileDirty', dirty);
-          const badge = document.getElementById('fileDirtyBadge');
-          const btn = document.getElementById('btnSave');
-          if (badge) badge.style.display = dirty ? '' : 'none';
-          if (btn) btn.disabled = !dirty;
-          const preview = document.getElementById('mdPreview');
-          if (preview) preview.innerHTML = renderMarkdownPreview(val);
+          markDirty(existingCm.getValue() !== Store.get('openFileContent'));
         };
         existingCm.on('change', _cmChangeHandler);
         existingCm.refresh();
@@ -216,15 +252,7 @@ function initEditor(content, path) {
       });
       Store.set('cmEditor', cm);
       _cmChangeHandler = () => {
-        const val = cm.getValue();
-        const dirty = val !== Store.get('openFileContent');
-        Store.set('fileDirty', dirty);
-        const badge = document.getElementById('fileDirtyBadge');
-        const btn = document.getElementById('btnSave');
-        if (badge) badge.style.display = dirty ? '' : 'none';
-        if (btn) btn.disabled = !dirty;
-        const preview = document.getElementById('mdPreview');
-        if (preview) preview.innerHTML = renderMarkdownPreview(val);
+        markDirty(cm.getValue() !== Store.get('openFileContent'));
       };
       cm.on('change', _cmChangeHandler);
       return;
@@ -235,24 +263,28 @@ function initEditor(content, path) {
   const ta = document.createElement('textarea');
   ta.className = 'w-full h-full bg-[#08090C] border-0 outline-none text-xs text-gray-300 font-mono p-4 resize-none';
   ta.value = content;
-  ta.addEventListener('input', () => {
-    const dirty = ta.value !== Store.get('openFileContent');
-    Store.set('fileDirty', dirty);
-    const badge = document.getElementById('fileDirtyBadge');
-    const btn = document.getElementById('btnSave');
-    if (badge) badge.style.display = dirty ? '' : 'none';
-    if (btn) btn.disabled = !dirty;
-  });
+  ta.addEventListener('input', () => markDirty(ta.value !== Store.get('openFileContent')));
   container.appendChild(ta);
+}
+
+// --- Save ---
+
+function getEditorContent() {
+  const openPath = Store.get('openFilePath');
+  // WYSIWYG markdown editor
+  if (isMarkdown(openPath) && _tuiEditor) return _tuiEditor.getMarkdown();
+  // CodeMirror
+  const cm = Store.get('cmEditor');
+  if (cm) return cm.getValue();
+  // Textarea fallback
+  return document.getElementById('editorContent')?.querySelector('textarea')?.value;
 }
 
 export async function saveFile() {
   const openPath = Store.get('openFilePath');
   if (!openPath || !Store.get('fileDirty')) return;
 
-  const cm = Store.get('cmEditor');
-  const content = cm ? cm.getValue() :
-    document.getElementById('editorContent')?.querySelector('textarea')?.value;
+  const content = getEditorContent();
   if (content === undefined) return;
 
   const btn = document.getElementById('btnSave');
